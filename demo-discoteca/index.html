@@ -1,256 +1,277 @@
 <title>Velluto Club Tavoli</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Roboto+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap">
 <style>
-/* Layout: sala a sinistra (piantina SVG), pannello tavolo a destra; su mobile il pannello scende sotto la piantina. Look unico scuro con neon rosso e blu. */
+/* Layout: barra di navigazione, fascia evento, poi griglia 7/5 — piantina e scheda tavolo. Colori piatti, linee sottili, nessun effetto luce. */
 :root {
   color-scheme: dark;
-  --ink: #06070d;          /* fondo */
-  --surface: #121722;     /* superfici */
-  --surface-2: #1a2130;   /* superfici alzate */
-  --line: #262f40;         /* bordi */
-  --accent: #2f8bff;      /* blu neon */
-  --red: #ff2a55;         /* rosso neon */
-  --red-soft: rgba(255,42,85,.14);
-  --glow-blue: 0 0 6px rgba(47,139,255,.9), 0 0 18px rgba(47,139,255,.55);
-  --glow-red: 0 0 6px rgba(255,42,85,.9), 0 0 18px rgba(255,42,85,.55);
-  --on-accent: #ffffff;
-  --accent-soft: rgba(47,139,255,.14);
-  --busy: #4a5263;        /* prenotato */
-  --text: #eef2f8;
-  --muted: #8b95a7;
-  --ok: #3ddc97;
-  --f-display: "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --bg: #0c0c0e;
+  --surface: #141417;
+  --surface-2: #1d1d21;
+  --line: #2a2a30;
+  --text: #f2f2ef;
+  --muted: #8e8e96;
+  --red: #f0323c;
+  --blue: #2346ff;
+  --on-color: #ffffff;
+  --f-display: "Roboto Condensed", "Roboto", "Arial Narrow", sans-serif;
   --f-body: "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --f-mono: "Roboto Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 }
 * { box-sizing: border-box; }
-html, body { background: var(--ink); color: var(--text); }
-body { font-family: var(--f-body); font-size: 15px; line-height: 1.5; padding-inline: 16px; padding-block: 0 40px; }
+html, body { background: var(--bg); color: var(--text); }
+body { font-family: var(--f-body); font-size: 15px; line-height: 1.5; padding-inline: 20px; padding-block: 0; -webkit-font-smoothing: antialiased; }
 .wrap { max-width: 1240px; margin: 0 auto; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; color: inherit; }
+button:focus-visible, input:focus-visible, a:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
 
-header.top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 32px; padding-block: 28px 22px; border-bottom: 1px solid var(--line); }
-.brand { display: flex; flex-direction: column; gap: 2px; }
-.eyebrow { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--red); text-shadow: 0 0 10px rgba(255,42,85,.6); font-weight: 600; }
-h1 { font-family: var(--f-display); font-weight: 900; font-size: clamp(32px, 5vw, 50px); line-height: 1; margin: 0; letter-spacing: -.02em; text-transform: uppercase; text-wrap: balance; }
-h1 { color: #e8f1ff; text-shadow: var(--glow-blue); }
-h1 em { font-style: normal; color: #ffe3ea; text-shadow: var(--glow-red); }
-.event { display: flex; flex-wrap: wrap; gap: 8px 28px; font-size: 13px; }
-.event div { display: flex; flex-direction: column; }
-.event span { color: var(--muted); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
-.event b { font-weight: 600; }
+/* Nav */
+nav.top { display: flex; align-items: center; justify-content: space-between; gap: 20px; height: 64px; border-bottom: 1px solid var(--line); }
+.logo { font-family: var(--f-display); font-weight: 800; font-size: 22px; letter-spacing: .04em; display: flex; align-items: center; gap: 10px; }
+.logo i { width: 12px; height: 12px; background: var(--red); display: inline-block; }
+.logo i + i { background: var(--blue); margin-left: -4px; }
+.links { display: flex; gap: 28px; font-size: 14px; color: var(--muted); align-self: stretch; }
+.links a { display: flex; align-items: center; }
+.links a:hover, .links a.on { color: var(--text); }
+.links a.on { box-shadow: inset 0 -2px 0 var(--red); }
+.nav-r { display: flex; align-items: center; gap: 18px; font-size: 14px; color: var(--muted); }
+.nav-r a { color: var(--text); }
+@media (max-width: 760px) { .links { display: none; } }
 
-.demo-note { margin: 14px 0 0; font-size: 12px; color: var(--muted); }
+/* Evento */
+.event { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 28px; align-items: stretch; padding-block: 32px; border-bottom: 1px solid var(--line); }
+.date { background: var(--blue); color: var(--on-color); width: 104px; display: grid; align-content: center; justify-items: center; padding: 12px 0; font-family: var(--f-display); line-height: 1; }
+.date small { font-size: 14px; font-weight: 700; letter-spacing: .08em; }
+.date b { font-size: 52px; font-weight: 800; margin: 4px 0 2px; }
+.ev-main { display: grid; align-content: center; gap: 8px; min-width: 0; }
+.ev-main h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(36px, 6vw, 68px); line-height: .92; margin: 0; text-transform: uppercase; letter-spacing: -.01em; text-wrap: balance; }
+.ev-main p { margin: 0; color: var(--muted); font-size: 15px; }
+.ev-main p b { color: var(--text); font-weight: 500; }
+.ev-facts { display: grid; grid-template-columns: repeat(2, auto); gap: 10px 32px; align-content: center; font-size: 13px; margin: 0; }
+.ev-facts dt { color: var(--muted); }
+.ev-facts dd { margin: 0; font-weight: 500; }
+@media (max-width: 900px) { .event { grid-template-columns: auto minmax(0, 1fr); } .ev-facts { grid-column: 1 / -1; grid-template-columns: repeat(4, auto); justify-content: start; } }
+@media (max-width: 560px) { .event { gap: 18px; } .date { width: 78px; } .date b { font-size: 38px; } .ev-facts { grid-template-columns: repeat(2, auto); } }
 
-main { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 28px; margin-top: 24px; align-items: start; }
-@media (max-width: 900px) { main { grid-template-columns: minmax(0, 1fr); } }
+/* Griglia principale */
+main { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); border-bottom: 1px solid var(--line); }
+@media (max-width: 960px) { main { grid-template-columns: minmax(0, 1fr); } }
+.sec-h { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px 20px; margin-bottom: 18px; }
+.sec-h h2 { font-family: var(--f-display); font-weight: 700; font-size: 24px; text-transform: uppercase; margin: 0; letter-spacing: .01em; }
+.sec-h h2 span { color: var(--muted); font-weight: 500; }
 
-/* Piantina */
-.plan { background: radial-gradient(120% 90% at 50% 20%, #141c2e 0%, var(--ink) 70%); border: 1px solid var(--line); border-radius: 18px; padding: 16px; min-width: 0; }
-.plan-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 8px; }
-.plan-head h2 { font-family: var(--f-display); font-weight: 700; font-size: 20px; margin: 0; }
-.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--muted); }
-.legend i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
-.lg-free { border: 1.5px solid var(--accent); box-shadow: var(--glow-blue); }
-.lg-sel { background: var(--red); box-shadow: var(--glow-red); }
-.lg-busy { background: var(--busy); }
-svg.map { width: 100%; height: auto; display: block; max-width: 100%; }
+.plan { padding: 28px 28px 28px 0; border-right: 1px solid var(--line); min-width: 0; }
+@media (max-width: 960px) { .plan { padding-right: 0; border-right: 0; border-bottom: 1px solid var(--line); } }
+.legend { display: flex; flex-wrap: wrap; gap: 18px; font-size: 13px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 7px; }
+.legend i { width: 12px; height: 12px; display: inline-block; }
+.lg-free { border: 1.5px solid var(--text); }
+.lg-sel { background: var(--red); }
+.lg-busy { background: var(--surface-2); border: 1.5px solid var(--line); }
+svg.map { width: 100%; height: auto; display: block; max-width: 100%; background: var(--surface); }
 .map text { font-family: var(--f-body); }
-.zone-label { fill: var(--muted); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; }
+.m-wall { fill: none; stroke: var(--line); stroke-width: 2; }
+.m-label { fill: var(--muted); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; font-weight: 500; }
+.m-console { fill: var(--blue); }
+.map .m-console-t { fill: var(--on-color); font-family: var(--f-display); font-weight: 700; font-size: 15px; letter-spacing: .08em; }
+.m-floor { fill: var(--blue); fill-opacity: .1; stroke: var(--blue); stroke-width: 1.5; }
+.m-floor-lines line { stroke: var(--blue); stroke-opacity: .22; stroke-width: 1; }
+.map .m-floor-t { fill: var(--blue); font-family: var(--f-display); font-weight: 800; font-size: 34px; letter-spacing: .12em; opacity: .6; }
+.m-bar { fill: var(--surface-2); stroke: var(--line); }
+.m-vip { fill: none; stroke: var(--red); stroke-width: 1.5; }
+.m-vip-t { fill: var(--red); }
+.m-door { stroke: var(--text); stroke-width: 2; }
+
 .tbl { cursor: pointer; outline: none; }
-.tbl .shape { fill: var(--surface); stroke: var(--accent); stroke-width: 1.8; filter: drop-shadow(0 0 5px rgba(47,139,255,.75)); transition: fill .2s, stroke-width .2s; }
-.tbl .num { fill: var(--accent); font-family: var(--f-display); font-size: 18px; font-weight: 700; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.tbl .top { fill: var(--surface); stroke: var(--text); stroke-width: 1.5; transition: fill .15s, stroke .15s; }
+.tbl .sofa { fill: var(--surface-2); stroke: var(--line); }
 .tbl .seat { fill: var(--line); }
-.tbl:hover .shape, .tbl:focus-visible .shape { fill: var(--surface-2); stroke-width: 2.6; }
-.tbl:focus-visible .shape { stroke: var(--text); }
-.tbl.selected .shape { fill: var(--red); stroke: #ff8aa3; filter: drop-shadow(0 0 8px rgba(255,42,85,.95)) drop-shadow(0 0 22px rgba(255,42,85,.6)); }
-.tbl.selected .num { fill: var(--on-accent); }
-.tbl.selected .seat { fill: var(--red); opacity: .8; }
-.tbl.selected .halo { opacity: 1; }
-.tbl .halo { fill: none; stroke: var(--red); stroke-width: 1; opacity: 0; transition: opacity .25s; }
+.map .tbl .num { fill: var(--text); font-family: var(--f-display); font-size: 17px; font-weight: 700; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.tbl:hover .top { fill: var(--surface-2); stroke: var(--blue); }
+.tbl:focus-visible .top { stroke: var(--blue); stroke-width: 3; }
+.tbl.selected .top { fill: var(--red); stroke: var(--red); }
+.map .tbl.selected .num { fill: var(--on-color); }
+.tbl.selected .sofa, .tbl.selected .seat { fill: var(--red); fill-opacity: .35; stroke: none; }
 .tbl.busy { cursor: not-allowed; }
-.tbl.busy .shape { fill: url(#hatch); stroke: var(--busy); filter: none; }
-.tbl.busy .num { fill: #6b7486; }
-.tbl.busy:hover .shape { stroke-width: 1.8; fill: url(#hatch); }
+.tbl.busy .top, .tbl.busy:hover .top { fill: var(--surface-2); stroke: var(--line); }
+.map .tbl.busy .num { fill: var(--muted); }
+.tbl.busy .cross { stroke: var(--muted); stroke-width: 1; opacity: .5; }
+.plan-note { margin: 14px 0 0; font-size: 13px; color: var(--muted); }
 
-.tbl-strip { display: none; }
+/* Scheda tavolo */
+aside.panel { padding: 28px 0 28px 28px; min-width: 0; }
+@media (max-width: 960px) { aside.panel { padding-left: 0; } }
+.t-head { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 18px; align-items: end; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+.t-num { font-family: var(--f-display); font-weight: 800; font-size: 76px; line-height: .8; color: var(--red); font-variant-numeric: tabular-nums; }
+.t-info { min-width: 0; }
+.t-info h3 { font-family: var(--f-display); font-weight: 700; font-size: 22px; text-transform: uppercase; margin: 0; line-height: 1.1; }
+.t-info p { margin: 4px 0 0; color: var(--muted); font-size: 14px; }
+.t-price { text-align: right; }
+.t-price b { display: block; font-family: var(--f-display); font-size: 30px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.t-price small { color: var(--muted); font-size: 12px; }
+.incl { margin: 14px 0 0; font-size: 13.5px; color: var(--muted); }
+.incl b { color: var(--text); font-weight: 500; }
 
-/* Pannello */
-aside.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; min-width: 0; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); }
-@media (max-width: 900px) { aside.panel { position: static; } }
-.p-head { padding: 22px 22px 18px; background: linear-gradient(180deg, var(--surface-2), var(--surface)); border-bottom: 1px solid var(--line); display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; }
-.p-badge { width: 58px; height: 58px; border-radius: 50%; border: 1.5px solid var(--red); box-shadow: var(--glow-red), inset 0 0 12px rgba(255,42,85,.35); display: grid; place-items: center; font-family: var(--f-display); font-size: 24px; font-weight: 700; color: #ffe3ea; text-shadow: var(--glow-red); }
-.p-title { min-width: 0; }
-.p-title h3 { margin: 0; font-family: var(--f-display); font-weight: 700; font-size: 24px; line-height: 1.1; }
-.p-title p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
-.p-price { text-align: right; }
-.p-price span { display: block; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
-.p-price b { font-family: var(--f-mono); font-weight: 500; font-size: 22px; color: var(--accent); font-variant-numeric: tabular-nums; }
-.perks { display: flex; flex-wrap: wrap; gap: 6px; padding: 12px 22px 0; }
-.perk { font-size: 11.5px; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.block { padding-block: 22px; border-bottom: 1px solid var(--line); }
+.block-h { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+.block-h h4 { margin: 0; font-size: 15px; font-weight: 700; }
+.block-h span { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
 
-section.block { padding: 18px 22px; border-bottom: 1px solid var(--line); }
-.block-h { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; gap: 12px; }
-.block-h h4 { margin: 0; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; font-weight: 700; }
-.block-h small { color: var(--muted); font-family: var(--f-mono); font-size: 12px; }
-
-.guest-form { display: flex; gap: 8px; }
-.guest-form input { flex: 1; min-width: 0; background: var(--ink); border: 1px solid var(--line); color: var(--text); border-radius: 10px; padding: 10px 12px; font: inherit; font-size: 14px; }
-.guest-form input:focus { outline: none; border-color: var(--accent); }
-button { font: inherit; cursor: pointer; }
-.btn-ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); border-radius: 10px; padding: 0 14px; font-weight: 600; font-size: 13px; }
-.btn-ghost:hover { background: var(--accent-soft); }
-.btn-ghost:disabled { opacity: .4; cursor: not-allowed; }
-button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-ol.guests { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 6px; counter-reset: g; }
-ol.guests li { counter-increment: g; display: flex; align-items: center; gap: 10px; padding: 7px 8px 7px 10px; background: var(--ink); border-radius: 10px; font-size: 14px; }
-ol.guests li::before { content: counter(g, decimal-leading-zero); font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
-ol.guests li span { flex: 1; min-width: 0; overflow-wrap: anywhere; }
-ol.guests li.host span::after { content: "Titolare"; margin-left: 8px; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
-.x { background: none; border: 0; color: var(--muted); width: 26px; height: 26px; border-radius: 50%; font-size: 16px; line-height: 1; }
-.x:hover { color: var(--text); background: var(--surface-2); }
+.guest-form { display: flex; }
+.guest-form input { flex: 1; min-width: 0; background: var(--surface); border: 1px solid var(--line); border-right: 0; color: var(--text); padding: 12px 14px; font: inherit; font-size: 14px; border-radius: 2px 0 0 2px; }
+.guest-form input::placeholder { color: var(--muted); }
+.guest-form input:focus { outline: none; border-color: var(--blue); }
+.btn-add { background: var(--blue); color: var(--on-color); border: 0; padding: 0 18px; font-weight: 500; font-size: 14px; border-radius: 0 2px 2px 0; }
+.btn-add:hover { filter: brightness(1.12); }
+.btn-add:disabled, .guest-form input:disabled { opacity: .45; cursor: not-allowed; }
+table.guests { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; }
+.guests td { padding: 10px 0; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.guests tr:last-child td { border-bottom: 0; }
+.guests td.i { width: 34px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.guests td.n { overflow-wrap: anywhere; }
+.guests .tag { margin-left: 10px; font-size: 12px; color: var(--blue); font-weight: 500; }
+.guests td.r { text-align: right; width: 70px; }
+.link-rm { background: none; border: 0; padding: 0; color: var(--muted); font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
+.link-rm:hover { color: var(--red); }
 .empty { color: var(--muted); font-size: 13px; margin: 10px 0 0; }
-.hint { color: var(--muted); font-size: 12px; margin: 8px 0 0; }
 
-.tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 10px; scrollbar-width: none; }
-.tabs button { flex: none; background: var(--ink); border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 5px 12px; font-size: 12.5px; font-weight: 600; }
-.tabs button[aria-selected="true"] { color: var(--on-accent); background: var(--red); border-color: var(--red); box-shadow: 0 0 14px rgba(255,42,85,.55); }
-.bottles { display: grid; gap: 2px; }
-.bottle { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 14px; padding: 10px 0; border-bottom: 1px dashed var(--line); }
+.tabs { display: flex; gap: 22px; overflow-x: auto; border-bottom: 1px solid var(--line); margin-bottom: 4px; scrollbar-width: none; }
+.tabs button { flex: none; background: none; border: 0; padding: 0 0 10px; font-size: 14px; color: var(--muted); font-weight: 500; box-shadow: inset 0 -2px 0 transparent; }
+.tabs button:hover { color: var(--text); }
+.tabs button[aria-selected="true"] { color: var(--text); box-shadow: inset 0 -2px 0 var(--blue); }
+.tabs sup { color: var(--blue); font-weight: 700; margin-left: 3px; }
+.bottle { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 16px; padding: 13px 0; border-bottom: 1px solid var(--line); }
 .bottle:last-child { border-bottom: 0; }
-.bottle-name { min-width: 0; }
-.bottle-name b { display: block; font-weight: 600; font-size: 14px; }
-.bottle-name span { color: var(--muted); font-size: 12px; }
-.bottle-price { font-family: var(--f-mono); font-size: 13.5px; font-variant-numeric: tabular-nums; }
-.stepper { display: flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; }
-.stepper button { width: 30px; height: 30px; background: none; border: 0; color: var(--text); border-radius: 50%; font-size: 17px; }
-.stepper button:hover:not(:disabled) { color: var(--accent); }
+.bottle-name b { display: block; font-weight: 500; font-size: 14.5px; }
+.bottle-name span { color: var(--muted); font-size: 12.5px; }
+.bottle-price { font-size: 14.5px; font-variant-numeric: tabular-nums; }
+.stepper { display: grid; grid-template-columns: 32px 28px 32px; align-items: center; border: 1px solid var(--line); border-radius: 2px; }
+.stepper button { height: 32px; background: none; border: 0; font-size: 17px; }
+.stepper button:hover:not(:disabled) { background: var(--surface-2); }
 .stepper button:disabled { opacity: .3; cursor: default; }
-.stepper output { min-width: 20px; text-align: center; font-family: var(--f-mono); font-size: 13px; }
-.bottle.has .stepper { border-color: var(--accent); }
-.bottle.has .stepper output { color: var(--accent); }
+.stepper output { text-align: center; font-size: 14px; font-variant-numeric: tabular-nums; }
+.bottle.has .stepper { border-color: var(--blue); }
+.bottle.has .stepper output { font-weight: 700; }
 
-.summary { padding: 18px 22px 22px; display: grid; gap: 8px; }
+.summary { padding-top: 22px; display: grid; gap: 8px; }
 .row { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; color: var(--muted); }
-.row b { font-family: var(--f-mono); font-weight: 500; color: var(--text); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.row.total { color: var(--text); font-size: 15px; font-weight: 600; padding-top: 10px; margin-top: 4px; border-top: 1px solid var(--line); }
-.row.total b { color: #ffe3ea; font-size: 22px; text-shadow: var(--glow-red); }
-.cta { margin-top: 10px; width: 100%; padding: 15px; border-radius: 12px; border: 0; background: linear-gradient(90deg, var(--accent), var(--red)); box-shadow: 0 0 18px rgba(47,139,255,.35), 0 0 18px rgba(255,42,85,.35); color: var(--on-accent); font-weight: 700; font-size: 15px; letter-spacing: .02em; transition: transform .15s, filter .15s; }
-.cta:hover:not(:disabled) { filter: brightness(1.12); box-shadow: -8px 0 30px rgba(47,139,255,.55), 8px 0 30px rgba(255,42,85,.55); }
-.cta:disabled { box-shadow: none; }
-.cta:active:not(:disabled) { transform: translateY(1px); }
+.row b { color: var(--text); font-weight: 500; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.row.total { color: var(--text); padding-top: 12px; margin-top: 6px; border-top: 1px solid var(--line); align-items: baseline; }
+.row.total span { font-weight: 700; font-size: 15px; }
+.row.total b { font-family: var(--f-display); font-size: 32px; font-weight: 700; }
+.cta { margin-top: 12px; width: 100%; padding: 17px 20px; border: 0; border-radius: 2px; background: var(--red); color: var(--on-color); font-family: var(--f-display); font-weight: 700; font-size: 17px; letter-spacing: .06em; text-transform: uppercase; display: flex; justify-content: space-between; }
+.cta:hover:not(:disabled) { filter: brightness(1.1); }
 .cta:disabled { background: var(--surface-2); color: var(--muted); cursor: not-allowed; }
-.req { font-size: 12px; color: var(--muted); text-align: center; margin: 2px 0 0; min-height: 18px; }
+.req { font-size: 13px; color: var(--muted); margin: 4px 0 0; }
 
-.done { padding: 34px 26px 30px; text-align: center; display: grid; gap: 10px; justify-items: center; }
-.done .ring { width: 64px; height: 64px; border-radius: 50%; border: 1.5px solid var(--ok); display: grid; place-items: center; color: var(--ok); font-size: 28px; }
-.done h3 { font-family: var(--f-display); font-weight: 700; font-size: 26px; margin: 6px 0 0; }
-.done p { color: var(--muted); margin: 0; max-width: 34ch; }
-.code { font-family: var(--f-mono); font-size: 18px; letter-spacing: .2em; padding: 10px 16px; border: 1px dashed var(--accent); border-radius: 10px; color: var(--accent); margin-top: 6px; }
+.done { display: grid; gap: 14px; }
+.done .t-num { font-size: 56px; }
+.done h3 { font-family: var(--f-display); font-weight: 800; font-size: 34px; text-transform: uppercase; margin: 0; line-height: 1; }
+.done p { color: var(--muted); margin: 0; max-width: 42ch; }
+.ticket { display: grid; grid-template-columns: auto 1fr; gap: 8px 20px; padding: 18px 20px; background: var(--surface); border-left: 4px solid var(--blue); font-size: 14px; margin: 0; }
+.ticket dt { color: var(--muted); }
+.ticket dd { margin: 0; text-align: right; font-weight: 500; font-variant-numeric: tabular-nums; }
+.ticket .code { font-family: var(--f-display); font-size: 24px; font-weight: 700; letter-spacing: .08em; }
+.btn-line { justify-self: start; background: none; border: 1px solid var(--line); padding: 10px 16px; border-radius: 2px; font-size: 14px; }
+.btn-line:hover { border-color: var(--text); }
 
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
-@keyframes pulse { 0%,100% { opacity: .35 } 50% { opacity: .8 } }
-.floor-glow { animation: pulse 4s ease-in-out infinite; }
-.floor-glow.alt { animation-delay: -2s; }
+footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 24px; padding-block: 22px 32px; font-size: 12.5px; color: var(--muted); }
+footer div { display: flex; gap: 20px; flex-wrap: wrap; }
+footer a:hover { color: var(--text); }
 </style>
 
 <div class="wrap">
-  <header class="top">
-    <div class="brand">
-      <span class="eyebrow">Prenotazione tavoli privé</span>
-      <h1>Velluto <em>Club</em></h1>
+  <nav class="top" aria-label="Principale">
+    <a class="logo" href="#"><span><i></i><i></i></span>VELLUTO</a>
+    <div class="links">
+      <a href="#">Programma</a>
+      <a href="#" class="on">Tavoli</a>
+      <a href="#">Liste</a>
+      <a href="#">Location</a>
     </div>
-    <div class="event">
-      <div><span>Serata</span><b>Midnight Session</b></div>
-      <div><span>Data</span><b>Sab 10 ottobre 2026</b></div>
-      <div><span>Apertura</span><b>23:30 – 05:00</b></div>
-      <div><span>In console</span><b>Marco Levi · Sara K.</b></div>
+    <div class="nav-r"><span>IT / EN</span><a href="#">Accedi</a></div>
+  </nav>
+
+  <section class="event" aria-label="Serata">
+    <div class="date"><small>SAB</small><b>10</b><small>OTT</small></div>
+    <div class="ev-main">
+      <h1>Midnight Session</h1>
+      <p>In console <b>Marco Levi</b> e <b>Sara K.</b> · Warm up <b>Dario Neri</b></p>
     </div>
-  </header>
-  <p class="demo-note">Anteprima dimostrativa: locale, serata, prezzi e disponibilità sono di esempio.</p>
+    <dl class="ev-facts">
+      <dt>Apertura</dt><dd>23:30 – 05:00</dd>
+      <dt>Età</dt><dd>21+</dd>
+      <dt>Dress code</dt><dd>Elegante</dd>
+      <dt>Tavoli liberi</dt><dd id="free-count">10 su 13</dd>
+    </dl>
+  </section>
 
   <main>
     <section class="plan" aria-label="Piantina del locale">
-      <div class="plan-head">
-        <h2>Scegli il tuo tavolo</h2>
+      <div class="sec-h">
+        <h2>Piantina <span>/ Sala principale</span></h2>
         <div class="legend">
-          <span><i class="lg-free"></i>Disponibile</span>
+          <span><i class="lg-free"></i>Libero</span>
           <span><i class="lg-sel"></i>Selezionato</span>
-          <span><i class="lg-busy"></i>Prenotato</span>
+          <span><i class="lg-busy"></i>Occupato</span>
         </div>
       </div>
       <svg class="map" viewBox="0 0 800 600" role="group" aria-label="Piantina con i tavoli">
-        <defs>
-          <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-            <rect width="6" height="6" fill="#151b27"/>
-            <line x1="0" y1="0" x2="0" y2="6" stroke="#4a5263" stroke-width="2" opacity=".8"/>
-          </pattern>
-          <radialGradient id="floor" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#2f8bff" stop-opacity=".35"/>
-            <stop offset="100%" stop-color="#2f8bff" stop-opacity="0"/>
-          </radialGradient>
-          <radialGradient id="floorRed" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#ff2a55" stop-opacity=".32"/>
-            <stop offset="100%" stop-color="#ff2a55" stop-opacity="0"/>
-          </radialGradient>
-          <pattern id="tiles" width="28" height="28" patternUnits="userSpaceOnUse">
-            <rect width="28" height="28" fill="none" stroke="#262f40" stroke-width=".6"/>
-          </pattern>
-        </defs>
+        <rect class="m-wall" x="12" y="12" width="776" height="576"/>
 
-        <!-- perimetro -->
-        <rect x="10" y="10" width="780" height="580" rx="22" fill="none" stroke="#262f40" stroke-width="2"/>
+        <rect class="m-console" x="310" y="12" width="180" height="58"/>
+        <text class="m-console-t" x="400" y="46" text-anchor="middle">CONSOLE DJ</text>
 
-        <!-- console DJ -->
-        <rect x="300" y="28" width="200" height="54" rx="10" fill="#1a2130" stroke="#ff2a55" stroke-width="1.5" style="filter:drop-shadow(0 0 6px rgba(255,42,85,.9))"/>
-        <text x="400" y="52" text-anchor="middle" fill="#ffe3ea" font-size="13" font-weight="700" letter-spacing="3" style="filter:drop-shadow(0 0 4px rgba(255,42,85,.9))">CONSOLE DJ</text>
-        <text x="400" y="70" text-anchor="middle" fill="#8b95a7" font-size="10" letter-spacing="1.5">Marco Levi · Sara K.</text>
+        <rect class="m-floor" x="270" y="160" width="260" height="220"/>
+        <g class="m-floor-lines">
+          <line x1="322" y1="160" x2="322" y2="380"/><line x1="374" y1="160" x2="374" y2="380"/><line x1="426" y1="160" x2="426" y2="380"/><line x1="478" y1="160" x2="478" y2="380"/>
+          <line x1="270" y1="215" x2="530" y2="215"/><line x1="270" y1="270" x2="530" y2="270"/><line x1="270" y1="325" x2="530" y2="325"/>
+        </g>
+        <text class="m-floor-t" x="400" y="282" text-anchor="middle">PISTA</text>
 
-        <!-- pista -->
-        <ellipse class="floor-glow" cx="340" cy="250" rx="150" ry="120" fill="url(#floor)"/>
-        <ellipse class="floor-glow alt" cx="460" cy="300" rx="150" ry="120" fill="url(#floorRed)"/>
-        <rect x="265" y="170" width="270" height="210" rx="16" fill="url(#tiles)" stroke="#2f8bff" stroke-opacity=".5"/>
-        <text x="400" y="280" text-anchor="middle" class="zone-label">Pista</text>
+        <rect class="m-bar" x="712" y="150" width="76" height="290"/>
+        <text class="m-label" x="750" y="295" text-anchor="middle" transform="rotate(90 750 295)">Bar</text>
 
-        <!-- bar -->
-        <rect x="690" y="150" width="70" height="300" rx="12" fill="#121722" stroke="#2f8bff" stroke-width="1.5" style="filter:drop-shadow(0 0 6px rgba(47,139,255,.85))"/>
-        <text x="725" y="300" text-anchor="middle" class="zone-label" transform="rotate(90 725 300)">Bar</text>
+        <rect class="m-vip" x="12" y="430" width="276" height="158"/>
+        <text class="m-label m-vip-t" x="28" y="452">Sala VIP</text>
 
-        <!-- ingresso -->
-        <path d="M330 590 L330 560 M470 590 L470 560" stroke="#8b95a7" stroke-width="2"/>
-        <text x="400" y="578" text-anchor="middle" class="zone-label">Ingresso</text>
+        <line class="m-door" x1="350" y1="588" x2="450" y2="588" stroke-dasharray="6 6"/>
+        <text class="m-label" x="400" y="572" text-anchor="middle">Ingresso</text>
 
-        <!-- sala oro -->
-        <rect x="30" y="440" width="250" height="130" rx="14" fill="rgba(255,42,85,.05)" stroke="#ff2a55" stroke-dasharray="4 5" stroke-opacity=".8"/>
-        <text x="155" y="462" text-anchor="middle" class="zone-label" style="fill:#ff5c7c">Sala VIP</text>
-
-        <text x="70" y="44" class="zone-label">Lounge</text>
-        <text x="630" y="44" class="zone-label">Console privé</text>
+        <text class="m-label" x="28" y="36">Lounge</text>
+        <text class="m-label" x="662" y="36">Console privé</text>
 
         <g id="tables"></g>
       </svg>
+      <p class="plan-note">Tocca un tavolo libero per vedere prezzo, lista e bottiglie.</p>
     </section>
 
     <aside class="panel" id="panel" aria-live="polite"></aside>
   </main>
+
+  <footer>
+    <span>Anteprima dimostrativa. Locale, serata e prezzi sono di esempio.</span>
+    <div><a href="#">Termini</a><a href="#">Privacy</a><span>© 2026 Velluto</span></div>
+  </footer>
 </div>
 
 <script>
+// shape: "round" (tavolo tondo con sedute) o "booth" (tavolo con divanetto; sofa = lato del divano)
 const TABLES = [
-  { id: 1,  zone: "Console privé", x: 240, y: 70,  r: 30, seats: 10, price: 600, perks: ["Vista console", "Ingresso prioritario", "Hostess dedicata"] },
-  { id: 2,  zone: "Console privé", x: 560, y: 70,  r: 30, seats: 10, price: 600, perks: ["Vista console", "Ingresso prioritario", "Hostess dedicata"] },
-  { id: 3,  zone: "Bordo pista",   x: 225, y: 205, r: 24, seats: 6,  price: 300, perks: ["Affaccio sulla pista"] },
-  { id: 4,  zone: "Bordo pista",   x: 575, y: 205, r: 24, seats: 6,  price: 300, perks: ["Affaccio sulla pista"], busy: true },
-  { id: 5,  zone: "Bordo pista",   x: 225, y: 345, r: 24, seats: 6,  price: 300, perks: ["Affaccio sulla pista"] },
-  { id: 6,  zone: "Bordo pista",   x: 575, y: 345, r: 24, seats: 6,  price: 300, perks: ["Affaccio sulla pista"] },
-  { id: 7,  zone: "Lounge",        x: 70,  y: 110, r: 27, seats: 8,  price: 400, perks: ["Divanetti riservati", "Zona più tranquilla"] },
-  { id: 8,  zone: "Lounge",        x: 70,  y: 230, r: 27, seats: 8,  price: 400, perks: ["Divanetti riservati", "Zona più tranquilla"], busy: true },
-  { id: 9,  zone: "Lounge",        x: 70,  y: 350, r: 27, seats: 8,  price: 400, perks: ["Divanetti riservati", "Zona più tranquilla"] },
-  { id: 10, zone: "Bordo pista",   x: 400, y: 440, r: 24, seats: 6,  price: 300, perks: ["Fronte pista"] },
-  { id: 11, zone: "Sala VIP",      x: 95,  y: 515, r: 34, seats: 12, price: 900, perks: ["Sala riservata", "Ingresso separato", "Bottiglia di benvenuto"], busy: true },
-  { id: 12, zone: "Sala VIP",      x: 215, y: 515, r: 34, seats: 12, price: 900, perks: ["Sala riservata", "Ingresso separato", "Bottiglia di benvenuto"] },
-  { id: 13, zone: "Bar",           x: 630, y: 470, r: 24, seats: 6,  price: 250, perks: ["Accanto al bar"] },
+  { id: 1,  zone: "Console privé", shape: "booth", x: 210, y: 58,  w: 76, h: 44, sofa: "top",    seats: 10, price: 600, incl: ["ingresso per 10", "hostess dedicata", "vista console"] },
+  { id: 2,  zone: "Console privé", shape: "booth", x: 590, y: 58,  w: 76, h: 44, sofa: "top",    seats: 10, price: 600, incl: ["ingresso per 10", "hostess dedicata", "vista console"] },
+  { id: 3,  zone: "Bordo pista",   shape: "round", x: 222, y: 200, r: 22, seats: 6, price: 300, incl: ["ingresso per 6", "affaccio sulla pista"] },
+  { id: 4,  zone: "Bordo pista",   shape: "round", x: 578, y: 200, r: 22, seats: 6, price: 300, incl: ["ingresso per 6", "affaccio sulla pista"], busy: true },
+  { id: 5,  zone: "Bordo pista",   shape: "round", x: 222, y: 340, r: 22, seats: 6, price: 300, incl: ["ingresso per 6", "affaccio sulla pista"] },
+  { id: 6,  zone: "Bordo pista",   shape: "round", x: 578, y: 340, r: 22, seats: 6, price: 300, incl: ["ingresso per 6", "affaccio sulla pista"] },
+  { id: 7,  zone: "Lounge",        shape: "booth", x: 70,  y: 110, w: 48, h: 76, sofa: "left",   seats: 8,  price: 400, incl: ["ingresso per 8", "divanetto riservato"] },
+  { id: 8,  zone: "Lounge",        shape: "booth", x: 70,  y: 225, w: 48, h: 76, sofa: "left",   seats: 8,  price: 400, incl: ["ingresso per 8", "divanetto riservato"], busy: true },
+  { id: 9,  zone: "Lounge",        shape: "booth", x: 70,  y: 340, w: 48, h: 76, sofa: "left",   seats: 8,  price: 400, incl: ["ingresso per 8", "divanetto riservato"] },
+  { id: 10, zone: "Fronte pista",  shape: "round", x: 400, y: 440, r: 22, seats: 6, price: 300, incl: ["ingresso per 6", "fronte pista"] },
+  { id: 11, zone: "Sala VIP",      shape: "booth", x: 88,  y: 520, w: 100, h: 50, sofa: "bottom", seats: 12, price: 900, incl: ["ingresso per 12", "accesso separato", "bottiglia di benvenuto"], busy: true },
+  { id: 12, zone: "Sala VIP",      shape: "booth", x: 212, y: 520, w: 100, h: 50, sofa: "bottom", seats: 12, price: 900, incl: ["ingresso per 12", "accesso separato", "bottiglia di benvenuto"] },
+  { id: 13, zone: "Bar",           shape: "round", x: 640, y: 480, r: 22, seats: 6, price: 250, incl: ["ingresso per 6", "accanto al bar"] },
 ];
 
 const BOTTLES = {
@@ -291,8 +312,32 @@ const state = {
 };
 
 const eur = n => "€ " + n.toLocaleString("it-IT");
+const pad = n => String(n).padStart(2, "0");
 const svgNS = "http://www.w3.org/2000/svg";
 const esc = s => s.replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+
+function tableSVG(t) {
+  if (t.shape === "round") {
+    let seats = "";
+    const sr = t.r + 10;
+    for (let i = 0; i < t.seats; i++) {
+      const a = (i / t.seats) * Math.PI * 2 - Math.PI / 2;
+      const cx = (t.x + Math.cos(a) * sr).toFixed(1), cy = (t.y + Math.sin(a) * sr).toFixed(1);
+      seats += `<rect class="seat" x="${cx - 4}" y="${cy - 4}" width="8" height="8" transform="rotate(${(a * 180 / Math.PI).toFixed(1)} ${cx} ${cy})"/>`;
+    }
+    const k = t.r * .7;
+    const cross = t.busy ? `<line class="cross" x1="${t.x - k}" y1="${t.y - k}" x2="${t.x + k}" y2="${t.y + k}"/>` : "";
+    return `${seats}<circle class="top" cx="${t.x}" cy="${t.y}" r="${t.r}"/>${cross}<text class="num" x="${t.x}" y="${t.y}">${pad(t.id)}</text>`;
+  }
+  const x = t.x - t.w / 2, y = t.y - t.h / 2, d = 14, g = 4;
+  const sofa = {
+    top:    `M${x - d} ${y + t.h * .6} V${y - d - g} H${x + t.w + d} V${y + t.h * .6} H${x + t.w + g} V${y - g} H${x - g} V${y + t.h * .6} Z`,
+    left:   `M${x + t.w * .7} ${y - d} H${x - d - g} V${y + t.h + d} H${x + t.w * .7} V${y + t.h + g} H${x - g} V${y - g} H${x + t.w * .7} Z`,
+    bottom: `M${x - d} ${y + t.h * .4} V${y + t.h + d + g} H${x + t.w + d} V${y + t.h * .4} H${x + t.w + g} V${y + t.h + g} H${x - g} V${y + t.h * .4} Z`,
+  }[t.sofa];
+  const cross = t.busy ? `<line class="cross" x1="${x}" y1="${y}" x2="${x + t.w}" y2="${y + t.h}"/>` : "";
+  return `<path class="sofa" d="${sofa}"/><rect class="top" x="${x}" y="${y}" width="${t.w}" height="${t.h}" rx="2"/>${cross}<text class="num" x="${t.x}" y="${t.y}">${pad(t.id)}</text>`;
+}
 
 function drawTables() {
   const g = document.getElementById("tables");
@@ -302,22 +347,15 @@ function drawTables() {
     el.setAttribute("class", "tbl" + (t.busy ? " busy" : "") + (state.selected === t.id ? " selected" : ""));
     el.setAttribute("tabindex", t.busy ? "-1" : "0");
     el.setAttribute("role", "button");
-    el.setAttribute("aria-label", `Tavolo ${t.id}, ${t.zone}, ${t.seats} persone, ${t.busy ? "prenotato" : eur(t.price)}`);
-    el.dataset.id = t.id;
-    // sedute attorno al tavolo
-    const n = t.seats, sr = t.r + 11;
-    let seats = "";
-    for (let i = 0; i < n; i++) {
-      const a = (i / n) * Math.PI * 2 - Math.PI / 2;
-      seats += `<circle class="seat" cx="${(t.x + Math.cos(a) * sr).toFixed(1)}" cy="${(t.y + Math.sin(a) * sr).toFixed(1)}" r="4.2"/>`;
-    }
-    el.innerHTML = `<circle class="halo" cx="${t.x}" cy="${t.y}" r="${t.r + 20}"/>${seats}<circle class="shape" cx="${t.x}" cy="${t.y}" r="${t.r}"/><text class="num" x="${t.x}" y="${t.y}">${t.id}</text>`;
+    el.setAttribute("aria-label", `Tavolo ${t.id}, ${t.zone}, ${t.seats} persone, ${t.busy ? "occupato" : eur(t.price)}`);
+    el.innerHTML = tableSVG(t);
     if (!t.busy) {
       el.addEventListener("click", () => select(t.id));
       el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(t.id); } });
     }
     g.appendChild(el);
   });
+  document.getElementById("free-count").textContent = `${TABLES.filter(t => !t.busy).length} su ${TABLES.length}`;
 }
 
 function select(id) {
@@ -327,7 +365,7 @@ function select(id) {
   state.bottles[id] ??= {};
   drawTables();
   renderPanel();
-  if (window.matchMedia("(max-width: 900px)").matches) {
+  if (window.matchMedia("(max-width: 960px)").matches) {
     document.getElementById("panel").scrollIntoView({ behavior: "smooth", block: "start" });
   }
 }
@@ -347,15 +385,21 @@ function renderPanel() {
   const tot = totals(t);
 
   if (state.booked) {
-    const code = "VLT-" + String(t.id).padStart(2, "0") + "-" + (1000 + guests.length * 137 + tot.total % 900);
+    const code = "VLT" + pad(t.id) + "-" + (1000 + guests.length * 137 + tot.total % 900);
     p.innerHTML = `
       <div class="done">
-        <div class="ring">✓</div>
-        <h3>Tavolo ${t.id} prenotato</h3>
-        <p>${guests.length} ${guests.length === 1 ? "nome" : "nomi"} in lista, ${tot.count} ${tot.count === 1 ? "bottiglia" : "bottiglie"} al tavolo. Mostra il codice all'ingresso.</p>
-        <div class="code">${code}</div>
-        <p style="font-size:13px">Totale ${eur(tot.total)} · Sab 10 ottobre, dalle 23:30</p>
-        <button class="btn-ghost" style="padding:10px 16px;margin-top:8px" id="back">Torna alla piantina</button>
+        <div class="t-num">${pad(t.id)}</div>
+        <h3>Tavolo confermato</h3>
+        <p>Mostra il codice all'ingresso. I nomi in lista entrano senza coda fino all'1:30.</p>
+        <dl class="ticket">
+          <dt>Codice</dt><dd class="code">${code}</dd>
+          <dt>Serata</dt><dd>Sab 10 ottobre · 23:30</dd>
+          <dt>Tavolo</dt><dd>${t.id} · ${t.zone}</dd>
+          <dt>In lista</dt><dd>${guests.length} ${guests.length === 1 ? "persona" : "persone"}</dd>
+          <dt>Bottiglie</dt><dd>${tot.count}</dd>
+          <dt>Totale</dt><dd>${eur(tot.total)}</dd>
+        </dl>
+        <button class="btn-line" id="back">Modifica prenotazione</button>
       </div>`;
     p.querySelector("#back").onclick = () => { state.booked = false; renderPanel(); };
     return;
@@ -364,7 +408,7 @@ function renderPanel() {
   const list = state.bottles[t.id];
   const tabs = Object.keys(BOTTLES).map(k => {
     const c = BOTTLES[k].reduce((s, b) => s + (list[b.id] || 0), 0);
-    return `<button role="tab" aria-selected="${state.tab === k}" data-tab="${k}">${k}${c ? " · " + c : ""}</button>`;
+    return `<button role="tab" aria-selected="${state.tab === k}" data-tab="${k}">${k}${c ? `<sup>${c}</sup>` : ""}</button>`;
   }).join("");
   const rows = BOTTLES[state.tab].map(b => {
     const q = list[b.id] || 0;
@@ -385,37 +429,36 @@ function renderPanel() {
   if (!tot.count) missing.push("almeno una bottiglia");
 
   p.innerHTML = `
-    <div class="p-head">
-      <div class="p-badge">${t.id}</div>
-      <div class="p-title"><h3>Tavolo ${t.id}</h3><p>${t.zone} · fino a ${t.seats} persone</p></div>
-      <div class="p-price"><span>Tavolo</span><b>${eur(t.price)}</b></div>
+    <div class="t-head">
+      <div class="t-num">${pad(t.id)}</div>
+      <div class="t-info"><h3>Tavolo ${t.id}</h3><p>${t.zone} · max ${t.seats} persone</p></div>
+      <div class="t-price"><b>${eur(t.price)}</b><small>prezzo tavolo</small></div>
     </div>
-    <div class="perks">${t.perks.map(x => `<span class="perk">${x}</span>`).join("")}<span class="perk">Ingresso incluso</span></div>
+    <p class="incl">Incluso: <b>${t.incl.join(", ")}</b>.</p>
 
     <section class="block">
-      <div class="block-h"><h4>Lista nominativi</h4><small>${guests.length} / ${t.seats}</small></div>
+      <div class="block-h"><h4>Lista nominativi</h4><span>${guests.length} / ${t.seats}</span></div>
       <form class="guest-form" id="gform" autocomplete="off">
         <input id="guest-name" placeholder="${full ? "Lista completa" : "Nome e cognome"}" maxlength="40" ${full ? "disabled" : ""} aria-label="Nome e cognome dell'ospite">
-        <button class="btn-ghost" type="submit" ${full ? "disabled" : ""}>Aggiungi</button>
+        <button class="btn-add" type="submit" ${full ? "disabled" : ""}>Aggiungi</button>
       </form>
-      ${guests.length ? `<ol class="guests">${guests.map((g, i) => `<li class="${i === 0 ? "host" : ""}"><span>${esc(g)}</span><button class="x" data-rm="${i}" aria-label="Rimuovi ${esc(g)}">×</button></li>`).join("")}</ol>`
-        : `<p class="empty">Nessun nome ancora. Il primo nome inserito è il titolare del tavolo.</p>`}
-      <p class="hint">I nomi in lista entrano senza coda fino all'1:30.</p>
+      ${guests.length ? `<table class="guests"><tbody>${guests.map((g, i) => `<tr><td class="i">${pad(i + 1)}</td><td class="n">${esc(g)}${i === 0 ? `<span class="tag">Titolare</span>` : ""}</td><td class="r"><button class="link-rm" data-rm="${i}" aria-label="Rimuovi ${esc(g)}">Rimuovi</button></td></tr>`).join("")}</tbody></table>`
+        : `<p class="empty">Nessun nome. Il primo nome inserito è il titolare del tavolo.</p>`}
     </section>
 
     <section class="block">
-      <div class="block-h"><h4>Bottiglie</h4><small>${tot.count} scelte</small></div>
+      <div class="block-h"><h4>Bottiglie</h4><span>${tot.count} selezionate</span></div>
       <div class="tabs" role="tablist" aria-label="Categorie bottiglie">${tabs}</div>
-      <div class="bottles">${rows}</div>
+      <div>${rows}</div>
     </section>
 
     <div class="summary">
       <div class="row"><span>Tavolo ${t.id}</span><b>${eur(t.price)}</b></div>
       <div class="row"><span>Bottiglie (${tot.count})</span><b>${eur(tot.bottleSum)}</b></div>
       <div class="row"><span>Servizio 10%</span><b>${eur(tot.service)}</b></div>
-      <div class="row total"><span>Totale serata</span><b>${eur(tot.total)}</b></div>
-      <button class="cta" id="book" ${missing.length ? "disabled" : ""}>Prenota tavolo ${t.id} · ${eur(tot.total)}</button>
-      <p class="req">${missing.length ? "Per prenotare aggiungi " + missing.join(" e ") + "." : "Pagamento al locale o con caparra del 30%."}</p>
+      <div class="row total"><span>Totale</span><b>${eur(tot.total)}</b></div>
+      <button class="cta" id="book" ${missing.length ? "disabled" : ""}><span>Prenota il tavolo</span><span aria-hidden="true">→</span></button>
+      <p class="req">${missing.length ? "Per continuare aggiungi " + missing.join(" e ") + "." : "Caparra del 30% online, saldo al tavolo."}</p>
     </div>`;
 
   p.querySelector("#gform").addEventListener("submit", e => {
