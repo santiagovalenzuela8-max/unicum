@@ -1,24 +1,25 @@
 <title>Velluto Club Tavoli</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,400;1,6..96,600&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&family=Roboto+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: sala a sinistra (piantina SVG), pannello tavolo a destra; su mobile il pannello scende sotto la piantina. Look unico notturno. */
+/* Layout: sala a sinistra (piantina SVG), pannello tavolo a destra; su mobile il pannello scende sotto la piantina. Look unico scuro, moderno. */
 :root {
   color-scheme: dark;
-  --ink: #120d17;          /* fondo sala */
-  --velvet: #1d1524;       /* superfici */
-  --velvet-2: #281d31;     /* superfici alzate */
-  --line: #3a2d45;         /* bordi */
-  --brass: #d6ad62;        /* ottone: accento */
-  --brass-soft: rgba(214,173,98,.14);
-  --wine: #8e2f4c;         /* prenotato */
-  --text: #f1e9f3;
-  --muted: #a797b0;
-  --ok: #7cc6a2;
-  --f-display: "Bodoni Moda", "Didot", "Georgia", serif;
-  --f-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --ink: #0a0d14;          /* fondo */
+  --surface: #121722;     /* superfici */
+  --surface-2: #1a2130;   /* superfici alzate */
+  --line: #262f40;         /* bordi */
+  --accent: #4d7cff;      /* blu elettrico */
+  --on-accent: #ffffff;
+  --accent-soft: rgba(77,124,255,.14);
+  --busy: #ff4d6a;        /* prenotato */
+  --text: #eef2f8;
+  --muted: #8b95a7;
+  --ok: #3ddc97;
+  --f-display: "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-body: "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "Roboto Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 }
 * { box-sizing: border-box; }
 html, body { background: var(--ink); color: var(--text); }
@@ -27,9 +28,9 @@ body { font-family: var(--f-body); font-size: 15px; line-height: 1.5; padding-in
 
 header.top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 32px; padding-block: 28px 22px; border-bottom: 1px solid var(--line); }
 .brand { display: flex; flex-direction: column; gap: 2px; }
-.eyebrow { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--brass); font-weight: 600; }
-h1 { font-family: var(--f-display); font-weight: 500; font-size: clamp(34px, 5vw, 54px); line-height: 1; margin: 0; letter-spacing: -.01em; text-wrap: balance; }
-h1 em { font-style: italic; color: var(--brass); font-weight: 400; }
+.eyebrow { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+h1 { font-family: var(--f-display); font-weight: 900; font-size: clamp(32px, 5vw, 50px); line-height: 1; margin: 0; letter-spacing: -.02em; text-transform: uppercase; text-wrap: balance; }
+h1 em { font-style: normal; color: var(--accent); }
 .event { display: flex; flex-wrap: wrap; gap: 8px 28px; font-size: 13px; }
 .event div { display: flex; flex-direction: column; }
 .event span { color: var(--muted); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
@@ -41,48 +42,48 @@ main { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); g
 @media (max-width: 900px) { main { grid-template-columns: minmax(0, 1fr); } }
 
 /* Piantina */
-.plan { background: radial-gradient(120% 90% at 50% 20%, #221830 0%, var(--ink) 70%); border: 1px solid var(--line); border-radius: 18px; padding: 16px; min-width: 0; }
+.plan { background: radial-gradient(120% 90% at 50% 20%, #141c2e 0%, var(--ink) 70%); border: 1px solid var(--line); border-radius: 18px; padding: 16px; min-width: 0; }
 .plan-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 8px; }
-.plan-head h2 { font-family: var(--f-display); font-style: italic; font-weight: 400; font-size: 22px; margin: 0; }
+.plan-head h2 { font-family: var(--f-display); font-weight: 700; font-size: 20px; margin: 0; }
 .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--muted); }
 .legend i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
-.lg-free { border: 1.5px solid var(--brass); }
-.lg-sel { background: var(--brass); }
-.lg-busy { background: var(--wine); opacity: .7; }
+.lg-free { border: 1.5px solid var(--accent); }
+.lg-sel { background: var(--accent); }
+.lg-busy { background: var(--busy); opacity: .7; }
 svg.map { width: 100%; height: auto; display: block; max-width: 100%; }
 .map text { font-family: var(--f-body); }
 .zone-label { fill: var(--muted); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; }
 .tbl { cursor: pointer; outline: none; }
-.tbl .shape { fill: var(--velvet); stroke: var(--brass); stroke-width: 1.6; transition: fill .2s, stroke-width .2s; }
-.tbl .num { fill: var(--brass); font-family: var(--f-display); font-size: 20px; font-weight: 600; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.tbl .shape { fill: var(--surface); stroke: var(--accent); stroke-width: 1.6; transition: fill .2s, stroke-width .2s; }
+.tbl .num { fill: var(--accent); font-family: var(--f-display); font-size: 18px; font-weight: 700; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
 .tbl .seat { fill: var(--line); }
-.tbl:hover .shape, .tbl:focus-visible .shape { fill: var(--velvet-2); stroke-width: 2.6; }
+.tbl:hover .shape, .tbl:focus-visible .shape { fill: var(--surface-2); stroke-width: 2.6; }
 .tbl:focus-visible .shape { stroke: var(--text); }
-.tbl.selected .shape { fill: var(--brass); }
-.tbl.selected .num { fill: var(--ink); }
-.tbl.selected .seat { fill: var(--brass); opacity: .55; }
+.tbl.selected .shape { fill: var(--accent); filter: drop-shadow(0 0 10px rgba(77,124,255,.7)); }
+.tbl.selected .num { fill: var(--on-accent); }
+.tbl.selected .seat { fill: var(--accent); opacity: .55; }
 .tbl.selected .halo { opacity: 1; }
-.tbl .halo { fill: none; stroke: var(--brass); stroke-width: 1; opacity: 0; transition: opacity .25s; }
+.tbl .halo { fill: none; stroke: var(--accent); stroke-width: 1; opacity: 0; transition: opacity .25s; }
 .tbl.busy { cursor: not-allowed; }
-.tbl.busy .shape { fill: url(#hatch); stroke: var(--wine); }
-.tbl.busy .num { fill: #c98aa0; }
+.tbl.busy .shape { fill: url(#hatch); stroke: var(--busy); }
+.tbl.busy .num { fill: #ff8a9c; }
 .tbl.busy:hover .shape { stroke-width: 1.6; }
 
 .tbl-strip { display: none; }
 
 /* Pannello */
-aside.panel { background: var(--velvet); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; min-width: 0; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); }
+aside.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; min-width: 0; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); }
 @media (max-width: 900px) { aside.panel { position: static; } }
-.p-head { padding: 22px 22px 18px; background: linear-gradient(180deg, var(--velvet-2), var(--velvet)); border-bottom: 1px solid var(--line); display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; }
-.p-badge { width: 58px; height: 58px; border-radius: 50%; border: 1.5px solid var(--brass); display: grid; place-items: center; font-family: var(--f-display); font-size: 26px; font-weight: 600; color: var(--brass); }
+.p-head { padding: 22px 22px 18px; background: linear-gradient(180deg, var(--surface-2), var(--surface)); border-bottom: 1px solid var(--line); display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; }
+.p-badge { width: 58px; height: 58px; border-radius: 50%; border: 1.5px solid var(--accent); display: grid; place-items: center; font-family: var(--f-display); font-size: 24px; font-weight: 700; color: var(--accent); }
 .p-title { min-width: 0; }
-.p-title h3 { margin: 0; font-family: var(--f-display); font-weight: 500; font-size: 26px; line-height: 1.1; }
+.p-title h3 { margin: 0; font-family: var(--f-display); font-weight: 700; font-size: 24px; line-height: 1.1; }
 .p-title p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
 .p-price { text-align: right; }
 .p-price span { display: block; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
-.p-price b { font-family: var(--f-mono); font-weight: 500; font-size: 22px; color: var(--brass); font-variant-numeric: tabular-nums; }
+.p-price b { font-family: var(--f-mono); font-weight: 500; font-size: 22px; color: var(--accent); font-variant-numeric: tabular-nums; }
 .perks { display: flex; flex-wrap: wrap; gap: 6px; padding: 12px 22px 0; }
-.perk { font-size: 11.5px; padding: 3px 10px; border-radius: 999px; background: var(--brass-soft); color: var(--brass); }
+.perk { font-size: 11.5px; padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
 
 section.block { padding: 18px 22px; border-bottom: 1px solid var(--line); }
 .block-h { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; gap: 12px; }
@@ -91,25 +92,25 @@ section.block { padding: 18px 22px; border-bottom: 1px solid var(--line); }
 
 .guest-form { display: flex; gap: 8px; }
 .guest-form input { flex: 1; min-width: 0; background: var(--ink); border: 1px solid var(--line); color: var(--text); border-radius: 10px; padding: 10px 12px; font: inherit; font-size: 14px; }
-.guest-form input:focus { outline: none; border-color: var(--brass); }
+.guest-form input:focus { outline: none; border-color: var(--accent); }
 button { font: inherit; cursor: pointer; }
-.btn-ghost { background: transparent; color: var(--brass); border: 1px solid var(--brass); border-radius: 10px; padding: 0 14px; font-weight: 600; font-size: 13px; }
-.btn-ghost:hover { background: var(--brass-soft); }
+.btn-ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); border-radius: 10px; padding: 0 14px; font-weight: 600; font-size: 13px; }
+.btn-ghost:hover { background: var(--accent-soft); }
 .btn-ghost:disabled { opacity: .4; cursor: not-allowed; }
-button:focus-visible, input:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 ol.guests { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 6px; counter-reset: g; }
 ol.guests li { counter-increment: g; display: flex; align-items: center; gap: 10px; padding: 7px 8px 7px 10px; background: var(--ink); border-radius: 10px; font-size: 14px; }
 ol.guests li::before { content: counter(g, decimal-leading-zero); font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
 ol.guests li span { flex: 1; min-width: 0; overflow-wrap: anywhere; }
-ol.guests li.host span::after { content: "Titolare"; margin-left: 8px; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--brass); }
+ol.guests li.host span::after { content: "Titolare"; margin-left: 8px; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
 .x { background: none; border: 0; color: var(--muted); width: 26px; height: 26px; border-radius: 50%; font-size: 16px; line-height: 1; }
-.x:hover { color: var(--text); background: var(--velvet-2); }
+.x:hover { color: var(--text); background: var(--surface-2); }
 .empty { color: var(--muted); font-size: 13px; margin: 10px 0 0; }
 .hint { color: var(--muted); font-size: 12px; margin: 8px 0 0; }
 
 .tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 10px; scrollbar-width: none; }
 .tabs button { flex: none; background: var(--ink); border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 5px 12px; font-size: 12.5px; font-weight: 600; }
-.tabs button[aria-selected="true"] { color: var(--ink); background: var(--brass); border-color: var(--brass); }
+.tabs button[aria-selected="true"] { color: var(--on-accent); background: var(--accent); border-color: var(--accent); }
 .bottles { display: grid; gap: 2px; }
 .bottle { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 14px; padding: 10px 0; border-bottom: 1px dashed var(--line); }
 .bottle:last-child { border-bottom: 0; }
@@ -119,28 +120,28 @@ ol.guests li.host span::after { content: "Titolare"; margin-left: 8px; font-size
 .bottle-price { font-family: var(--f-mono); font-size: 13.5px; font-variant-numeric: tabular-nums; }
 .stepper { display: flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; }
 .stepper button { width: 30px; height: 30px; background: none; border: 0; color: var(--text); border-radius: 50%; font-size: 17px; }
-.stepper button:hover:not(:disabled) { color: var(--brass); }
+.stepper button:hover:not(:disabled) { color: var(--accent); }
 .stepper button:disabled { opacity: .3; cursor: default; }
 .stepper output { min-width: 20px; text-align: center; font-family: var(--f-mono); font-size: 13px; }
-.bottle.has .stepper { border-color: var(--brass); }
-.bottle.has .stepper output { color: var(--brass); }
+.bottle.has .stepper { border-color: var(--accent); }
+.bottle.has .stepper output { color: var(--accent); }
 
 .summary { padding: 18px 22px 22px; display: grid; gap: 8px; }
 .row { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; color: var(--muted); }
 .row b { font-family: var(--f-mono); font-weight: 500; color: var(--text); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .row.total { color: var(--text); font-size: 15px; font-weight: 600; padding-top: 10px; margin-top: 4px; border-top: 1px solid var(--line); }
-.row.total b { color: var(--brass); font-size: 22px; }
-.cta { margin-top: 10px; width: 100%; padding: 15px; border-radius: 12px; border: 0; background: var(--brass); color: var(--ink); font-weight: 700; font-size: 15px; letter-spacing: .02em; transition: transform .15s, filter .15s; }
-.cta:hover:not(:disabled) { filter: brightness(1.08); }
+.row.total b { color: var(--accent); font-size: 22px; }
+.cta { margin-top: 10px; width: 100%; padding: 15px; border-radius: 12px; border: 0; background: var(--accent); color: var(--on-accent); font-weight: 700; font-size: 15px; letter-spacing: .02em; transition: transform .15s, filter .15s; }
+.cta:hover:not(:disabled) { filter: brightness(1.12); box-shadow: 0 8px 28px rgba(77,124,255,.35); }
 .cta:active:not(:disabled) { transform: translateY(1px); }
-.cta:disabled { background: var(--velvet-2); color: var(--muted); cursor: not-allowed; }
+.cta:disabled { background: var(--surface-2); color: var(--muted); cursor: not-allowed; }
 .req { font-size: 12px; color: var(--muted); text-align: center; margin: 2px 0 0; min-height: 18px; }
 
 .done { padding: 34px 26px 30px; text-align: center; display: grid; gap: 10px; justify-items: center; }
 .done .ring { width: 64px; height: 64px; border-radius: 50%; border: 1.5px solid var(--ok); display: grid; place-items: center; color: var(--ok); font-size: 28px; }
-.done h3 { font-family: var(--f-display); font-weight: 500; font-size: 28px; margin: 6px 0 0; }
+.done h3 { font-family: var(--f-display); font-weight: 700; font-size: 26px; margin: 6px 0 0; }
 .done p { color: var(--muted); margin: 0; max-width: 34ch; }
-.code { font-family: var(--f-mono); font-size: 18px; letter-spacing: .2em; padding: 10px 16px; border: 1px dashed var(--brass); border-radius: 10px; color: var(--brass); margin-top: 6px; }
+.code { font-family: var(--f-mono); font-size: 18px; letter-spacing: .2em; padding: 10px 16px; border: 1px dashed var(--accent); border-radius: 10px; color: var(--accent); margin-top: 6px; }
 
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 @keyframes pulse { 0%,100% { opacity: .35 } 50% { opacity: .8 } }
@@ -154,7 +155,7 @@ ol.guests li.host span::after { content: "Titolare"; margin-left: 8px; font-size
       <h1>Velluto <em>Club</em></h1>
     </div>
     <div class="event">
-      <div><span>Serata</span><b>Notte d'Ottone</b></div>
+      <div><span>Serata</span><b>Midnight Session</b></div>
       <div><span>Data</span><b>Sab 10 ottobre 2026</b></div>
       <div><span>Apertura</span><b>23:30 – 05:00</b></div>
       <div><span>In console</span><b>Marco Levi · Sara K.</b></div>
@@ -175,42 +176,42 @@ ol.guests li.host span::after { content: "Titolare"; margin-left: 8px; font-size
       <svg class="map" viewBox="0 0 800 600" role="group" aria-label="Piantina con i tavoli">
         <defs>
           <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-            <rect width="6" height="6" fill="#241a2b"/>
-            <line x1="0" y1="0" x2="0" y2="6" stroke="#8e2f4c" stroke-width="2" opacity=".6"/>
+            <rect width="6" height="6" fill="#151b27"/>
+            <line x1="0" y1="0" x2="0" y2="6" stroke="#ff4d6a" stroke-width="2" opacity=".6"/>
           </pattern>
           <radialGradient id="floor" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#d6ad62" stop-opacity=".22"/>
-            <stop offset="100%" stop-color="#d6ad62" stop-opacity="0"/>
+            <stop offset="0%" stop-color="#4d7cff" stop-opacity=".22"/>
+            <stop offset="100%" stop-color="#4d7cff" stop-opacity="0"/>
           </radialGradient>
           <pattern id="tiles" width="28" height="28" patternUnits="userSpaceOnUse">
-            <rect width="28" height="28" fill="none" stroke="#3a2d45" stroke-width=".6"/>
+            <rect width="28" height="28" fill="none" stroke="#262f40" stroke-width=".6"/>
           </pattern>
         </defs>
 
         <!-- perimetro -->
-        <rect x="10" y="10" width="780" height="580" rx="22" fill="none" stroke="#3a2d45" stroke-width="2"/>
+        <rect x="10" y="10" width="780" height="580" rx="22" fill="none" stroke="#262f40" stroke-width="2"/>
 
         <!-- console DJ -->
-        <rect x="300" y="28" width="200" height="54" rx="10" fill="#281d31" stroke="#d6ad62" stroke-width="1"/>
-        <text x="400" y="52" text-anchor="middle" fill="#d6ad62" font-size="13" font-weight="700" letter-spacing="3">CONSOLE DJ</text>
-        <text x="400" y="70" text-anchor="middle" fill="#a797b0" font-size="10" letter-spacing="1.5">Marco Levi · Sara K.</text>
+        <rect x="300" y="28" width="200" height="54" rx="10" fill="#1a2130" stroke="#4d7cff" stroke-width="1"/>
+        <text x="400" y="52" text-anchor="middle" fill="#4d7cff" font-size="13" font-weight="700" letter-spacing="3">CONSOLE DJ</text>
+        <text x="400" y="70" text-anchor="middle" fill="#8b95a7" font-size="10" letter-spacing="1.5">Marco Levi · Sara K.</text>
 
         <!-- pista -->
         <ellipse class="floor-glow" cx="400" cy="275" rx="170" ry="125" fill="url(#floor)"/>
-        <rect x="265" y="170" width="270" height="210" rx="16" fill="url(#tiles)" stroke="#3a2d45"/>
+        <rect x="265" y="170" width="270" height="210" rx="16" fill="url(#tiles)" stroke="#262f40"/>
         <text x="400" y="280" text-anchor="middle" class="zone-label">Pista</text>
 
         <!-- bar -->
-        <rect x="690" y="150" width="70" height="300" rx="12" fill="#1d1524" stroke="#3a2d45"/>
+        <rect x="690" y="150" width="70" height="300" rx="12" fill="#121722" stroke="#262f40"/>
         <text x="725" y="300" text-anchor="middle" class="zone-label" transform="rotate(90 725 300)">Bar</text>
 
         <!-- ingresso -->
-        <path d="M330 590 L330 560 M470 590 L470 560" stroke="#a797b0" stroke-width="2"/>
+        <path d="M330 590 L330 560 M470 590 L470 560" stroke="#8b95a7" stroke-width="2"/>
         <text x="400" y="578" text-anchor="middle" class="zone-label">Ingresso</text>
 
         <!-- sala oro -->
-        <rect x="30" y="440" width="250" height="130" rx="14" fill="rgba(214,173,98,.05)" stroke="#d6ad62" stroke-dasharray="4 5" stroke-opacity=".6"/>
-        <text x="155" y="462" text-anchor="middle" class="zone-label" style="fill:#d6ad62">Sala Oro</text>
+        <rect x="30" y="440" width="250" height="130" rx="14" fill="rgba(77,124,255,.06)" stroke="#4d7cff" stroke-dasharray="4 5" stroke-opacity=".6"/>
+        <text x="155" y="462" text-anchor="middle" class="zone-label" style="fill:#4d7cff">Sala VIP</text>
 
         <text x="70" y="44" class="zone-label">Lounge</text>
         <text x="630" y="44" class="zone-label">Console privé</text>
@@ -231,12 +232,12 @@ const TABLES = [
   { id: 4,  zone: "Bordo pista",   x: 575, y: 205, r: 24, seats: 6,  price: 300, perks: ["Affaccio sulla pista"], busy: true },
   { id: 5,  zone: "Bordo pista",   x: 225, y: 345, r: 24, seats: 6,  price: 300, perks: ["Affaccio sulla pista"] },
   { id: 6,  zone: "Bordo pista",   x: 575, y: 345, r: 24, seats: 6,  price: 300, perks: ["Affaccio sulla pista"] },
-  { id: 7,  zone: "Lounge",        x: 70,  y: 110, r: 27, seats: 8,  price: 400, perks: ["Divanetti in velluto", "Zona più tranquilla"] },
-  { id: 8,  zone: "Lounge",        x: 70,  y: 230, r: 27, seats: 8,  price: 400, perks: ["Divanetti in velluto", "Zona più tranquilla"], busy: true },
-  { id: 9,  zone: "Lounge",        x: 70,  y: 350, r: 27, seats: 8,  price: 400, perks: ["Divanetti in velluto", "Zona più tranquilla"] },
+  { id: 7,  zone: "Lounge",        x: 70,  y: 110, r: 27, seats: 8,  price: 400, perks: ["Divanetti riservati", "Zona più tranquilla"] },
+  { id: 8,  zone: "Lounge",        x: 70,  y: 230, r: 27, seats: 8,  price: 400, perks: ["Divanetti riservati", "Zona più tranquilla"], busy: true },
+  { id: 9,  zone: "Lounge",        x: 70,  y: 350, r: 27, seats: 8,  price: 400, perks: ["Divanetti riservati", "Zona più tranquilla"] },
   { id: 10, zone: "Bordo pista",   x: 400, y: 440, r: 24, seats: 6,  price: 300, perks: ["Fronte pista"] },
-  { id: 11, zone: "Sala Oro",      x: 95,  y: 515, r: 34, seats: 12, price: 900, perks: ["Sala riservata", "Ingresso separato", "Bottiglia di benvenuto"], busy: true },
-  { id: 12, zone: "Sala Oro",      x: 215, y: 515, r: 34, seats: 12, price: 900, perks: ["Sala riservata", "Ingresso separato", "Bottiglia di benvenuto"] },
+  { id: 11, zone: "Sala VIP",      x: 95,  y: 515, r: 34, seats: 12, price: 900, perks: ["Sala riservata", "Ingresso separato", "Bottiglia di benvenuto"], busy: true },
+  { id: 12, zone: "Sala VIP",      x: 215, y: 515, r: 34, seats: 12, price: 900, perks: ["Sala riservata", "Ingresso separato", "Bottiglia di benvenuto"] },
   { id: 13, zone: "Bar",           x: 630, y: 470, r: 24, seats: 6,  price: 250, perks: ["Accanto al bar"] },
 ];
 
