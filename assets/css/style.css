@@ -636,3 +636,10 @@ input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 6px 
   .feature__sticky { align-items: flex-start; }
   .feature__progress { bottom: calc(var(--bar-h) + 16px); }
 }
+
+/* ---------- "Realizzato da" Andiamo Online ---------- */
+.made-by { display: flex; justify-content: center; margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--line); }
+.made-by__link { display: inline-flex; align-items: center; gap: 14px; min-height: 44px; font-size: .85rem; letter-spacing: .04em; color: var(--ink-mute); text-decoration: none; opacity: .9; transition: opacity .25s, transform .25s; }
+.made-by__link:hover { opacity: 1; transform: translateY(-1px); color: var(--ink-soft); }
+.made-by__link img { height: 22px; width: auto; }
+@media (max-width: 600px) { .made-by__link { flex-direction: column; gap: 8px; } .made-by__link img { height: 20px; } }
