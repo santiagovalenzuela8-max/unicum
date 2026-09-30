@@ -4,28 +4,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Unicum Car</title>
-  <meta name="description" content="Unicum Car: auto usate selezionate e controllate una per una. Guarda le foto reali, chiedi la disponibilità, prenota una prova." />
+  <meta name="description" content="Unicum Car: auto usate selezionate e controllate una per una. Foto reali, garanzia 12 mesi, permuta e finanziamento." />
+  <meta name="theme-color" content="#0b0909" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..900&family=Public+Sans:wght@400;500;600;700&family=Cinzel:wght@600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=Hanken+Grotesk:wght@400;500;600;700&family=Cinzel:wght@600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
   <link rel="icon" href="assets/img/logo-unicum-car.jpg" />
-  <link rel="stylesheet" href="assets/css/style.css?v=3" />
+  <link rel="stylesheet" href="assets/css/style.css?v=6" />
 </head>
 <body>
 
   <header class="header" id="header">
     <div class="wrap header__inner">
       <a href="#top" class="brand" aria-label="Unicum Car, torna all'inizio">
-        <img class="brand__logo" src="assets/img/logo-unicum-car.jpg" alt="" width="44" height="44" />
+        <img class="brand__logo" src="assets/img/logo-unicum-car.jpg" alt="" width="40" height="40" />
         <span class="brand__name">Unicum <em>Car</em></span>
       </a>
 
       <nav class="nav" id="nav" aria-label="Navigazione principale">
         <a href="#auto" class="nav__link">Auto disponibili</a>
-        <a href="#compreso" class="nav__link">Cosa è compreso</a>
-        <a href="#rata" class="nav__link">Calcola la rata</a>
+        <a href="#servizi" class="nav__link">Servizi</a>
+        <a href="#rata" class="nav__link">Finanziamento</a>
         <a href="#contatti" class="nav__link">Contatti</a>
-        <a href="#contatti" class="btn btn--solid btn--sm nav__cta" data-subject="Prova su strada">Prenota una prova</a>
+        <a href="#contatti" class="btn btn--red nav__cta" data-subject="Prova su strada">Prenota una prova</a>
       </nav>
 
       <button class="burger" id="burger" type="button" aria-label="Apri il menu" aria-expanded="false" aria-controls="nav">
@@ -36,188 +37,161 @@
 
   <main id="top">
     <!-- HERO -->
-    <section class="hero">
-      <div class="wrap hero__grid">
+    <section class="hero" aria-label="In vetrina">
+      <div class="hero__stage" id="heroStage">
+        <!-- slides injected by main.js; first one here so the page is complete without JS -->
+        <img class="hero__slide is-active" src="assets/img/cars/mini-cooper/01.jpg" alt="Mini Cooper arancione al tramonto" fetchpriority="high" />
+      </div>
+      <div class="hero__shade" aria-hidden="true"></div>
+
+      <div class="wrap hero__inner">
         <div class="hero__copy">
-          <p class="eyebrow">Auto usate selezionate</p>
-          <h1 class="hero__title">Auto scelte <span class="hero__title-em">una per una.</span></h1>
-          <p class="hero__lead">Ogni auto che vedi qui l'abbiamo provata, controllata e fotografata noi. Niente foto di catalogo: quello che vedi è quello che guidi.</p>
+          <p class="kicker">Auto usate selezionate</p>
+          <h1 class="hero__title">Auto scelte<br /><span>una per una.</span></h1>
+          <p class="hero__lead">Ogni auto l'abbiamo provata, controllata e fotografata noi. Quello che vedi è quello che guidi.</p>
           <div class="hero__actions">
-            <a href="#auto" class="btn btn--solid">Guarda le auto</a>
-            <a href="#contatti" class="btn btn--line" data-subject="Valutazione della mia auto">Valuta la tua auto</a>
+            <a href="#auto" class="btn btn--red btn--lg">Guarda le auto</a>
+            <a href="#contatti" class="btn btn--ghost btn--lg" data-subject="Valutazione della mia auto">Valuta la tua auto</a>
           </div>
-          <dl class="hero__facts">
-            <div><dt>In vetrina ora</dt><dd><span id="stockCount">8</span> auto</dd></div>
-            <div><dt>Foto reali</dt><dd><span id="photoCount">53</span> scatti</dd></div>
-            <div><dt>Garanzia</dt><dd>12 mesi</dd></div>
-          </dl>
         </div>
 
-        <figure class="hero__media">
-          <img class="hero__img hero__img--main" src="assets/img/cars/mini-cooper/01.jpg" alt="Mini Cooper arancione fotografata al tramonto" width="900" height="1200" fetchpriority="high" />
-          <img class="hero__img hero__img--side" src="assets/img/cars/porsche-panamera/01-sm.jpg" alt="Porsche Panamera grigio scuro parcheggiata su un prato" width="450" height="600" />
-          <figcaption class="hero__tag">
-            <span class="plate"><span class="plate__eu">I</span><span class="plate__num">UN·001</span></span>
-            <span>Mini Cooper · <span class="mono">119.000 km</span></span>
-          </figcaption>
-        </figure>
+        <div class="hero__now" id="heroNow">
+          <div class="hero__bars" id="heroBars" role="tablist" aria-label="Scegli l'auto in primo piano"></div>
+          <button type="button" class="hero__caption" id="heroCaption" data-open="mini-cooper">
+            <span class="hero__caption-label">In vetrina</span>
+            <span class="hero__caption-name" id="heroName">Mini Cooper 3 porte</span>
+            <span class="hero__caption-meta mono" id="heroMeta">119.000 km · Benzina</span>
+            <span class="hero__caption-cta">Vedi scheda e foto <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+          </button>
+        </div>
       </div>
     </section>
 
-    <div class="divider divider--wave" aria-hidden="true" style="--top: var(--paper); --bottom: var(--surface)"><svg viewBox="0 0 1440 80" preserveAspectRatio="none" focusable="false"><path d="M0 80V46C240 12 480 12 720 40S1200 72 1440 30V80Z"/></svg></div>
+    <!-- TRUST STRIP -->
+    <section class="trust" aria-label="Incluso con ogni auto">
+      <ul class="wrap trust__list">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg><span><strong>Garanzia 12 mesi</strong>su ogni auto</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg><span><strong>Passaggio incluso</strong>pratiche fatte da noi</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg><span><strong>Permuta</strong>valutazione in 24 ore</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg><span><strong>Finanziamento</strong>anche senza anticipo</span></li>
+      </ul>
+    </section>
+
     <!-- INVENTORY -->
-    <section class="section section--surface" id="auto">
+    <section class="section" id="auto">
       <div class="wrap">
-        <div class="section__head">
-          <div>
-            <p class="eyebrow">Auto disponibili</p>
-            <h2 class="section__title">In vetrina questa settimana</h2>
+        <div class="head">
+          <div class="head__text">
+            <p class="kicker">Auto disponibili</p>
+            <h2 class="title">In vetrina questa settimana</h2>
           </div>
-          <div class="toolbar">
-            <div class="chips" id="chips" role="group" aria-label="Filtra per tipo di carrozzeria"></div>
-            <label class="sort">
-              <span>Ordina</span>
-              <select id="sort">
-                <option value="stock">Ultimi arrivi</option>
-                <option value="km-asc">Meno chilometri</option>
-                <option value="brand">Marca A–Z</option>
-              </select>
-            </label>
-          </div>
+          <label class="sort">
+            <span class="sr-only">Ordina le auto</span>
+            <select id="sort" aria-label="Ordina le auto">
+              <option value="stock">Ultimi arrivi</option>
+              <option value="km-asc">Meno chilometri</option>
+              <option value="brand">Marca A–Z</option>
+            </select>
+          </label>
         </div>
 
+        <div class="chips" id="chips" role="group" aria-label="Filtra per tipo di carrozzeria"></div>
         <p class="count" id="resultCount" aria-live="polite"></p>
         <div class="stock" id="stock"></div>
         <p class="empty" id="emptyState" hidden>Nessuna auto di questo tipo al momento. <button type="button" class="link" id="resetFilters">Mostra tutte le auto</button></p>
       </div>
     </section>
 
-    <div class="divider divider--slant" aria-hidden="true" style="--top: var(--surface); --bottom: var(--band)"><svg viewBox="0 0 1440 80" preserveAspectRatio="none" focusable="false"><path d="M0 80L1440 0V80Z"/></svg></div>
-    <!-- INCLUDED -->
-    <section class="section section--band" id="compreso">
-      <div class="wrap included">
-        <div class="included__intro">
-          <p class="eyebrow">Cosa è compreso</p>
-          <h2 class="section__title">Il prezzo che ti diciamo è il prezzo che paghi</h2>
-          <p class="section__lead">Su ogni auto trovi già inclusi i servizi che altrove si pagano a parte. Te li elenchiamo per iscritto prima della firma.</p>
+    <!-- SERVICES -->
+    <section class="section section--oxblood" id="servizi">
+      <div class="cut cut--top" aria-hidden="true"></div>
+      <div class="wrap services">
+        <div class="services__intro">
+          <p class="kicker kicker--light">Servizi inclusi</p>
+          <h2 class="title">Il prezzo che ti diciamo è il prezzo che paghi</h2>
+          <p class="lead">Su ogni auto trovi già inclusi i servizi che altrove si pagano a parte. Te li mettiamo per iscritto prima della firma.</p>
         </div>
-        <dl class="included__list">
-          <div>
-            <dt>Passaggio di proprietà</dt>
-            <dd>Pratiche al PRA e alla Motorizzazione gestite da noi, tu firmi e basta.</dd>
-          </div>
-          <div>
-            <dt>Garanzia 12 mesi</dt>
-            <dd>Garanzia di conformità su motore, cambio e impianto elettrico, estendibile a 24 mesi.</dd>
-          </div>
-          <div>
-            <dt>Tagliando pre-consegna</dt>
-            <dd>Olio, filtri e liquidi sostituiti e controllo di freni e pneumatici prima della consegna.</dd>
-          </div>
-          <div>
-            <dt>Permuta dell'usato</dt>
-            <dd>Valutiamo la tua auto dal vivo e scaliamo il valore direttamente dal prezzo.</dd>
-          </div>
-          <div>
-            <dt>Storico chilometri</dt>
-            <dd>Chilometraggio verificato e libretto dei tagliandi mostrato prima dell'acquisto.</dd>
-          </div>
-          <div>
-            <dt>Finanziamento</dt>
-            <dd>Rate su misura con istituti convenzionati, anche senza anticipo.</dd>
-          </div>
-        </dl>
+        <ul class="services__list">
+          <li><span class="services__n mono">01</span><h3>Passaggio di proprietà</h3><p>Pratiche al PRA e alla Motorizzazione gestite da noi: tu firmi e basta.</p></li>
+          <li><span class="services__n mono">02</span><h3>Garanzia 12 mesi</h3><p>Su motore, cambio e impianto elettrico, estendibile a 24 mesi.</p></li>
+          <li><span class="services__n mono">03</span><h3>Tagliando pre-consegna</h3><p>Olio, filtri e liquidi sostituiti, freni e pneumatici controllati.</p></li>
+          <li><span class="services__n mono">04</span><h3>Storico chilometri</h3><p>Chilometraggio verificato e libretto dei tagliandi mostrato prima dell'acquisto.</p></li>
+        </ul>
       </div>
+      <div class="cut cut--bottom" aria-hidden="true"></div>
     </section>
 
-    <div class="divider divider--arc" aria-hidden="true" style="--top: var(--band); --bottom: var(--tint)"><svg viewBox="0 0 1440 80" preserveAspectRatio="none" focusable="false"><path d="M0 0Q720 150 1440 0V80H0Z"/></svg></div>
     <!-- PROCESS -->
-    <section class="section section--tint">
+    <section class="section">
       <div class="wrap">
-        <div class="section__head section__head--stack">
-          <p class="eyebrow">Come si compra da noi</p>
-          <h2 class="section__title">Dalla foto alle chiavi in quattro passaggi</h2>
+        <div class="head head--stack">
+          <p class="kicker">Come si compra da noi</p>
+          <h2 class="title">Dalla foto alle chiavi in quattro passaggi</h2>
         </div>
         <ol class="steps">
-          <li>
-            <h3>Scegli dalle foto</h3>
-            <p>Sfoglia la galleria completa di ogni auto: esterni, interni, vano motore e bagagliaio.</p>
-          </li>
-          <li>
-            <h3>Provala su strada</h3>
-            <p>Prenota una prova: l'auto è pronta al tuo arrivo, con il libretto dei tagliandi a disposizione.</p>
-          </li>
-          <li>
-            <h3>Definiamo insieme</h3>
-            <p>Permuta, finanziamento o pagamento unico. Ricevi un preventivo scritto e senza voci nascoste.</p>
-          </li>
-          <li>
-            <h3>Ritira le chiavi</h3>
-            <p>In pochi giorni l'auto è intestata a te, con tagliando fatto e pieno di partenza.</p>
-          </li>
+          <li><h3>Scegli dalle foto</h3><p>Sfoglia la galleria completa: esterni, interni, vano motore e bagagliaio.</p></li>
+          <li><h3>Provala su strada</h3><p>Prenota una prova: trovi l'auto pronta, con il libretto dei tagliandi.</p></li>
+          <li><h3>Definiamo insieme</h3><p>Permuta, finanziamento o pagamento unico, con preventivo scritto.</p></li>
+          <li><h3>Ritira le chiavi</h3><p>In pochi giorni l'auto è intestata a te, con tagliando fatto.</p></li>
         </ol>
       </div>
     </section>
 
-    <div class="divider divider--slant-r" aria-hidden="true" style="--top: var(--tint); --bottom: var(--dark)"><svg viewBox="0 0 1440 80" preserveAspectRatio="none" focusable="false"><path d="M0 0L1440 80H0Z"/></svg></div>
     <!-- FINANCE -->
-    <section class="section section--dark" id="rata">
+    <section class="section section--road" id="rata">
       <div class="wrap finance">
         <div class="finance__intro">
-          <p class="eyebrow">Calcola la rata</p>
-          <h2 class="section__title">Quanto pagheresti al mese?</h2>
-          <p class="section__lead">Sposta i cursori per una stima immediata. Poi ti prepariamo una proposta reale con i nostri istituti convenzionati.</p>
+          <p class="kicker">Finanziamento</p>
+          <h2 class="title">Quanto pagheresti al mese?</h2>
+          <p class="lead">Sposta i cursori per una stima immediata. Poi ti prepariamo una proposta reale con i nostri istituti convenzionati.</p>
         </div>
 
         <form class="calc" id="calc" aria-label="Calcolatore della rata">
-          <div class="calc__row">
-            <label for="cPrice">Prezzo dell'auto</label><output id="oPrice" for="cPrice"></output>
-            <input type="range" id="cPrice" min="3000" max="80000" step="500" value="15000" />
-          </div>
-          <div class="calc__row">
-            <label for="cDown">Anticipo</label><output id="oDown" for="cDown"></output>
-            <input type="range" id="cDown" min="0" max="30000" step="500" value="2000" />
-          </div>
-          <div class="calc__row">
-            <label for="cMonths">Durata</label><output id="oMonths" for="cMonths"></output>
-            <input type="range" id="cMonths" min="12" max="84" step="12" value="48" />
-          </div>
-          <div class="calc__row">
-            <label for="cRate">TAN</label><output id="oRate" for="cRate"></output>
-            <input type="range" id="cRate" min="3" max="12" step="0.1" value="7.9" />
-          </div>
-
           <div class="calc__result">
             <span class="calc__label">Rata mensile stimata</span>
             <strong class="calc__value mono" id="oMonthly">–</strong>
             <span class="calc__detail" id="oTotal"></span>
           </div>
-          <a href="#contatti" class="btn btn--signal btn--block" data-subject="Finanziamento">Chiedi una proposta di finanziamento</a>
+          <div class="calc__row">
+            <label for="cPrice">Prezzo dell'auto</label><output id="oPrice" for="cPrice" class="mono"></output>
+            <input type="range" id="cPrice" min="3000" max="80000" step="500" value="15000" />
+          </div>
+          <div class="calc__row">
+            <label for="cDown">Anticipo</label><output id="oDown" for="cDown" class="mono"></output>
+            <input type="range" id="cDown" min="0" max="30000" step="500" value="2000" />
+          </div>
+          <div class="calc__row">
+            <label for="cMonths">Durata</label><output id="oMonths" for="cMonths" class="mono"></output>
+            <input type="range" id="cMonths" min="12" max="84" step="12" value="48" />
+          </div>
+          <div class="calc__row">
+            <label for="cRate">TAN</label><output id="oRate" for="cRate" class="mono"></output>
+            <input type="range" id="cRate" min="3" max="12" step="0.1" value="7.9" />
+          </div>
+          <a href="#contatti" class="btn btn--red btn--block btn--lg" data-subject="Finanziamento">Chiedi una proposta</a>
           <p class="calc__note">Stima indicativa, non costituisce offerta. TAEG e condizioni definitive dipendono dall'istituto erogante.</p>
         </form>
       </div>
     </section>
 
-    <div class="divider divider--slant" aria-hidden="true" style="--top: var(--dark); --bottom: var(--crimson)"><svg viewBox="0 0 1440 80" preserveAspectRatio="none" focusable="false"><path d="M0 80L1440 0V80Z"/></svg></div>
     <!-- TRADE-IN -->
     <section class="trade">
       <div class="wrap trade__inner">
-        <div>
+        <div class="trade__text">
           <h2 class="trade__title">Hai un'auto da vendere o da dare in permuta?</h2>
           <p>Mandaci targa e chilometri: ti diamo una prima valutazione entro 24 ore lavorative.</p>
         </div>
-        <a href="#contatti" class="btn btn--solid" data-subject="Valutazione della mia auto">Richiedi la valutazione</a>
+        <a href="#contatti" class="btn btn--white btn--lg" data-subject="Valutazione della mia auto">Richiedi la valutazione</a>
       </div>
     </section>
 
-    <div class="divider divider--arc" aria-hidden="true" style="--top: var(--crimson); --bottom: var(--paper)"><svg viewBox="0 0 1440 80" preserveAspectRatio="none" focusable="false"><path d="M0 0Q720 150 1440 0V80H0Z"/></svg></div>
     <!-- CONTACT -->
     <section class="section" id="contatti">
       <div class="wrap contact">
         <div class="contact__info">
-          <p class="eyebrow">Contatti</p>
-          <h2 class="section__title">Passa a trovarci o scrivici</h2>
-          <p class="section__lead">Rispondiamo entro la giornata. Per vedere un'auto ti consigliamo di prenotare, così la troverai pronta.</p>
+          <p class="kicker">Contatti</p>
+          <h2 class="title">Passa a trovarci o scrivici</h2>
+          <p class="lead">Rispondiamo entro la giornata. Per vedere un'auto ti consigliamo di prenotare: la trovi pronta.</p>
 
           <dl class="contact__list">
             <div><dt>Indirizzo</dt><dd>Via Esempio 1, 00000 Città (XX)</dd></div>
@@ -236,13 +210,13 @@
             </div>
             <div class="field">
               <label for="fPhone">Telefono</label>
-              <input type="tel" id="fPhone" name="phone" autocomplete="tel" required />
+              <input type="tel" id="fPhone" name="phone" autocomplete="tel" inputmode="tel" required />
               <p class="field__error">Inserisci un numero di almeno 6 cifre.</p>
             </div>
           </div>
           <div class="field">
             <label for="fEmail">Email</label>
-            <input type="email" id="fEmail" name="email" autocomplete="email" required />
+            <input type="email" id="fEmail" name="email" autocomplete="email" inputmode="email" required />
             <p class="field__error">Controlla l'indirizzo email, ad esempio nome@dominio.it.</p>
           </div>
           <div class="form__row">
@@ -269,54 +243,66 @@
             <input type="checkbox" id="fPrivacy" required />
             <span>Acconsento al trattamento dei miei dati per essere ricontattato.</span>
           </label>
-          <button type="submit" class="btn btn--solid btn--block">Invia la richiesta</button>
+          <button type="submit" class="btn btn--red btn--block btn--lg">Invia la richiesta</button>
           <p class="form__status" id="formStatus" role="status" aria-live="polite"></p>
         </form>
       </div>
     </section>
   </main>
 
-  <div class="divider divider--wave" aria-hidden="true" style="--top: var(--paper); --bottom: var(--dark)"><svg viewBox="0 0 1440 80" preserveAspectRatio="none" focusable="false"><path d="M0 80V46C240 12 480 12 720 40S1200 72 1440 30V80Z"/></svg></div>
-
   <footer class="footer">
     <div class="wrap footer__inner">
-      <a href="#top" class="brand brand--footer">
-        <img class="brand__logo" src="assets/img/logo-unicum-car.jpg" alt="" width="44" height="44" />
+      <a href="#top" class="brand">
+        <img class="brand__logo" src="assets/img/logo-unicum-car.jpg" alt="" width="40" height="40" />
         <span class="brand__name">Unicum <em>Car</em></span>
       </a>
       <nav class="footer__nav" aria-label="Link a piè di pagina">
         <a href="#auto">Auto disponibili</a>
-        <a href="#compreso">Cosa è compreso</a>
-        <a href="#rata">Calcola la rata</a>
+        <a href="#servizi">Servizi</a>
+        <a href="#rata">Finanziamento</a>
         <a href="#contatti">Contatti</a>
       </nav>
       <p class="footer__legal">© <span id="year">2026</span> Unicum Car · P.IVA 00000000000</p>
     </div>
   </footer>
 
+  <!-- MOBILE ACTION BAR -->
+  <nav class="actionbar" aria-label="Contatto rapido">
+    <a href="tel:+390000000000" class="actionbar__btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
+      Chiama
+    </a>
+    <a href="https://wa.me/390000000000" class="actionbar__btn" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.6 11.6 0 0 0 4.4 3.9c1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3z"/></svg>
+      WhatsApp
+    </a>
+    <a href="#contatti" class="actionbar__btn actionbar__btn--red" data-subject="Prova su strada">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      Prenota
+    </a>
+  </nav>
+
   <!-- VEHICLE SHEET -->
   <dialog class="sheet" id="sheet" aria-labelledby="sheetTitle">
-    <button type="button" class="sheet__close" id="sheetClose" aria-label="Chiudi la scheda">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
-    </button>
     <div class="sheet__grid">
       <div class="gallery">
-        <div class="gallery__stage">
-          <img id="galleryImg" src="" alt="" />
-          <button type="button" class="gallery__nav gallery__nav--prev" id="galleryPrev" aria-label="Foto precedente">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg>
-          </button>
-          <button type="button" class="gallery__nav gallery__nav--next" id="galleryNext" aria-label="Foto successiva">
-            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>
-          </button>
-          <span class="gallery__count mono" id="galleryCount"></span>
-        </div>
+        <div class="gallery__track" id="galleryTrack" tabindex="0" aria-label="Foto dell'auto, scorri per vederle tutte"></div>
+        <button type="button" class="gallery__nav gallery__nav--prev" id="galleryPrev" aria-label="Foto precedente">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg>
+        </button>
+        <button type="button" class="gallery__nav gallery__nav--next" id="galleryNext" aria-label="Foto successiva">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+        <span class="gallery__count mono" id="galleryCount"></span>
         <div class="gallery__thumbs" id="galleryThumbs"></div>
       </div>
       <div class="sheet__info" id="sheetInfo"></div>
     </div>
+    <button type="button" class="sheet__close" id="sheetClose" aria-label="Chiudi la scheda">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
   </dialog>
 
-  <script src="assets/js/main.js?v=3"></script>
+  <script src="assets/js/main.js?v=4"></script>
 </body>
 </html>
