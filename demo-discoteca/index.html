@@ -1,0 +1,428 @@
+<title>Velluto Club Tavoli</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,400;1,6..96,600&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sala a sinistra (piantina SVG), pannello tavolo a destra; su mobile il pannello scende sotto la piantina. Look unico notturno. */
+:root {
+  color-scheme: dark;
+  --ink: #120d17;          /* fondo sala */
+  --velvet: #1d1524;       /* superfici */
+  --velvet-2: #281d31;     /* superfici alzate */
+  --line: #3a2d45;         /* bordi */
+  --brass: #d6ad62;        /* ottone: accento */
+  --brass-soft: rgba(214,173,98,.14);
+  --wine: #8e2f4c;         /* prenotato */
+  --text: #f1e9f3;
+  --muted: #a797b0;
+  --ok: #7cc6a2;
+  --f-display: "Bodoni Moda", "Didot", "Georgia", serif;
+  --f-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--ink); color: var(--text); }
+body { font-family: var(--f-body); font-size: 15px; line-height: 1.5; padding-inline: 16px; padding-block: 0 40px; }
+.wrap { max-width: 1240px; margin: 0 auto; }
+
+header.top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 32px; padding-block: 28px 22px; border-bottom: 1px solid var(--line); }
+.brand { display: flex; flex-direction: column; gap: 2px; }
+.eyebrow { font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--brass); font-weight: 600; }
+h1 { font-family: var(--f-display); font-weight: 500; font-size: clamp(34px, 5vw, 54px); line-height: 1; margin: 0; letter-spacing: -.01em; text-wrap: balance; }
+h1 em { font-style: italic; color: var(--brass); font-weight: 400; }
+.event { display: flex; flex-wrap: wrap; gap: 8px 28px; font-size: 13px; }
+.event div { display: flex; flex-direction: column; }
+.event span { color: var(--muted); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
+.event b { font-weight: 600; }
+
+.demo-note { margin: 14px 0 0; font-size: 12px; color: var(--muted); }
+
+main { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 28px; margin-top: 24px; align-items: start; }
+@media (max-width: 900px) { main { grid-template-columns: minmax(0, 1fr); } }
+
+/* Piantina */
+.plan { background: radial-gradient(120% 90% at 50% 20%, #221830 0%, var(--ink) 70%); border: 1px solid var(--line); border-radius: 18px; padding: 16px; min-width: 0; }
+.plan-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 8px; }
+.plan-head h2 { font-family: var(--f-display); font-style: italic; font-weight: 400; font-size: 22px; margin: 0; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--muted); }
+.legend i { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+.lg-free { border: 1.5px solid var(--brass); }
+.lg-sel { background: var(--brass); }
+.lg-busy { background: var(--wine); opacity: .7; }
+svg.map { width: 100%; height: auto; display: block; max-width: 100%; }
+.map text { font-family: var(--f-body); }
+.zone-label { fill: var(--muted); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; }
+.tbl { cursor: pointer; outline: none; }
+.tbl .shape { fill: var(--velvet); stroke: var(--brass); stroke-width: 1.6; transition: fill .2s, stroke-width .2s; }
+.tbl .num { fill: var(--brass); font-family: var(--f-display); font-size: 20px; font-weight: 600; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.tbl .seat { fill: var(--line); }
+.tbl:hover .shape, .tbl:focus-visible .shape { fill: var(--velvet-2); stroke-width: 2.6; }
+.tbl:focus-visible .shape { stroke: var(--text); }
+.tbl.selected .shape { fill: var(--brass); }
+.tbl.selected .num { fill: var(--ink); }
+.tbl.selected .seat { fill: var(--brass); opacity: .55; }
+.tbl.selected .halo { opacity: 1; }
+.tbl .halo { fill: none; stroke: var(--brass); stroke-width: 1; opacity: 0; transition: opacity .25s; }
+.tbl.busy { cursor: not-allowed; }
+.tbl.busy .shape { fill: url(#hatch); stroke: var(--wine); }
+.tbl.busy .num { fill: #c98aa0; }
+.tbl.busy:hover .shape { stroke-width: 1.6; }
+
+.tbl-strip { display: none; }
+
+/* Pannello */
+aside.panel { background: var(--velvet); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; min-width: 0; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); }
+@media (max-width: 900px) { aside.panel { position: static; } }
+.p-head { padding: 22px 22px 18px; background: linear-gradient(180deg, var(--velvet-2), var(--velvet)); border-bottom: 1px solid var(--line); display: grid; grid-template-columns: auto 1fr auto; gap: 16px; align-items: center; }
+.p-badge { width: 58px; height: 58px; border-radius: 50%; border: 1.5px solid var(--brass); display: grid; place-items: center; font-family: var(--f-display); font-size: 26px; font-weight: 600; color: var(--brass); }
+.p-title { min-width: 0; }
+.p-title h3 { margin: 0; font-family: var(--f-display); font-weight: 500; font-size: 26px; line-height: 1.1; }
+.p-title p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+.p-price { text-align: right; }
+.p-price span { display: block; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.p-price b { font-family: var(--f-mono); font-weight: 500; font-size: 22px; color: var(--brass); font-variant-numeric: tabular-nums; }
+.perks { display: flex; flex-wrap: wrap; gap: 6px; padding: 12px 22px 0; }
+.perk { font-size: 11.5px; padding: 3px 10px; border-radius: 999px; background: var(--brass-soft); color: var(--brass); }
+
+section.block { padding: 18px 22px; border-bottom: 1px solid var(--line); }
+.block-h { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; gap: 12px; }
+.block-h h4 { margin: 0; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; font-weight: 700; }
+.block-h small { color: var(--muted); font-family: var(--f-mono); font-size: 12px; }
+
+.guest-form { display: flex; gap: 8px; }
+.guest-form input { flex: 1; min-width: 0; background: var(--ink); border: 1px solid var(--line); color: var(--text); border-radius: 10px; padding: 10px 12px; font: inherit; font-size: 14px; }
+.guest-form input:focus { outline: none; border-color: var(--brass); }
+button { font: inherit; cursor: pointer; }
+.btn-ghost { background: transparent; color: var(--brass); border: 1px solid var(--brass); border-radius: 10px; padding: 0 14px; font-weight: 600; font-size: 13px; }
+.btn-ghost:hover { background: var(--brass-soft); }
+.btn-ghost:disabled { opacity: .4; cursor: not-allowed; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+ol.guests { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 6px; counter-reset: g; }
+ol.guests li { counter-increment: g; display: flex; align-items: center; gap: 10px; padding: 7px 8px 7px 10px; background: var(--ink); border-radius: 10px; font-size: 14px; }
+ol.guests li::before { content: counter(g, decimal-leading-zero); font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
+ol.guests li span { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+ol.guests li.host span::after { content: "Titolare"; margin-left: 8px; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--brass); }
+.x { background: none; border: 0; color: var(--muted); width: 26px; height: 26px; border-radius: 50%; font-size: 16px; line-height: 1; }
+.x:hover { color: var(--text); background: var(--velvet-2); }
+.empty { color: var(--muted); font-size: 13px; margin: 10px 0 0; }
+.hint { color: var(--muted); font-size: 12px; margin: 8px 0 0; }
+
+.tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 10px; scrollbar-width: none; }
+.tabs button { flex: none; background: var(--ink); border: 1px solid var(--line); color: var(--muted); border-radius: 999px; padding: 5px 12px; font-size: 12.5px; font-weight: 600; }
+.tabs button[aria-selected="true"] { color: var(--ink); background: var(--brass); border-color: var(--brass); }
+.bottles { display: grid; gap: 2px; }
+.bottle { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 14px; padding: 10px 0; border-bottom: 1px dashed var(--line); }
+.bottle:last-child { border-bottom: 0; }
+.bottle-name { min-width: 0; }
+.bottle-name b { display: block; font-weight: 600; font-size: 14px; }
+.bottle-name span { color: var(--muted); font-size: 12px; }
+.bottle-price { font-family: var(--f-mono); font-size: 13.5px; font-variant-numeric: tabular-nums; }
+.stepper { display: flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; }
+.stepper button { width: 30px; height: 30px; background: none; border: 0; color: var(--text); border-radius: 50%; font-size: 17px; }
+.stepper button:hover:not(:disabled) { color: var(--brass); }
+.stepper button:disabled { opacity: .3; cursor: default; }
+.stepper output { min-width: 20px; text-align: center; font-family: var(--f-mono); font-size: 13px; }
+.bottle.has .stepper { border-color: var(--brass); }
+.bottle.has .stepper output { color: var(--brass); }
+
+.summary { padding: 18px 22px 22px; display: grid; gap: 8px; }
+.row { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; color: var(--muted); }
+.row b { font-family: var(--f-mono); font-weight: 500; color: var(--text); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.row.total { color: var(--text); font-size: 15px; font-weight: 600; padding-top: 10px; margin-top: 4px; border-top: 1px solid var(--line); }
+.row.total b { color: var(--brass); font-size: 22px; }
+.cta { margin-top: 10px; width: 100%; padding: 15px; border-radius: 12px; border: 0; background: var(--brass); color: var(--ink); font-weight: 700; font-size: 15px; letter-spacing: .02em; transition: transform .15s, filter .15s; }
+.cta:hover:not(:disabled) { filter: brightness(1.08); }
+.cta:active:not(:disabled) { transform: translateY(1px); }
+.cta:disabled { background: var(--velvet-2); color: var(--muted); cursor: not-allowed; }
+.req { font-size: 12px; color: var(--muted); text-align: center; margin: 2px 0 0; min-height: 18px; }
+
+.done { padding: 34px 26px 30px; text-align: center; display: grid; gap: 10px; justify-items: center; }
+.done .ring { width: 64px; height: 64px; border-radius: 50%; border: 1.5px solid var(--ok); display: grid; place-items: center; color: var(--ok); font-size: 28px; }
+.done h3 { font-family: var(--f-display); font-weight: 500; font-size: 28px; margin: 6px 0 0; }
+.done p { color: var(--muted); margin: 0; max-width: 34ch; }
+.code { font-family: var(--f-mono); font-size: 18px; letter-spacing: .2em; padding: 10px 16px; border: 1px dashed var(--brass); border-radius: 10px; color: var(--brass); margin-top: 6px; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+@keyframes pulse { 0%,100% { opacity: .35 } 50% { opacity: .8 } }
+.floor-glow { animation: pulse 4s ease-in-out infinite; }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <span class="eyebrow">Prenotazione tavoli privé</span>
+      <h1>Velluto <em>Club</em></h1>
+    </div>
+    <div class="event">
+      <div><span>Serata</span><b>Notte d'Ottone</b></div>
+      <div><span>Data</span><b>Sab 10 ottobre 2026</b></div>
+      <div><span>Apertura</span><b>23:30 – 05:00</b></div>
+      <div><span>In console</span><b>Marco Levi · Sara K.</b></div>
+    </div>
+  </header>
+  <p class="demo-note">Anteprima dimostrativa: locale, serata, prezzi e disponibilità sono di esempio.</p>
+
+  <main>
+    <section class="plan" aria-label="Piantina del locale">
+      <div class="plan-head">
+        <h2>Scegli il tuo tavolo</h2>
+        <div class="legend">
+          <span><i class="lg-free"></i>Disponibile</span>
+          <span><i class="lg-sel"></i>Selezionato</span>
+          <span><i class="lg-busy"></i>Prenotato</span>
+        </div>
+      </div>
+      <svg class="map" viewBox="0 0 800 600" role="group" aria-label="Piantina con i tavoli">
+        <defs>
+          <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <rect width="6" height="6" fill="#241a2b"/>
+            <line x1="0" y1="0" x2="0" y2="6" stroke="#8e2f4c" stroke-width="2" opacity=".6"/>
+          </pattern>
+          <radialGradient id="floor" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#d6ad62" stop-opacity=".22"/>
+            <stop offset="100%" stop-color="#d6ad62" stop-opacity="0"/>
+          </radialGradient>
+          <pattern id="tiles" width="28" height="28" patternUnits="userSpaceOnUse">
+            <rect width="28" height="28" fill="none" stroke="#3a2d45" stroke-width=".6"/>
+          </pattern>
+        </defs>
+
+        <!-- perimetro -->
+        <rect x="10" y="10" width="780" height="580" rx="22" fill="none" stroke="#3a2d45" stroke-width="2"/>
+
+        <!-- console DJ -->
+        <rect x="300" y="28" width="200" height="54" rx="10" fill="#281d31" stroke="#d6ad62" stroke-width="1"/>
+        <text x="400" y="52" text-anchor="middle" fill="#d6ad62" font-size="13" font-weight="700" letter-spacing="3">CONSOLE DJ</text>
+        <text x="400" y="70" text-anchor="middle" fill="#a797b0" font-size="10" letter-spacing="1.5">Marco Levi · Sara K.</text>
+
+        <!-- pista -->
+        <ellipse class="floor-glow" cx="400" cy="275" rx="170" ry="125" fill="url(#floor)"/>
+        <rect x="265" y="170" width="270" height="210" rx="16" fill="url(#tiles)" stroke="#3a2d45"/>
+        <text x="400" y="280" text-anchor="middle" class="zone-label">Pista</text>
+
+        <!-- bar -->
+        <rect x="690" y="150" width="70" height="300" rx="12" fill="#1d1524" stroke="#3a2d45"/>
+        <text x="725" y="300" text-anchor="middle" class="zone-label" transform="rotate(90 725 300)">Bar</text>
+
+        <!-- ingresso -->
+        <path d="M330 590 L330 560 M470 590 L470 560" stroke="#a797b0" stroke-width="2"/>
+        <text x="400" y="578" text-anchor="middle" class="zone-label">Ingresso</text>
+
+        <!-- sala oro -->
+        <rect x="30" y="440" width="250" height="130" rx="14" fill="rgba(214,173,98,.05)" stroke="#d6ad62" stroke-dasharray="4 5" stroke-opacity=".6"/>
+        <text x="155" y="462" text-anchor="middle" class="zone-label" style="fill:#d6ad62">Sala Oro</text>
+
+        <text x="70" y="44" class="zone-label">Lounge</text>
+        <text x="630" y="44" class="zone-label">Console privé</text>
+
+        <g id="tables"></g>
+      </svg>
+    </section>
+
+    <aside class="panel" id="panel" aria-live="polite"></aside>
+  </main>
+</div>
+
+<script>
+const TABLES = [
+  { id: 1,  zone: "Console privé", x: 240, y: 70,  r: 30, seats: 10, price: 600, perks: ["Vista console", "Ingresso prioritario", "Hostess dedicata"] },
+  { id: 2,  zone: "Console privé", x: 560, y: 70,  r: 30, seats: 10, price: 600, perks: ["Vista console", "Ingresso prioritario", "Hostess dedicata"] },
+  { id: 3,  zone: "Bordo pista",   x: 225, y: 205, r: 24, seats: 6,  price: 300, perks: ["Affaccio sulla pista"] },
+  { id: 4,  zone: "Bordo pista",   x: 575, y: 205, r: 24, seats: 6,  price: 300, perks: ["Affaccio sulla pista"], busy: true },
+  { id: 5,  zone: "Bordo pista",   x: 225, y: 345, r: 24, seats: 6,  price: 300, perks: ["Affaccio sulla pista"] },
+  { id: 6,  zone: "Bordo pista",   x: 575, y: 345, r: 24, seats: 6,  price: 300, perks: ["Affaccio sulla pista"] },
+  { id: 7,  zone: "Lounge",        x: 70,  y: 110, r: 27, seats: 8,  price: 400, perks: ["Divanetti in velluto", "Zona più tranquilla"] },
+  { id: 8,  zone: "Lounge",        x: 70,  y: 230, r: 27, seats: 8,  price: 400, perks: ["Divanetti in velluto", "Zona più tranquilla"], busy: true },
+  { id: 9,  zone: "Lounge",        x: 70,  y: 350, r: 27, seats: 8,  price: 400, perks: ["Divanetti in velluto", "Zona più tranquilla"] },
+  { id: 10, zone: "Bordo pista",   x: 400, y: 440, r: 24, seats: 6,  price: 300, perks: ["Fronte pista"] },
+  { id: 11, zone: "Sala Oro",      x: 95,  y: 515, r: 34, seats: 12, price: 900, perks: ["Sala riservata", "Ingresso separato", "Bottiglia di benvenuto"], busy: true },
+  { id: 12, zone: "Sala Oro",      x: 215, y: 515, r: 34, seats: 12, price: 900, perks: ["Sala riservata", "Ingresso separato", "Bottiglia di benvenuto"] },
+  { id: 13, zone: "Bar",           x: 630, y: 470, r: 24, seats: 6,  price: 250, perks: ["Accanto al bar"] },
+];
+
+const BOTTLES = {
+  "Champagne": [
+    { id: "moet",   name: "Moët & Chandon Impérial", fmt: "0,75 L", price: 180 },
+    { id: "moetM",  name: "Moët & Chandon Impérial", fmt: "Magnum 1,5 L", price: 380 },
+    { id: "veuve",  name: "Veuve Clicquot Brut", fmt: "0,75 L", price: 200 },
+    { id: "ruin",   name: "Ruinart Blanc de Blancs", fmt: "0,75 L", price: 290 },
+    { id: "dom",    name: "Dom Pérignon Vintage", fmt: "0,75 L", price: 550 },
+  ],
+  "Vodka": [
+    { id: "belv",   name: "Belvedere", fmt: "0,70 L · 4 mixer inclusi", price: 200 },
+    { id: "goose",  name: "Grey Goose", fmt: "0,70 L · 4 mixer inclusi", price: 220 },
+    { id: "gooseM", name: "Grey Goose", fmt: "Magnum 1,5 L · 8 mixer", price: 450 },
+  ],
+  "Gin": [
+    { id: "hend",   name: "Hendrick's", fmt: "0,70 L · tonica inclusa", price: 180 },
+    { id: "malfy",  name: "Malfy Limone", fmt: "0,70 L · tonica inclusa", price: 170 },
+    { id: "tanq",   name: "Tanqueray No. Ten", fmt: "0,70 L · tonica inclusa", price: 190 },
+  ],
+  "Tequila": [
+    { id: "dj42",   name: "Don Julio 1942", fmt: "0,70 L", price: 450 },
+    { id: "clase",  name: "Clase Azul Reposado", fmt: "0,70 L", price: 600 },
+  ],
+  "Rum": [
+    { id: "diplo",  name: "Diplomático Reserva", fmt: "0,70 L", price: 190 },
+    { id: "zaca",   name: "Zacapa 23", fmt: "0,70 L", price: 220 },
+  ],
+};
+const ALL_BOTTLES = Object.values(BOTTLES).flat();
+
+const state = {
+  selected: 1,
+  tab: "Champagne",
+  booked: false,
+  guests: { 1: ["Giulia Ferri", "Luca Bianchi", "Martina Rossi"] },
+  bottles: { 1: { moet: 2, belv: 1 } },
+};
+
+const eur = n => "€ " + n.toLocaleString("it-IT");
+const svgNS = "http://www.w3.org/2000/svg";
+const esc = s => s.replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+
+function drawTables() {
+  const g = document.getElementById("tables");
+  g.innerHTML = "";
+  TABLES.forEach(t => {
+    const el = document.createElementNS(svgNS, "g");
+    el.setAttribute("class", "tbl" + (t.busy ? " busy" : "") + (state.selected === t.id ? " selected" : ""));
+    el.setAttribute("tabindex", t.busy ? "-1" : "0");
+    el.setAttribute("role", "button");
+    el.setAttribute("aria-label", `Tavolo ${t.id}, ${t.zone}, ${t.seats} persone, ${t.busy ? "prenotato" : eur(t.price)}`);
+    el.dataset.id = t.id;
+    // sedute attorno al tavolo
+    const n = t.seats, sr = t.r + 11;
+    let seats = "";
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2 - Math.PI / 2;
+      seats += `<circle class="seat" cx="${(t.x + Math.cos(a) * sr).toFixed(1)}" cy="${(t.y + Math.sin(a) * sr).toFixed(1)}" r="4.2"/>`;
+    }
+    el.innerHTML = `<circle class="halo" cx="${t.x}" cy="${t.y}" r="${t.r + 20}"/>${seats}<circle class="shape" cx="${t.x}" cy="${t.y}" r="${t.r}"/><text class="num" x="${t.x}" y="${t.y}">${t.id}</text>`;
+    if (!t.busy) {
+      el.addEventListener("click", () => select(t.id));
+      el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(t.id); } });
+    }
+    g.appendChild(el);
+  });
+}
+
+function select(id) {
+  state.selected = id;
+  state.booked = false;
+  state.guests[id] ??= [];
+  state.bottles[id] ??= {};
+  drawTables();
+  renderPanel();
+  if (window.matchMedia("(max-width: 900px)").matches) {
+    document.getElementById("panel").scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
+function totals(t) {
+  const b = state.bottles[t.id] || {};
+  const bottleSum = Object.entries(b).reduce((s, [id, q]) => s + (ALL_BOTTLES.find(x => x.id === id)?.price || 0) * q, 0);
+  const count = Object.values(b).reduce((s, q) => s + q, 0);
+  const service = Math.round((t.price + bottleSum) * 0.10);
+  return { bottleSum, count, service, total: t.price + bottleSum + service };
+}
+
+function renderPanel() {
+  const t = TABLES.find(x => x.id === state.selected);
+  const p = document.getElementById("panel");
+  const guests = state.guests[t.id];
+  const tot = totals(t);
+
+  if (state.booked) {
+    const code = "VLT-" + String(t.id).padStart(2, "0") + "-" + (1000 + guests.length * 137 + tot.total % 900);
+    p.innerHTML = `
+      <div class="done">
+        <div class="ring">✓</div>
+        <h3>Tavolo ${t.id} prenotato</h3>
+        <p>${guests.length} ${guests.length === 1 ? "nome" : "nomi"} in lista, ${tot.count} ${tot.count === 1 ? "bottiglia" : "bottiglie"} al tavolo. Mostra il codice all'ingresso.</p>
+        <div class="code">${code}</div>
+        <p style="font-size:13px">Totale ${eur(tot.total)} · Sab 10 ottobre, dalle 23:30</p>
+        <button class="btn-ghost" style="padding:10px 16px;margin-top:8px" id="back">Torna alla piantina</button>
+      </div>`;
+    p.querySelector("#back").onclick = () => { state.booked = false; renderPanel(); };
+    return;
+  }
+
+  const list = state.bottles[t.id];
+  const tabs = Object.keys(BOTTLES).map(k => {
+    const c = BOTTLES[k].reduce((s, b) => s + (list[b.id] || 0), 0);
+    return `<button role="tab" aria-selected="${state.tab === k}" data-tab="${k}">${k}${c ? " · " + c : ""}</button>`;
+  }).join("");
+  const rows = BOTTLES[state.tab].map(b => {
+    const q = list[b.id] || 0;
+    return `<div class="bottle${q ? " has" : ""}">
+      <div class="bottle-name"><b>${b.name}</b><span>${b.fmt}</span></div>
+      <div class="bottle-price">${eur(b.price)}</div>
+      <div class="stepper">
+        <button data-dec="${b.id}" aria-label="Togli ${b.name} ${b.fmt}" ${q ? "" : "disabled"}>−</button>
+        <output>${q}</output>
+        <button data-inc="${b.id}" aria-label="Aggiungi ${b.name} ${b.fmt}">+</button>
+      </div>
+    </div>`;
+  }).join("");
+
+  const full = guests.length >= t.seats;
+  const missing = [];
+  if (!guests.length) missing.push("almeno un nome in lista");
+  if (!tot.count) missing.push("almeno una bottiglia");
+
+  p.innerHTML = `
+    <div class="p-head">
+      <div class="p-badge">${t.id}</div>
+      <div class="p-title"><h3>Tavolo ${t.id}</h3><p>${t.zone} · fino a ${t.seats} persone</p></div>
+      <div class="p-price"><span>Tavolo</span><b>${eur(t.price)}</b></div>
+    </div>
+    <div class="perks">${t.perks.map(x => `<span class="perk">${x}</span>`).join("")}<span class="perk">Ingresso incluso</span></div>
+
+    <section class="block">
+      <div class="block-h"><h4>Lista nominativi</h4><small>${guests.length} / ${t.seats}</small></div>
+      <form class="guest-form" id="gform" autocomplete="off">
+        <input id="guest-name" placeholder="${full ? "Lista completa" : "Nome e cognome"}" maxlength="40" ${full ? "disabled" : ""} aria-label="Nome e cognome dell'ospite">
+        <button class="btn-ghost" type="submit" ${full ? "disabled" : ""}>Aggiungi</button>
+      </form>
+      ${guests.length ? `<ol class="guests">${guests.map((g, i) => `<li class="${i === 0 ? "host" : ""}"><span>${esc(g)}</span><button class="x" data-rm="${i}" aria-label="Rimuovi ${esc(g)}">×</button></li>`).join("")}</ol>`
+        : `<p class="empty">Nessun nome ancora. Il primo nome inserito è il titolare del tavolo.</p>`}
+      <p class="hint">I nomi in lista entrano senza coda fino all'1:30.</p>
+    </section>
+
+    <section class="block">
+      <div class="block-h"><h4>Bottiglie</h4><small>${tot.count} scelte</small></div>
+      <div class="tabs" role="tablist" aria-label="Categorie bottiglie">${tabs}</div>
+      <div class="bottles">${rows}</div>
+    </section>
+
+    <div class="summary">
+      <div class="row"><span>Tavolo ${t.id}</span><b>${eur(t.price)}</b></div>
+      <div class="row"><span>Bottiglie (${tot.count})</span><b>${eur(tot.bottleSum)}</b></div>
+      <div class="row"><span>Servizio 10%</span><b>${eur(tot.service)}</b></div>
+      <div class="row total"><span>Totale serata</span><b>${eur(tot.total)}</b></div>
+      <button class="cta" id="book" ${missing.length ? "disabled" : ""}>Prenota tavolo ${t.id} · ${eur(tot.total)}</button>
+      <p class="req">${missing.length ? "Per prenotare aggiungi " + missing.join(" e ") + "." : "Pagamento al locale o con caparra del 30%."}</p>
+    </div>`;
+
+  p.querySelector("#gform").addEventListener("submit", e => {
+    e.preventDefault();
+    const inp = p.querySelector("#guest-name");
+    const v = inp.value.trim().replace(/\s+/g, " ");
+    if (!v || guests.length >= t.seats) return;
+    guests.push(v);
+    renderPanel();
+    p.querySelector("#guest-name")?.focus();
+  });
+  p.querySelectorAll("[data-rm]").forEach(b => b.onclick = () => { guests.splice(+b.dataset.rm, 1); renderPanel(); });
+  p.querySelectorAll("[data-tab]").forEach(b => b.onclick = () => { state.tab = b.dataset.tab; renderPanel(); });
+  p.querySelectorAll("[data-inc]").forEach(b => b.onclick = () => { list[b.dataset.inc] = (list[b.dataset.inc] || 0) + 1; renderPanel(); });
+  p.querySelectorAll("[data-dec]").forEach(b => b.onclick = () => {
+    const id = b.dataset.dec; list[id] = Math.max(0, (list[id] || 0) - 1); if (!list[id]) delete list[id]; renderPanel();
+  });
+  p.querySelector("#book").onclick = () => { state.booked = true; renderPanel(); };
+}
+
+drawTables();
+renderPanel();
+</script>
