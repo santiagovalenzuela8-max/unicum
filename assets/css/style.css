@@ -1,34 +1,36 @@
 /* ==========================================================================
-   Unicum Auto
+   Unicum Car
    Layout: a photo-led "listing sheet" — real car photos carry the page,
    Italian plate tags index each car, km and figures read like an odometer.
    ========================================================================== */
 
 :root {
-  /* Color */
-  --paper: #f4f5f7;        /* cool asphalt-white ground */
+  /* Color — taken from the Unicum Car logo: black ground, oxblood shield, crimson highlights */
+  --paper: #f6f4f3;        /* warm off-white ground */
   --surface: #ffffff;
-  --ink: #12151c;          /* headings, primary text */
-  --ink-soft: #4b5262;     /* body text */
-  --ink-mute: #767e8f;     /* captions, labels */
-  --line: #dde0e7;
-  --plate: #1d3bb8;        /* EU plate band blue: brand accent */
+  --ink: #161112;          /* headings, primary text */
+  --ink-soft: #4f4648;     /* body text */
+  --ink-mute: #7d7274;     /* captions, labels */
+  --line: #e4dcdc;
+  --plate: #9b1b2b;        /* logo crimson: brand accent */
   --plate-ink: #ffffff;
-  --signal: #f26a12;       /* taken from the orange Mini: used sparingly */
-  --tint: #e9ecf3;
-  --band: #1d3bb8;         /* full-bleed blue band */
+  --signal: #d6453f;       /* logo highlight red, used on dark grounds */
+  --accent-hi: #f08a82;    /* light red for labels on oxblood/black */
+  --tint: #efe9e8;
+  --band: #5a0c18;         /* logo oxblood: full-bleed band */
   --band-ink: #ffffff;
-  --band-mute: #c9d3ff;
-  --dark: #10131a;         /* finance block, always dark */
-  --dark-ink: #eef1f6;
-  --dark-mute: #9aa3b5;
-  --dark-line: #2a303c;
-  --focus: #1d3bb8;
-  --shadow: 0 1px 2px rgba(18, 21, 28, .06), 0 12px 32px -16px rgba(18, 21, 28, .28);
-
+  --band-mute: #efcacd;
+  --crimson: #a31d2c;      /* trade-in band */
+  --dark: #0a0807;         /* logo black: finance block and footer */
+  --dark-ink: #f3eeee;
+  --dark-mute: #a89c9d;
+  --dark-line: #2b2324;
+  --focus: #9b1b2b;
+  --shadow: 0 1px 2px rgba(22, 17, 18, .06), 0 12px 32px -16px rgba(22, 17, 18, .3);
   /* Type */
   --f-display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
   --f-body: "Public Sans", "Helvetica Neue", Arial, sans-serif;
+  --f-brand: "Cinzel", "Trajan Pro", Georgia, serif;
   --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
   --step--1: .8125rem;
@@ -49,42 +51,44 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #0d1016;
-    --surface: #161a22;
-    --ink: #f1f3f7;
-    --ink-soft: #b9c0cd;
-    --ink-mute: #8a93a5;
-    --line: #262c37;
-    --plate: #7d97ff;
-    --plate-ink: #0d1016;
-    --signal: #ff8a3d;
-    --tint: #131720;
-    --band: #16277a;
-    --band-mute: #b3c1ff;
-    --dark: #080a0e;
-    --dark-line: #232935;
-    --focus: #9db0ff;
-    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 16px 40px -18px rgba(0, 0, 0, .7);
+    --paper: #0c0a0a;
+    --surface: #171213;
+    --ink: #f4efef;
+    --ink-soft: #c4b8b9;
+    --ink-mute: #948889;
+    --line: #2c2324;
+    --plate: #e0605c;
+    --plate-ink: #0c0a0a;
+    --signal: #e0605c;
+    --tint: #130f0f;
+    --band: #3f0911;
+    --band-mute: #e4bfc2;
+    --crimson: #7e1522;
+    --dark: #050404;
+    --dark-line: #261e1f;
+    --focus: #f08a85;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .45), 0 16px 40px -18px rgba(0, 0, 0, .75);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --paper: #0d1016;
-  --surface: #161a22;
-  --ink: #f1f3f7;
-  --ink-soft: #b9c0cd;
-  --ink-mute: #8a93a5;
-  --line: #262c37;
-  --plate: #7d97ff;
-  --plate-ink: #0d1016;
-  --signal: #ff8a3d;
-  --tint: #131720;
-  --band: #16277a;
-  --band-mute: #b3c1ff;
-  --dark: #080a0e;
-  --dark-line: #232935;
-  --focus: #9db0ff;
-  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 16px 40px -18px rgba(0, 0, 0, .7);
+  --paper: #0c0a0a;
+  --surface: #171213;
+  --ink: #f4efef;
+  --ink-soft: #c4b8b9;
+  --ink-mute: #948889;
+  --line: #2c2324;
+  --plate: #e0605c;
+  --plate-ink: #0c0a0a;
+  --signal: #e0605c;
+  --tint: #130f0f;
+  --band: #3f0911;
+  --band-mute: #e4bfc2;
+  --crimson: #7e1522;
+  --dark: #050404;
+  --dark-line: #261e1f;
+  --focus: #f08a85;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .45), 0 16px 40px -18px rgba(0, 0, 0, .75);
   color-scheme: dark;
 }
 
@@ -186,7 +190,7 @@ p { margin: 0; }
 .btn--solid:hover { background: var(--plate); color: var(--plate-ink); }
 .btn--line { border-color: var(--ink); color: var(--ink); background: transparent; }
 .btn--line:hover { background: var(--ink); color: var(--paper); }
-.btn--signal { background: var(--signal); color: #12151c; }
+.btn--signal { background: var(--signal); color: #ffffff; }
 .btn--signal:hover { filter: brightness(1.08); }
 .btn--sm { min-height: 40px; padding: 8px 16px; font-size: .88rem; }
 .btn--block { width: 100%; }
@@ -207,8 +211,9 @@ p { margin: 0; }
 .header__inner { height: var(--header-h); display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 
 .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
-.brand__name { font-family: var(--f-display); font-stretch: 118%; font-weight: 800; font-size: 1.2rem; letter-spacing: -.01em; }
-.brand__name em { font-style: normal; font-weight: 500; color: var(--ink-mute); }
+.brand__logo { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; flex-shrink: 0; box-shadow: 0 0 0 1px var(--line); }
+.brand__name { font-family: var(--f-brand); font-weight: 600; font-size: 1.15rem; letter-spacing: .08em; text-transform: uppercase; }
+.brand__name em { font-style: normal; color: var(--plate); }
 
 .nav { display: flex; align-items: center; gap: 28px; }
 .nav__link {
@@ -275,7 +280,7 @@ p { margin: 0; }
 .section--surface { background: var(--surface); }
 .section--tint { background: var(--tint); }
 .section--band { background: var(--band); color: var(--band-mute); }
-.section--band .eyebrow { color: #ffb37a; }
+.section--band .eyebrow { color: var(--accent-hi); }
 .section--band .section__title { color: var(--band-ink); }
 .section--band .section__lead { color: var(--band-mute); }
 .section--dark { position: relative; background: var(--dark); color: var(--dark-mute); }
@@ -367,7 +372,7 @@ p { margin: 0; }
 .included__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 40px; margin: 0; }
 .included__list div { padding-block: 22px; border-top: 1.5px solid rgba(255, 255, 255, .35); display: flex; flex-direction: column; gap: 6px; }
 .included__list dt { font-family: var(--f-display); font-stretch: 110%; font-weight: 800; font-size: var(--step-1); color: var(--band-ink); }
-.included__list dt::before { content: "✓"; display: inline-block; margin-right: 10px; color: #ffb37a; }
+.included__list dt::before { content: "✓"; display: inline-block; margin-right: 10px; color: var(--accent-hi); }
 .included__list dd { margin: 0; }
 
 /* ---------- Steps ---------- */
@@ -416,12 +421,12 @@ input[type="range"]:focus-visible { outline: 2px solid var(--signal); outline-of
 .calc__note { font-size: .78rem; color: var(--dark-mute); opacity: .8; }
 
 /* ---------- Trade-in ---------- */
-.trade { background: var(--signal); color: #12151c; padding-block: clamp(40px, 5vw, 64px); }
+.trade { background: var(--crimson); color: #f7e3e4; padding-block: clamp(40px, 5vw, 64px); }
 .trade__inner { display: flex; justify-content: space-between; align-items: center; gap: 20px 40px; flex-wrap: wrap; }
 .trade__inner > div { display: flex; flex-direction: column; gap: 8px; max-width: 40em; }
-.trade__title { color: #12151c; font-size: clamp(1.4rem, 1rem + 1.6vw, 2rem); }
-.trade .btn--solid { background: #12151c; color: #ffffff; }
-.trade .btn--solid:hover { background: #ffffff; color: #12151c; }
+.trade__title { color: #ffffff; font-size: clamp(1.4rem, 1rem + 1.6vw, 2rem); }
+.trade .btn--solid { background: #ffffff; color: #7e1522; }
+.trade .btn--solid:hover { background: #0a0807; color: #ffffff; }
 
 /* ---------- Contact ---------- */
 .contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
@@ -461,7 +466,8 @@ input[type="range"]:focus-visible { outline: 2px solid var(--signal); outline-of
 /* ---------- Footer ---------- */
 .footer { background: var(--dark); color: var(--dark-mute); padding-block: 24px 40px; }
 .footer .brand { color: var(--dark-ink); }
-.footer .brand__name em { color: var(--dark-mute); }
+.footer .brand__name em { color: var(--signal); }
+.footer .brand__logo { box-shadow: none; }
 .footer__inner { display: flex; align-items: center; justify-content: space-between; gap: 20px 32px; flex-wrap: wrap; }
 .footer__nav { display: flex; flex-wrap: wrap; gap: 8px 24px; }
 .footer__nav a { font-size: .9rem; text-decoration: none; color: var(--dark-mute); }
@@ -502,7 +508,7 @@ input[type="range"]:focus-visible { outline: 2px solid var(--signal); outline-of
 .gallery__count { position: absolute; left: 12px; bottom: 12px; padding: 4px 10px; border-radius: 999px; background: rgba(0, 0, 0, .6); color: #ffffff; font-size: .78rem; }
 .gallery__thumbs { display: flex; gap: 6px; padding: 8px; overflow-x: auto; scrollbar-width: thin; }
 .gallery__thumbs button { flex: 0 0 64px; height: 80px; padding: 0; border: 2px solid transparent; border-radius: 4px; overflow: hidden; background: #1b1f28; cursor: pointer; opacity: .6; transition: opacity .2s, border-color .2s; }
-.gallery__thumbs button[aria-current="true"] { border-color: #ff8a3d; opacity: 1; }
+.gallery__thumbs button[aria-current="true"] { border-color: #e0605c; opacity: 1; }
 .gallery__thumbs button:hover { opacity: 1; }
 .gallery__thumbs img { width: 100%; height: 100%; object-fit: cover; }
 

@@ -1,4 +1,4 @@
-# Unicum Auto — sito vetrina
+# Unicum Car — sito vetrina
 
 Sito statico (HTML, CSS, JavaScript senza dipendenze) per la vendita di auto usate.
 
