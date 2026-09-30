@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&family=Hanken+Grotesk:wght@400;500;600;700&family=Cinzel:wght@600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
   <link rel="icon" href="assets/img/logo-unicum-car.jpg" />
-  <link rel="stylesheet" href="assets/css/style.css?v=7" />
+  <link rel="stylesheet" href="assets/css/style.css?v=8" />
 </head>
 <body>
 
@@ -99,6 +99,35 @@
         <p class="count" id="resultCount" aria-live="polite"></p>
         <div class="stock" id="stock"></div>
         <p class="empty" id="emptyState" hidden>Nessuna auto di questo tipo al momento. <button type="button" class="link" id="resetFilters">Mostra tutte le auto</button></p>
+      </div>
+    </section>
+
+    <!-- FEATURE: scroll-driven 3D showcase -->
+    <section class="feature" id="panamera" aria-label="In evidenza: Porsche Panamera">
+      <div class="feature__sticky">
+        <p class="feature__word" id="featureWord" aria-hidden="true">PANAMERA</p>
+        <div class="wrap feature__grid">
+          <div class="feature__text">
+            <p class="kicker">In evidenza</p>
+            <ol class="feature__chapters" id="featureChapters">
+              <li class="is-active"><h2 class="feature__title">Porsche Panamera</h2><p>Grigio scuro metallizzato, cambio automatico. Scorri per girarle intorno.</p></li>
+              <li><h2 class="feature__title">Linea da coupé, quattro porte</h2><p>Il profilo sportivo di una Porsche con lo spazio di una berlina.</p></li>
+              <li><h2 class="feature__title">Interni in pelle chiara</h2><p>Sedili e pannelli porta in pelle chiara, curati e senza segni d'usura.</p></li>
+              <li><h2 class="feature__title">Comodità anche dietro</h2><p>Console centrale posteriore e sedili separati per chi viaggia dietro.</p></li>
+            </ol>
+            <div class="feature__actions">
+              <button type="button" class="btn btn--red btn--lg" data-open="porsche-panamera">Vedi tutte le foto</button>
+              <a href="#contatti" class="btn btn--ghost btn--lg" data-subject="Disponibilità di un'auto" data-car="Porsche Panamera">Chiedi il prezzo</a>
+            </div>
+          </div>
+          <div class="feature__stage" id="featureStage">
+            <figure class="feature__frame"><img src="assets/img/cars/porsche-panamera/01.jpg" alt="Porsche Panamera vista frontale di tre quarti" loading="lazy" /></figure>
+            <figure class="feature__frame"><img src="assets/img/cars/porsche-panamera/02.jpg" alt="Porsche Panamera vista posteriore" loading="lazy" /></figure>
+            <figure class="feature__frame"><img src="assets/img/cars/porsche-panamera/04.jpg" alt="Posto guida della Porsche Panamera con interni in pelle chiara" loading="lazy" /></figure>
+            <figure class="feature__frame"><img src="assets/img/cars/porsche-panamera/05.jpg" alt="Sedili posteriori e console della Porsche Panamera" loading="lazy" /></figure>
+          </div>
+        </div>
+        <div class="feature__progress" aria-hidden="true"><span id="featureBar"></span></div>
       </div>
     </section>
 
@@ -303,6 +332,6 @@
     </button>
   </dialog>
 
-  <script src="assets/js/main.js?v=4"></script>
+  <script src="assets/js/main.js?v=5"></script>
 </body>
 </html>

@@ -393,5 +393,67 @@
   $$("input", form).forEach((i) => i.addEventListener("input", () => i.closest(".field, .check")?.classList.remove("has-error")));
 
   $("#year").textContent = new Date().getFullYear();
+  /* ---------- Feature: scroll-driven 3D showcase ---------- */
+  const feature = $("#panamera");
+  if (feature) {
+    const frames = $$(".feature__frame", feature);
+    const chapters = $$("#featureChapters li", feature);
+    const word = $("#featureWord");
+    const bar = $("#featureBar");
+    const N = frames.length;
+    const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+    const smooth = (t) => t * t * (3 - 2 * t);
+    // hold on each photo, then turn to the next: flat plateaus with eased steps between them
+    const stepped = (x) => {
+      const i = Math.floor(x);
+      const f = x - i;
+      const t = clamp((f - 0.3) / 0.4, 0, 1);
+      return i + smooth(t);
+    };
+    let lastChapter = -1;
+    let ticking = false;
+
+    function paint() {
+      ticking = false;
+      const rect = feature.getBoundingClientRect();
+      const total = feature.offsetHeight - window.innerHeight;
+      const p = clamp(-rect.top / Math.max(1, total), 0, 1);
+      const pos = stepped(p * (N - 1) * 0.999 + 0.0001);
+      const phone = window.innerWidth <= 900;
+
+      frames.forEach((fr, i) => {
+        const d = pos - i; // 0 = in front, >0 already passed, <0 still coming
+        const a = Math.abs(d);
+        if (a > 1.6) { fr.style.opacity = "0"; fr.style.visibility = "hidden"; return; }
+        fr.style.visibility = "visible";
+        const rotY = -d * (phone ? 55 : 48);
+        const tx = -d * (phone ? 38 : 46);
+        const tz = -a * (phone ? 380 : 520);
+        const rotX = i === Math.round(pos) ? (0.5 - (p * (N - 1) - Math.floor(p * (N - 1)))) * 6 : 0;
+        fr.style.transform = `translateX(${tx}%) translateZ(${tz}px) rotateY(${rotY}deg) rotateX(${rotX}deg)`;
+        fr.style.opacity = String(clamp(1 - a * 0.75, 0, 1));
+        fr.style.zIndex = String(100 - Math.round(a * 10));
+      });
+
+      const ch = clamp(Math.round(pos), 0, N - 1);
+      if (ch !== lastChapter) {
+        chapters.forEach((c, k) => c.classList.toggle("is-active", k === ch));
+        lastChapter = ch;
+      }
+      word.style.transform = `translateX(${(0.15 - p * 0.9) * 100}%)`;
+      bar.style.width = `${p * 100}%`;
+    }
+    const request = () => { if (!ticking) { ticking = true; requestAnimationFrame(paint); } };
+    window.addEventListener("scroll", request, { passive: true });
+    window.addEventListener("resize", request);
+    // the frames are inside a sticky block far down the page: load them before they are reached
+    frames.forEach((fr) => { const img = $("img", fr); img.loading = "eager"; });
+    feature.addEventListener("click", (e) => {
+      const b = e.target.closest("[data-open]");
+      if (b) openSheet(b.dataset.open);
+    });
+    paint();
+  }
+
   render();
 })();
