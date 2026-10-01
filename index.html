@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rapporti Giardiniere</title>
+<style>
+  :root{--g:#2e7d32;--gd:#1b5e20;--bg:#f3f7f1;--card:#fff;--tx:#1f2a1f;--mut:#6b7a6b;--bd:#d5e0d3}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--tx)}
+  header{background:var(--g);color:#fff;padding:14px 16px;font-weight:700;font-size:1.15rem}
+  nav{display:flex;background:var(--gd)}
+  nav button{flex:1;padding:12px 4px;background:none;border:0;color:#cfe8d0;font-size:.95rem;cursor:pointer}
+  nav button.on{color:#fff;border-bottom:3px solid #fff;font-weight:700}
+  main{max-width:760px;margin:0 auto;padding:14px}
+  .card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:14px;margin-bottom:14px}
+  h2{margin:0 0 10px;font-size:1.05rem;color:var(--gd)}
+  label{display:block;font-size:.85rem;color:var(--mut);margin:10px 0 4px}
+  input,select,textarea{width:100%;padding:10px;border:1px solid var(--bd);border-radius:8px;font:inherit;background:#fff}
+  textarea{min-height:80px;resize:vertical}
+  .row{display:flex;gap:10px}.row>*{flex:1}
+  .btn{display:inline-block;padding:11px 16px;border:0;border-radius:8px;background:var(--g);color:#fff;font:inherit;font-weight:600;cursor:pointer;margin:4px 4px 0 0}
+  .btn.sec{background:#e4efe2;color:var(--gd)}.btn.red{background:#c62828}
+  .jobs{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  @media(max-width:520px){.jobs{grid-template-columns:1fr}}
+  .job{display:flex;align-items:center;gap:8px;padding:9px;border:1px solid var(--bd);border-radius:8px;cursor:pointer;background:#fafdf9}
+  .job input{width:auto}.job.sel{background:#e0f0dd;border-color:var(--g)}
+  .photos{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .photos div{position:relative}.photos img{width:90px;height:90px;object-fit:cover;border-radius:8px}
+  .photos button{position:absolute;top:2px;right:2px;border:0;border-radius:50%;width:22px;height:22px;background:#c62828;color:#fff;cursor:pointer}
+  .item{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--bd)}
+  .item:last-child{border:0}.item small{color:var(--mut);display:block}
+  .hide{display:none}
+  .report{background:#fff;padding:18px;border:1px solid var(--bd);border-radius:12px}
+  .report h1{margin:0 0 4px;font-size:1.3rem;color:var(--gd)}
+  .report table{width:100%;border-collapse:collapse;margin:8px 0}
+  .report td,.report th{border:1px solid var(--bd);padding:6px 8px;text-align:left;font-size:.92rem}
+  .report .ph{display:flex;flex-wrap:wrap;gap:8px}.report .ph img{width:48%;border-radius:6px}
+  #toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:20px;opacity:0;transition:.3s;pointer-events:none}
+  #toast.on{opacity:1}
+  @media print{header,nav,.noprint,#toast{display:none!important}body{background:#fff}main{padding:0;max-width:none}.report{border:0}}
+</style>
+</head>
+<body>
+<header>🌿 Rapporti Giardiniere</header>
+<nav class="noprint">
+  <button data-t="nuovo" class="on">Nuovo rapporto</button>
+  <button data-t="storico">Storico</button>
+  <button data-t="aziende">Aziende</button>
+  <button data-t="impost">Impostazioni</button>
+</nav>
+<main>
+
+<!-- NUOVO RAPPORTO -->
+<section id="t-nuovo">
+  <div class="card noprint" id="form">
+    <h2>Dati intervento</h2>
+    <label>Azienda</label>
+    <select id="azienda"></select>
+    <div class="row">
+      <div><label>Data</label><input type="date" id="data"></div>
+      <div><label>Inizio</label><input type="time" id="ini" value="08:00"></div>
+      <div><label>Fine</label><input type="time" id="fin" value="12:00"></div>
+    </div>
+    <label>Lavori eseguiti</label>
+    <div class="jobs" id="jobs"></div>
+    <label>Materiali / prodotti utilizzati</label>
+    <input id="mat" placeholder="es. concime 5 kg, 10 piantine di lavanda">
+    <label>Note / segnalazioni (es. piante malate, irrigazione guasta)</label>
+    <textarea id="note"></textarea>
+    <label>Foto del lavoro</label>
+    <input type="file" id="foto" accept="image/*" multiple>
+    <div class="photos" id="photos"></div>
+    <button class="btn" id="genera">Crea rapporto</button>
+    <button class="btn sec" id="reset">Svuota</button>
+  </div>
+
+  <div id="out" class="hide">
+    <div class="card noprint">
+      <h2>Invia alla azienda</h2>
+      <button class="btn" id="b-mail">✉️ Email</button>
+      <button class="btn" id="b-wa">💬 WhatsApp</button>
+      <button class="btn" id="b-share">📤 Condividi (con foto)</button>
+      <button class="btn sec" id="b-print">🖨️ Stampa / PDF</button>
+      <button class="btn sec" id="b-back">← Modifica</button>
+      <p style="color:var(--mut);font-size:.85rem;margin:8px 0 0">L'email si apre nel tuo programma di posta con il testo già pronto. Per allegare le foto usa «Condividi» oppure «Stampa / PDF» e allega il file.</p>
+    </div>
+    <div class="report" id="report"></div>
+  </div>
+</section>
+
+<!-- STORICO -->
+<section id="t-storico" class="hide">
+  <div class="card"><h2>Rapporti inviati</h2><div id="lista-storico"></div></div>
+</section>
+
+<!-- AZIENDE -->
+<section id="t-aziende" class="hide">
+  <div class="card">
+    <h2>Aggiungi / modifica azienda</h2>
+    <input type="hidden" id="a-id">
+    <label>Nome azienda</label><input id="a-nome">
+    <label>Indirizzo del cantiere / sede</label><input id="a-ind">
+    <label>Referente</label><input id="a-ref">
+    <div class="row">
+      <div><label>Email</label><input id="a-mail" type="email"></div>
+      <div><label>WhatsApp (con prefisso, es. 39333...)</label><input id="a-tel" inputmode="tel"></div>
+    </div>
+    <button class="btn" id="a-salva">Salva</button>
+  </div>
+  <div class="card"><h2>Le mie aziende</h2><div id="lista-aziende"></div></div>
+</section>
+
+<!-- IMPOSTAZIONI -->
+<section id="t-impost" class="hide">
+  <div class="card">
+    <h2>I miei dati</h2>
+    <label>Nome e cognome / ditta</label><input id="s-nome">
+    <label>Telefono</label><input id="s-tel">
+    <label>Email</label><input id="s-mail" type="email">
+    <button class="btn" id="s-salva">Salva</button>
+  </div>
+  <div class="card">
+    <h2>Elenco lavori</h2>
+    <p style="color:var(--mut);font-size:.85rem;margin-top:0">Questi sono i lavori che compaiono nel rapporto. Aggiungi o togli quelli che vuoi.</p>
+    <div id="s-jobs"></div>
+    <div class="row"><input id="s-newjob" placeholder="Nuovo lavoro..."><button class="btn" style="flex:0 0 auto" id="s-addjob">Aggiungi</button></div>
+    <button class="btn sec" id="s-defjobs">Ripristina elenco standard</button>
+  </div>
+</section>
+
+</main>
+<div id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const DEF_JOBS=["Taglio del prato","Rifinitura bordi","Potatura siepi","Potatura alberi","Potatura arbusti e rose","Raccolta foglie","Pulizia aiuole","Rimozione erbacce","Diserbo","Concimazione","Trattamento fitosanitario","Semina / rigenerazione prato","Messa a dimora piante","Irrigazione / controllo impianto","Manutenzione impianto irrigazione","Aerazione / scarificatura","Pacciamatura","Smaltimento verde di risulta","Pulizia vialetti e pavimentazioni","Manutenzione attrezzature"];
+const load=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
+const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+let aziende=load('aziende',[]), storico=load('storico',[]), jobs=load('jobs',DEF_JOBS), me=load('me',{}), foto=[], current=null;
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmtData=d=>d?new Date(d+'T00:00').toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long',year:'numeric'}):'';
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2200)}
+
+// tabs
+$$('nav button').forEach(b=>b.onclick=()=>{
+  $$('nav button').forEach(x=>x.classList.toggle('on',x===b));
+  $$('main>section').forEach(s=>s.classList.toggle('hide',s.id!=='t-'+b.dataset.t));
+  render();
+});
+
+function render(){
+  // aziende select
+  const sel=$('#azienda'), prev=sel.value;
+  sel.innerHTML=aziende.length?aziende.map(a=>`<option value="${a.id}">${esc(a.nome)}</option>`).join(''):'<option value="">— aggiungi prima un\'azienda nella scheda Aziende —</option>';
+  if(prev)sel.value=prev;
+  // jobs
+  const chosen=new Set($$('#jobs input:checked').map(i=>i.value));
+  $('#jobs').innerHTML=jobs.map((j,i)=>`<label class="job ${chosen.has(j)?'sel':''}" style="margin:0"><input type="checkbox" value="${esc(j)}" ${chosen.has(j)?'checked':''}> ${esc(j)}</label>`).join('');
+  $$('#jobs input').forEach(i=>i.onchange=()=>i.parentElement.classList.toggle('sel',i.checked));
+  // photos
+  $('#photos').innerHTML=foto.map((f,i)=>`<div><img src="${f}"><button data-i="${i}">×</button></div>`).join('');
+  $$('#photos button').forEach(b=>b.onclick=()=>{foto.splice(+b.dataset.i,1);render()});
+  // aziende list
+  $('#lista-aziende').innerHTML=aziende.map(a=>`<div class="item"><div><b>${esc(a.nome)}</b><small>${esc(a.ref)} ${esc(a.mail)} ${esc(a.tel)}</small></div><div><button class="btn sec" data-e="${a.id}">Modifica</button><button class="btn red" data-d="${a.id}">✕</button></div></div>`).join('')||'<small>Nessuna azienda.</small>';
+  $$('[data-e]').forEach(b=>b.onclick=()=>{const a=aziende.find(x=>x.id==b.dataset.e);$('#a-id').value=a.id;$('#a-nome').value=a.nome;$('#a-ind').value=a.ind;$('#a-ref').value=a.ref;$('#a-mail').value=a.mail;$('#a-tel').value=a.tel;scrollTo(0,0)});
+  $$('[data-d]').forEach(b=>b.onclick=()=>{if(confirm('Eliminare questa azienda?')){aziende=aziende.filter(x=>x.id!=b.dataset.d);save('aziende',aziende);render()}});
+  // storico
+  $('#lista-storico').innerHTML=storico.slice().reverse().map(r=>`<div class="item"><div><b>${esc(r.aziendaNome)}</b><small>${fmtData(r.data)} · ${r.lavori.length} lavori</small></div><button class="btn sec" data-r="${r.id}">Apri</button></div>`).join('')||'<small>Nessun rapporto ancora.</small>';
+  $$('[data-r]').forEach(b=>b.onclick=()=>{current=storico.find(x=>x.id==b.dataset.r);showReport();$('nav button').click()});
+  // settings
+  $('#s-nome').value=me.nome||'';$('#s-tel').value=me.tel||'';$('#s-mail').value=me.mail||'';
+  $('#s-jobs').innerHTML=jobs.map((j,i)=>`<div class="item"><span>${esc(j)}</span><button class="btn red" data-j="${i}">✕</button></div>`).join('');
+  $$('[data-j]').forEach(b=>b.onclick=()=>{jobs.splice(+b.dataset.j,1);save('jobs',jobs);render()});
+}
+
+// foto: ridimensiona per tenere leggero il rapporto
+$('#foto').onchange=async e=>{
+  for(const f of e.target.files){
+    const img=await new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.src=URL.createObjectURL(f)});
+    const k=Math.min(1,1000/Math.max(img.width,img.height)), c=document.createElement('canvas');
+    c.width=img.width*k;c.height=img.height*k;c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+    foto.push(c.toDataURL('image/jpeg',.75));
+  }
+  e.target.value='';render();
+};
+
+// aziende
+$('#a-salva').onclick=()=>{
+  const nome=$('#a-nome').value.trim(); if(!nome)return toast('Inserisci il nome');
+  const id=$('#a-id').value||Date.now();
+  const a={id:+id,nome,ind:$('#a-ind').value,ref:$('#a-ref').value,mail:$('#a-mail').value,tel:$('#a-tel').value.replace(/\D/g,'')};
+  const i=aziende.findIndex(x=>x.id==id); i>=0?aziende[i]=a:aziende.push(a);
+  save('aziende',aziende);['id','nome','ind','ref','mail','tel'].forEach(k=>$('#a-'+k).value='');render();toast('Azienda salvata');
+};
+// impostazioni
+$('#s-salva').onclick=()=>{me={nome:$('#s-nome').value,tel:$('#s-tel').value,mail:$('#s-mail').value};save('me',me);toast('Salvato')};
+$('#s-addjob').onclick=()=>{const v=$('#s-newjob').value.trim();if(v){jobs.push(v);save('jobs',jobs);$('#s-newjob').value='';render()}};
+$('#s-defjobs').onclick=()=>{jobs=[...DEF_JOBS];save('jobs',jobs);render()};
+
+// rapporto
+$('#genera').onclick=()=>{
+  const az=aziende.find(a=>a.id==$('#azienda').value);
+  if(!az)return toast('Scegli un\'azienda');
+  const lavori=$$('#jobs input:checked').map(i=>i.value);
+  if(!lavori.length)return toast('Seleziona almeno un lavoro');
+  current={id:Date.now(),aziendaId:az.id,aziendaNome:az.nome,data:$('#data').value,ini:$('#ini').value,fin:$('#fin').value,lavori,mat:$('#mat').value,note:$('#note').value,foto:[...foto],me:{...me}};
+  storico.push(current);
+  try{save('storico',storico)}catch{storico.pop();current.foto=[];storico.push(current);try{save('storico',storico)}catch{}toast('Memoria piena: foto non salvate nello storico')}
+  showReport();
+};
+$('#reset').onclick=()=>{if(!confirm('Svuotare il modulo?'))return;foto=[];$('#note').value=$('#mat').value='';$$('#jobs input').forEach(i=>i.checked=false);render()};
+$('#b-back').onclick=()=>{$('#out').classList.add('hide');$('#form').classList.remove('hide')};
+
+function ore(r){
+  if(!r.ini||!r.fin)return '';
+  const [a,b]=r.ini.split(':'),[c,d]=r.fin.split(':'); let m=(+c*60+ +d)-(+a*60+ +b); if(m<0)return '';
+  return `${Math.floor(m/60)} h ${String(m%60).padStart(2,'0')} min`;
+}
+function showReport(){
+  const r=current, az=aziende.find(a=>a.id==r.aziendaId)||{};
+  $('#form').classList.add('hide');$('#out').classList.remove('hide');
+  $('#report').innerHTML=`
+    <h1>Rapporto di intervento – Giardinaggio</h1>
+    <div style="color:var(--mut)">${esc(r.me?.nome||'')} ${r.me?.tel?'· '+esc(r.me.tel):''} ${r.me?.mail?'· '+esc(r.me.mail):''}</div>
+    <table>
+      <tr><th>Azienda</th><td>${esc(r.aziendaNome)}${az.ind?'<br>'+esc(az.ind):''}</td></tr>
+      <tr><th>Data</th><td>${esc(fmtData(r.data))}</td></tr>
+      <tr><th>Orario</th><td>${esc(r.ini)} – ${esc(r.fin)} ${ore(r)?'('+ore(r)+')':''}</td></tr>
+    </table>
+    <h3>Lavori eseguiti</h3><ul>${r.lavori.map(l=>`<li>${esc(l)}</li>`).join('')}</ul>
+    ${r.mat?`<h3>Materiali utilizzati</h3><p>${esc(r.mat)}</p>`:''}
+    ${r.note?`<h3>Note e segnalazioni</h3><p>${esc(r.note).replace(/\n/g,'<br>')}</p>`:''}
+    ${r.foto?.length?`<h3>Foto</h3><div class="ph">${r.foto.map(f=>`<img src="${f}">`).join('')}</div>`:''}`;
+  scrollTo(0,0);
+}
+function testo(r){
+  const az=aziende.find(a=>a.id==r.aziendaId)||{};
+  return `Rapporto di intervento - Giardinaggio\n`+
+  `Azienda: ${r.aziendaNome}${az.ind?' ('+az.ind+')':''}\nData: ${fmtData(r.data)}\nOrario: ${r.ini} - ${r.fin} ${ore(r)?'('+ore(r)+')':''}\n\n`+
+  `Lavori eseguiti:\n${r.lavori.map(l=>'- '+l).join('\n')}\n`+
+  (r.mat?`\nMateriali utilizzati: ${r.mat}\n`:'')+(r.note?`\nNote: ${r.note}\n`:'')+
+  `\nCordiali saluti,\n${r.me?.nome||''}${r.me?.tel?'\n'+r.me.tel:''}`;
+}
+$('#b-mail').onclick=()=>{
+  const az=aziende.find(a=>a.id==current.aziendaId)||{};
+  location.href=`mailto:${encodeURIComponent(az.mail||'')}?subject=${encodeURIComponent('Rapporto di intervento giardinaggio - '+fmtData(current.data))}&body=${encodeURIComponent(testo(current))}`;
+};
+$('#b-wa').onclick=()=>{
+  const az=aziende.find(a=>a.id==current.aziendaId)||{};
+  window.open(`https://wa.me/${az.tel||''}?text=${encodeURIComponent(testo(current))}`,'_blank');
+};
+$('#b-share').onclick=async()=>{
+  const files=await Promise.all((current.foto||[]).map(async(f,i)=>new File([await (await fetch(f)).blob()],`foto${i+1}.jpg`,{type:'image/jpeg'})));
+  const data={title:'Rapporto giardinaggio',text:testo(current),files};
+  if(navigator.canShare&&navigator.canShare(data)){try{await navigator.share(data)}catch{}}
+  else if(navigator.share){try{await navigator.share({title:data.title,text:data.text})}catch{}}
+  else toast('Condivisione non supportata: usa Email o Stampa/PDF');
+};
+$('#b-print').onclick=()=>print();
+
+$('#data').value=new Date().toISOString().slice(0,10);
+render();
+</script>
+</body>
+</html>
