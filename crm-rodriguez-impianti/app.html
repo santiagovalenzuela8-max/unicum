@@ -168,6 +168,61 @@ form textarea{min-height:76px;resize:vertical}
 .gas-bar{height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden;margin-top:4px}
 .gas-bar span{display:block;height:100%;background:var(--accent)}
 
+
+/* accesso demo: look scuro fisso, uguale in entrambi i temi */
+.login{position:fixed;inset:0;z-index:100;background:radial-gradient(900px 500px at 85% -10%,#1d5f8a 0,transparent 60%),linear-gradient(160deg,#0b1d29,#0e2433 55%,#2b1b12);display:grid;place-items:center;padding-block:24px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));color:#e6f0f6;overflow-y:auto}
+.login-card{width:min(410px,100%);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);border-radius:14px;padding:28px;display:flex;flex-direction:column;gap:14px}
+.login-card h2{font-size:26px;color:#fff}
+.login-card p{margin:0;color:#a9c3d3;font-size:14px}
+.login-card label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:#a9c3d3;font-weight:600}
+.login-card input{background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.16);border-radius:8px;padding:10px 12px;color:#fff;font-size:15px}
+.login-card .btn.primary{justify-content:center;padding:11px;background:#2a9fd8;border-color:#2a9fd8;color:#04202f;font-weight:600}
+.login-feat{display:flex;flex-wrap:wrap;gap:6px;font-size:12px}
+.login-feat span{border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:2px 9px;color:#bcd3e1}
+.login-foot{font-size:12px;color:#7f9aab;text-align:center}
+
+/* calendario settimanale */
+.week{display:grid;grid-template-columns:128px repeat(6,minmax(128px,1fr));min-width:900px}
+.week>div{border-bottom:1px solid var(--line);border-right:1px solid var(--line);padding:8px;min-height:92px;min-width:0}
+.week>div:nth-child(7n){border-right:0}
+.week .wk-h{background:var(--surface-2);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);min-height:0}
+.week .wk-h.today{color:var(--accent);box-shadow:inset 0 -2px 0 var(--accent)}
+.week .wk-t{font-weight:600;font-size:14px;background:var(--surface-2)}
+.week .wk-today{background:color-mix(in srgb,var(--accent-soft) 35%,transparent)}
+.ev{display:block;width:100%;text-align:left;border:0;border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:4px;padding:4px 7px;margin-bottom:5px;font-size:12px;cursor:pointer;color:var(--fg);line-height:1.35}
+.ev:hover{filter:brightness(.97)}
+.ev.man{border-color:var(--ok);background:var(--ok-soft)}
+.ev.gua{border-color:var(--bad);background:var(--bad-soft)}
+.ev.sop{border-color:var(--muted);background:var(--surface-2)}
+.ev.done{opacity:.6}
+.ev b{display:block;font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:20px;overflow:hidden;margin-left:auto}
+.seg button{border:0;background:var(--surface);padding:5px 14px;font-size:13px;font-weight:500;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+
+/* rapportino */
+form label.check{flex-direction:row;align-items:center;gap:10px;padding:9px 11px;border:1px solid var(--line);border-radius:6px;background:var(--surface);font-size:14px;font-weight:500;color:var(--fg);cursor:pointer}
+form label.check input{width:18px;height:18px;flex:none;accent-color:var(--ok)}
+form .row.r3{grid-template-columns:1fr 1fr 1fr}
+.sig{border:1px dashed var(--muted);border-radius:8px;background:#fff;touch-action:none;width:100%;height:160px;display:block;cursor:crosshair}
+.sig-img{background:#fff;border-radius:8px;border:1px solid var(--line);max-width:100%;height:auto;display:block}
+.thumbs{display:flex;gap:6px;flex-wrap:wrap}
+.thumbs img{width:76px;height:76px;object-fit:cover;border-radius:6px;border:1px solid var(--line)}
+.checklist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;font-size:14px}
+.checklist li::before{content:"✓";color:var(--ok);font-weight:700;margin-right:8px}
+.checklist li.no::before{content:"–";color:var(--muted)}
+.measures{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.measures div{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 10px}
+.measures b{display:block;font-family:var(--f-display);font-size:20px;font-variant-numeric:tabular-nums}
+.measures span{font-size:12px;color:var(--muted)}
+
+/* anteprima messaggio stile chat: palette fissa */
+.wa{background:#e9e1d8;border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.wa-msg{align-self:flex-end;background:#d9fdd3;color:#111b21;border-radius:8px 0 8px 8px;padding:8px 10px 4px;max-width:92%;font-size:14px;white-space:pre-wrap;box-shadow:0 1px 1px rgba(0,0,0,.12)}
+.wa-meta{font-size:11px;color:#667781;text-align:right;margin-top:2px}
+.wa.sms{background:#f2f2f7}.wa.sms .wa-msg{background:#0b84ff;color:#fff;border-radius:16px 16px 4px 16px}.wa.sms .wa-meta{color:#d5e8ff}
+.wa.mail{background:#eef2f5}.wa.mail .wa-msg{align-self:stretch;max-width:100%;background:#fff;border-radius:6px}
+
 @media (max-width:1100px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:760px){
   .app{grid-template-columns:1fr}
@@ -338,7 +393,7 @@ const VIEWS=[
   ["dashboard","Panoramica","dash"],["clienti","Clienti","users"],["impianti","Impianti","unit"],
   ["agenda","Interventi","cal"],["preventivi","Preventivi","doc"],["scadenze","Scadenze","bell"]
 ];
-let view="dashboard", q="", filt="tutti";
+let view="dashboard", q="", filt="tutti", agMode="lista", rapFoto=[], sigDirty=false;
 
 function renderNav(){
   const late=db.unita.filter(u=>daysTo(u.prossimaMan)<0).length;
@@ -445,15 +500,29 @@ function vAgenda(){
   const list=db.interventi.filter(i=>(filt==="tutti"||i.tipo===filt)&&match(cli(i.cliente).nome,i.descr,i.tecnico,cli(i.cliente).citta));
   const fut=list.filter(i=>daysTo(i.data)>=0), past=list.filter(i=>daysTo(i.data)<0);
   return topbar("Interventi",`<button class="btn primary" data-act="new-int">${svg("plus")}Nuovo intervento</button>`)+`
-  <div class="filters">${opts.map(t=>`<button class="chip" data-filt="${t}" aria-pressed="${filt===t}">${t==="tutti"?"Tutti":TIPI[t]}</button>`).join("")}</div>
-  <div class="grid two">
+  <div class="filters">${opts.map(t=>`<button class="chip" data-filt="${t}" aria-pressed="${filt===t}">${t==="tutti"?"Tutti":TIPI[t]}</button>`).join("")}<span class="seg" role="group" aria-label="Vista"><button data-mode="lista" aria-pressed="${agMode==="lista"}">Lista</button><button data-mode="settimana" aria-pressed="${agMode==="settimana"}">Settimana</button></span></div>
+  ${agMode==="settimana"?weekView(list):`<div class="grid two">
     <section class="panel"><div class="panel-h"><h2>In programma</h2><span class="muted num">${fut.length}</span></div><div class="agenda">${agendaList(fut)}</div></section>
     <section class="panel"><div class="panel-h"><h2>Carico tecnici</h2><span class="muted" style="font-size:13px">prossimi 7 giorni</span></div><div class="panel-b" style="display:flex;flex-direction:column;gap:12px">
       ${TECNICI.map(t=>{const h=db.interventi.filter(i=>i.tecnico===t&&daysTo(i.data)>=0&&daysTo(i.data)<7).reduce((s,i)=>s+i.dur,0);return `<div><div style="display:flex;justify-content:space-between"><span style="font-weight:600">${t}</span><span class="num muted">${h} h / 40 h</span></div><div class="gas-bar"><span style="width:${Math.min(100,h/40*100)}%;${h>32?"background:var(--warn)":""}"></span></div></div>`}).join("")}
     </div>
     <div class="panel-h" style="border-top:1px solid var(--line)"><h2>Storico</h2><span class="muted num">${past.length}</span></div>
     <div class="agenda">${agendaList(past.sort((a,b)=>b.data.localeCompare(a.data)).slice(0,8))}</div></section>
-  </div>`;
+  </div>`}`;
+}
+
+function weekView(list){
+  const dow=(today.getDay()+6)%7;
+  const start=addDays(today,today.getDay()===0?1:-dow);
+  const days=[0,1,2,3,4,5].map(k=>addDays(start,k));
+  let h='<div class="wk-h">Tecnico</div>'+days.map(d=>`<div class="wk-h ${iso(d)===iso(today)?"today":""}">${d.toLocaleDateString("it-IT",{weekday:"short",day:"numeric",month:"short"})}</div>`).join("");
+  TECNICI.forEach(t=>{
+    const hrs=list.filter(i=>i.tecnico===t&&days.some(d=>iso(d)===i.data)&&i.stato!=="annullato").reduce((s,i)=>s+i.dur,0);
+    h+=`<div class="wk-t">${t}<div class="cell-sub num">${hrs} h in settimana</div></div>`;
+    days.forEach(d=>{const evs=list.filter(i=>i.tecnico===t&&i.data===iso(d)&&i.stato!=="annullato").sort((a,b)=>a.ora.localeCompare(b.ora));
+      h+=`<div class="${iso(d)===iso(today)?"wk-today":""}">${evs.map(i=>`<button class="ev ${i.tipo} ${i.stato==="completato"?"done":""}" data-int="${i.id}"><span class="mono">${i.ora}</span> · ${TIPI[i.tipo]}<b>${esc(cli(i.cliente).nome)}</b>${esc(cli(i.cliente).citta)}</button>`).join("")}</div>`});
+  });
+  return `<section class="panel"><div class="panel-h"><h2>Settimana dal ${fmtD(iso(start))}</h2><span class="muted" style="font-size:13px">clicca un appuntamento per aprirlo</span></div><div class="table-wrap"><div class="week">${h}</div></div></section>`;
 }
 
 function vPreventivi(){
@@ -472,12 +541,13 @@ function vPreventivi(){
 function vScadenze(){
   const list=db.unita.filter(u=>daysTo(u.prossimaMan)<=60&&match(cli(u.cliente).nome,u.modello,cli(u.cliente).citta)).sort((a,b)=>a.prossimaMan.localeCompare(b.prossimaMan));
   const gar=db.unita.filter(u=>{const d=daysTo(u.garanzia);return d>=0&&d<=120});
-  return topbar("Scadenze")+`
+  const daAvvisare=db.unita.filter(u=>daysTo(u.prossimaMan)<0&&!u.promemoria).length;
+  return topbar("Scadenze",daAvvisare?`<button class="btn primary" data-remind-all>Avvisa tutti gli scaduti (${daAvvisare})</button>`:"")+`
   <div class="grid two">
   <section class="panel"><div class="panel-h"><h2>Manutenzioni entro 60 giorni</h2><span class="muted num">${list.length}</span></div><div class="table-wrap"><table><thead><tr><th>Cliente</th><th>Impianto</th><th>Scadenza</th><th></th></tr></thead><tbody>
   ${list.map(u=>{const c=cli(u.cliente);const st=manState(u);const planned=db.interventi.some(i=>i.cliente===c.id&&i.tipo==="man"&&daysTo(i.data)>=0&&i.stato!=="annullato");
     return `<tr><td><div class="cell-main">${esc(c.nome)}</div><div class="cell-sub mono">${esc(c.tel)}</div></td><td><div>${esc(u.marca)} ${esc(u.modello)}</div><div class="cell-sub">${co2(u)>=5?"Controllo F-gas obbligatorio":"Manutenzione ordinaria"}</div></td><td><span class="pill ${st.c}">${st.t}</span></td>
-    <td style="text-align:right">${planned?'<span class="pill info">pianificata</span>':`<button class="btn small" data-plan="${u.id}">Pianifica</button>`}</td></tr>`}).join("")||'<tr><td colspan="4" class="empty">Nessuna scadenza nei prossimi 60 giorni.</td></tr>'}
+    <td style="text-align:right"><div style="display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap">${planned?'<span class="pill info">pianificata</span>':`${u.promemoria?`<span class="pill ok">avvisato ${fmtD(u.promemoria).slice(0,6)}</span>`:`<button class="btn small" data-remind="${u.id}">Promemoria</button>`}<button class="btn small" data-plan="${u.id}">Pianifica</button>`}</div></td></tr>`}).join("")||'<tr><td colspan="4" class="empty">Nessuna scadenza nei prossimi 60 giorni.</td></tr>'}
   </tbody></table></div></section>
   <div class="grid" style="align-content:start">
   <section class="panel"><div class="panel-h"><h2>Garanzie in scadenza</h2><span class="muted" style="font-size:13px">entro 4 mesi</span></div><div class="panel-b flush">
@@ -531,8 +601,9 @@ function interventoDrawer(id){
     <dt>Indirizzo</dt><dd>${esc(c.ind)}, ${esc(c.citta)}</dd><dt>Telefono</dt><dd class="mono">${esc(c.tel)}</dd>
     ${u?`<dt>Impianto</dt><dd>${esc(u.marca)} ${esc(u.modello)} · <span class="mono">${esc(u.matr)}</span></dd>`:""}
     <dt>Lavoro</dt><dd>${esc(i.descr)}</dd>${i.importo?`<dt>Importo</dt><dd class="num">${eur(i.importo)}</dd>`:""}</dl>
-    ${i.stato!=="completato"&&i.stato!=="annullato"?`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" data-done="${i.id}">Segna come completato</button><button class="btn" data-cancel="${i.id}">Annulla intervento</button></div>
-    <p class="muted" style="font-size:13px;margin:0">Completando una manutenzione, la prossima scadenza dell'impianto si sposta automaticamente di 12 mesi.</p>`:""}
+    ${i.stato!=="completato"&&i.stato!=="annullato"?`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" data-done="${i.id}">Compila rapportino e chiudi</button><button class="btn" data-cancel="${i.id}">Annulla intervento</button></div>
+    <p class="muted" style="font-size:13px;margin:0">Il tecnico compila checklist e misure dal telefono e fa firmare il cliente sul posto. Chiudendo una manutenzione, la prossima scadenza dell'impianto si sposta di 12 mesi.</p>`:""}
+    ${i.rapporto?rapportoView(i.rapporto):""}
     <button class="btn ghost" data-cli="${c.id}">Apri scheda cliente</button>`);
 }
 
@@ -588,6 +659,91 @@ function formPreventivo(forCli){
   calc();$("#fq-lines").addEventListener("input",calc);
 }
 
+
+function rapportoView(r){
+  return `<div><div class="sec-t">Rapportino firmato · ${esc(r.firmato)}</div>
+    <ul class="checklist">${r.checks.map(c=>`<li class="${c.ok?"":"no"}">${esc(c.t)}</li>`).join("")}</ul></div>
+    ${r.misure?`<div class="measures"><div><b>${esc(r.misure.p)}</b><span>bar pressione bassa</span></div><div><b>${esc(r.misure.t)} °C</b><span>temperatura mandata</span></div><div><b>${esc(r.misure.a)} A</b><span>assorbimento</span></div></div>`:""}
+    <dl class="dl"><dt>Ore lavorate</dt><dd class="num">${esc(r.ore)} h</dd>${r.mat?`<dt>Materiali</dt><dd>${esc(r.mat)}</dd>`:""}${r.note?`<dt>Note</dt><dd>${esc(r.note)}</dd>`:""}</dl>
+    ${r.foto&&r.foto.length?`<div><div class="sec-t">Foto</div><div class="thumbs">${r.foto.map(f=>`<img src="${f}" alt="Foto intervento">`).join("")}</div></div>`:""}
+    <div><div class="sec-t">Firma del cliente</div><img class="sig-img" src="${r.firma}" alt="Firma del cliente"></div>`;
+}
+
+function rapportinoForm(id){
+  const i=db.interventi.find(x=>x.id===id);const c=cli(i.cliente);const u=db.unita.find(x=>x.id===i.unita);
+  const fgas=u&&co2(u)>=5;
+  const checks={
+    man:["Pulizia e sanificazione filtri","Sanificazione batteria unità interna","Pulizia batteria unità esterna","Verifica scarico condensa","Controllo serraggi e isolamento linee"].concat(fgas?["Controllo perdite F-gas con cercafughe elettronico"]:[]),
+    inst:["Staffaggio e messa in bolla delle unità","Prova di tenuta con azoto","Vuoto impianto sotto 500 micron","Apertura rubinetti e verifica carica","Spiegazione uso e telecomando al cliente"],
+    gua:["Lettura codice errore","Diagnosi componente guasto","Sostituzione / riparazione","Prova di funzionamento in freddo e caldo"],
+    sop:["Rilievo misure dei locali","Scelta posizione unità interne ed esterna","Verifica linea elettrica dedicata","Foto per il preventivo"]
+  }[i.tipo];
+  rapFoto=[];sigDirty=false;
+  openDrawer("Rapportino di intervento",esc(c.nome)+" · "+fmtD(i.data)+" · "+TIPI[i.tipo],`<form id="f-rap" data-id="${id}" class="grid" style="gap:12px">
+    <div class="sec-t" style="margin:0">Checklist</div>
+    ${checks.map((t,k)=>`<label class="check"><input type="checkbox" id="fr-c${k}" checked> ${t}</label>`).join("")}
+    ${i.tipo==="sop"?"":`<div class="sec-t" style="margin:6px 0 0">Misure rilevate</div><div class="row r3"><label>Pressione (bar)<input id="fr-p" inputmode="decimal" value="8,6"></label><label>T mandata (°C)<input id="fr-t" inputmode="decimal" value="9,5"></label><label>Assorb. (A)<input id="fr-a" inputmode="decimal" value="3,2"></label></div>`}
+    <div class="row"><label>Ore lavorate<input id="fr-ore" type="number" min="0.5" step="0.5" value="${i.dur}"></label><label>Importo (€)<input id="fr-imp" type="number" min="0" step="5" value="${i.importo}"></label></div>
+    <label>Materiali utilizzati<input id="fr-mat" value="${i.tipo==="man"?"Igienizzante per batterie, spray schiumogeno":""}" placeholder="es. condensatore 35 µF, 3 m di tubo"></label>
+    <label>Note per il cliente<textarea id="fr-note">${i.tipo==="man"?"Impianto pulito e funzionante. Consigliata prossima manutenzione tra 12 mesi.":""}</textarea></label>
+    <label>Foto dell'intervento<input id="fr-foto" type="file" accept="image/*" multiple></label>
+    <div class="thumbs" id="fr-thumbs"></div>
+    <div><div class="sec-t">Firma del cliente</div><canvas class="sig" id="fr-sig" aria-label="Spazio per la firma"></canvas>
+      <div style="display:flex;justify-content:space-between;margin-top:4px"><span class="cell-sub">Firma con il dito o con il mouse</span><button type="button" class="copy" data-sig-clear>Cancella firma</button></div></div>
+    <div class="form-actions"><button type="button" class="btn" data-close>Annulla</button><button class="btn primary">Chiudi intervento</button></div></form>`);
+  setupSig();
+  $("#fr-foto").addEventListener("change",e=>{[...e.target.files].slice(0,4).forEach(f=>{const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,320/Math.max(im.width,im.height));const cv=document.createElement("canvas");cv.width=im.width*k;cv.height=im.height*k;cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);rapFoto.push(cv.toDataURL("image/jpeg",.7));$("#fr-thumbs").innerHTML=rapFoto.map(s=>`<img src="${s}" alt="">`).join("")};im.src=rd.result};rd.readAsDataURL(f)})});
+}
+function setupSig(){
+  const cv=$("#fr-sig");const r=cv.getBoundingClientRect();const dpr=window.devicePixelRatio||1;
+  cv.width=r.width*dpr;cv.height=r.height*dpr;const x=cv.getContext("2d");x.scale(dpr,dpr);
+  x.lineWidth=2.2;x.lineCap="round";x.lineJoin="round";x.strokeStyle="#10202c";
+  let down=false;const pos=e=>{const b=cv.getBoundingClientRect();return [e.clientX-b.left,e.clientY-b.top]};
+  cv.addEventListener("pointerdown",e=>{down=true;cv.setPointerCapture(e.pointerId);const [a,b]=pos(e);x.beginPath();x.moveTo(a,b)});
+  cv.addEventListener("pointermove",e=>{if(!down)return;const [a,b]=pos(e);x.lineTo(a,b);x.stroke();sigDirty=true});
+  const up=()=>{down=false};cv.addEventListener("pointerup",up);cv.addEventListener("pointercancel",up);
+}
+
+function reminderText(u,ch){
+  const c=cli(u.cliente);const d=daysTo(u.prossimaMan);const fgas=co2(u)>=5;
+  const nome=c.tipo==="privato"?c.nome.split(" ")[0]:c.nome;
+  const prop=addDays(today,3+(today.getDay()===3?2:0));
+  const body=`Buongiorno ${nome}, sono Luis di Rodriguez Impianti.\nLa manutenzione del climatizzatore ${u.marca} ${u.modello} ${d<0?"è scaduta il "+fmtD(u.prossimaMan):"scade il "+fmtD(u.prossimaMan)}.${fgas?"\nPer questo impianto il controllo perdite F-gas è obbligatorio per legge.":""}\nLe propongo ${fmtDay(iso(prop))} alle 9:00. ${ch==="email"?"Risponda a questa email per confermare o proporre un altro giorno.":"Risponda SÌ per confermare o mi scriva un altro giorno."}\nGrazie!`;
+  return ch==="email"?`Oggetto: Manutenzione climatizzatore\n\n${body}\n\nRodriguez Impianti`:body;
+}
+function reminderDrawer(id){
+  const u=db.unita.find(x=>x.id===id);const c=cli(u.cliente);
+  openDrawer("Promemoria manutenzione",esc(c.nome)+" · "+esc(c.tel),`<form id="f-rem" data-id="${id}" class="grid" style="gap:12px">
+    <label>Canale<select id="rm-ch"><option value="wa">WhatsApp</option><option value="sms">SMS</option><option value="email">Email</option></select></label>
+    <label>Messaggio<textarea id="rm-text" style="min-height:170px">${esc(reminderText(u,"wa"))}</textarea></label>
+    <div><div class="sec-t">Anteprima</div><div class="wa" id="rm-prev"></div></div>
+    <p class="muted" style="font-size:13px;margin:0">Nella versione completa il messaggio parte in automatico 30 giorni prima della scadenza. In questa demo viene solo registrato.</p>
+    <div class="form-actions"><button type="button" class="btn" data-close>Annulla</button><button class="btn primary">Invia promemoria</button></div></form>`);
+  previewRem();
+  $("#rm-ch").addEventListener("change",()=>{$("#rm-text").value=reminderText(u,$("#rm-ch").value);previewRem()});
+}
+function previewRem(){
+  const ch=$("#rm-ch").value;const box=$("#rm-prev");
+  box.className="wa "+(ch==="wa"?"":ch==="sms"?"sms":"mail");
+  box.innerHTML=`<div class="wa-msg">${esc($("#rm-text").value)}<div class="wa-meta">${new Date().toLocaleTimeString("it-IT",{hour:"2-digit",minute:"2-digit"})}${ch==="wa"?" ✓✓":""}</div></div>`;
+}
+
+function showLogin(){
+  let ok=false;try{ok=sessionStorage.getItem("rcrm-auth")==="1"}catch(e){}
+  if(ok)return;
+  const el=document.createElement("div");el.className="login";
+  el.innerHTML=`<form class="login-card" id="f-login">
+    <div class="brand" style="padding:0"><div class="brand-mark" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M4.9 6.5l14.2 11M4.9 17.5l14.2-11"/><path d="M9.5 3.5 12 6l2.5-2.5M9.5 20.5 12 18l2.5 2.5"/></svg></div><div><div class="brand-name">Rodriguez Impianti</div><div class="brand-sub" style="color:#a9c3d3">Gestione clienti</div></div></div>
+    <h2>Accedi al gestionale</h2>
+    <p>Clienti, impianti, interventi e scadenze in un unico posto. Da ufficio e da telefono.</p>
+    <label>Email<input id="lg-email" type="email" value="luis@rodriguezimpianti.it" autocomplete="username"></label>
+    <label>Password<input id="lg-pass" type="password" value="demo-2026" autocomplete="current-password"></label>
+    <button class="btn primary">Entra nella demo</button>
+    <div class="login-feat"><span>Agenda tecnici</span><span>Rapportino con firma</span><span>Promemoria WhatsApp</span><span>Registro F-gas</span><span>Preventivi</span></div>
+    <div class="login-foot">Versione dimostrativa con dati di esempio</div></form>`;
+  document.body.appendChild(el);
+}
+
 /* ---------- toast ---------- */
 let tt;function toast(m){clearTimeout(tt);let el=$(".toast");if(!el){el=document.createElement("div");el.className="toast";el.setAttribute("role","status");document.body.appendChild(el)}el.textContent=m;tt=setTimeout(()=>el.remove(),2600)}
 
@@ -604,22 +760,24 @@ const go=(v,fn)=>{if(location.hash.slice(1)===v){render();fn()}else{pending=fn;l
 function route(){const h=location.hash.slice(1);const nv=VIEWS.some(v=>v[0]===h)?h:"dashboard";if(nv!==view){filt="tutti";q=""}view=nv;closeDrawer();render();window.scrollTo(0,0);if(pending){const f=pending;pending=null;f()}}
 window.addEventListener("hashchange",route);
 
-document.addEventListener("input",e=>{if(e.target.id==="q"){q=e.target.value;render()}});
+document.addEventListener("input",e=>{if(e.target.id==="q"){q=e.target.value;render()}if(e.target.id==="rm-text")previewRem()});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeDrawer()});
 document.addEventListener("click",e=>{
-  const t=e.target.closest("[data-close],[data-cli],[data-int],[data-q],[data-act],[data-filt],[data-done],[data-cancel],[data-qstate],[data-plan],[data-copy],#reset");
+  const t=e.target.closest("[data-close],[data-cli],[data-int],[data-q],[data-act],[data-filt],[data-done],[data-cancel],[data-qstate],[data-plan],[data-copy],[data-mode],[data-remind],[data-remind-all],[data-sig-clear],#reset");
   if(!t)return;const d=t.dataset;
   if(d.close!==undefined)return closeDrawer();
   if(t.id==="reset"){db=seed();save();render();return toast("Dati demo ripristinati")}
   if(d.copy){navigator.clipboard?.writeText(d.copy).then(()=>toast("Copiato: "+d.copy)).catch(()=>toast(d.copy));return}
   if(d.filt){filt=d.filt;return render()}
+  if(d.mode){agMode=d.mode;return render()}
+  if(d.remind)return reminderDrawer(d.remind);
+  if(d.remindAll!==undefined){const l=db.unita.filter(u=>daysTo(u.prossimaMan)<0&&!u.promemoria);l.forEach(u=>u.promemoria=iso(today));save();render();return toast(l.length+" promemoria registrati (demo: nessun messaggio inviato)")}
+  if(d.sigClear!==undefined){const cv=$("#fr-sig");cv.getContext("2d").clearRect(0,0,cv.width,cv.height);sigDirty=false;return}
   if(d.act==="new-cli")return formCliente();
   if(d.act==="new-int")return formIntervento(d.for);
   if(d.act==="new-q")return formPreventivo(d.for);
   if(d.plan){const u=db.unita.find(x=>x.id===d.plan);return formIntervento(u.cliente,u.id)}
-  if(d.done){const i=db.interventi.find(x=>x.id===d.done);i.stato="completato";
-    if(i.tipo==="man"){const us=i.unita?db.unita.filter(u=>u.id===i.unita):unitsOf(i.cliente);us.forEach(u=>u.prossimaMan=iso(addDays(parse(i.data),365)))}
-    save();closeDrawer();render();return toast("Intervento completato")}
+  if(d.done)return rapportinoForm(d.done);
   if(d.cancel){db.interventi.find(x=>x.id===d.cancel).stato="annullato";save();closeDrawer();render();return toast("Intervento annullato")}
   if(d.qstate){const p=db.preventivi.find(x=>x.id===d.qid);p.stato=d.qstate;save();render();preventivoDrawer(p.id);return toast("Preventivo "+p.id+": "+d.qstate)}
   if(d.int)return interventoDrawer(d.int);
@@ -628,6 +786,16 @@ document.addEventListener("click",e=>{
 });
 document.addEventListener("submit",e=>{
   e.preventDefault();const f=e.target;const v=id=>$("#"+id).value.trim();
+  if(f.id==="f-login"){try{sessionStorage.setItem("rcrm-auth","1")}catch(e){}f.parentElement.remove();toast("Bentornato, Luis");return}
+  if(f.id==="f-rap"){
+    if(!sigDirty)return toast("Manca la firma del cliente");
+    const i=db.interventi.find(x=>x.id===f.dataset.id);
+    const checks=[...f.querySelectorAll("label.check")].map(l=>({t:l.textContent.trim(),ok:l.querySelector("input").checked}));
+    i.rapporto={checks,misure:$("#fr-p")?{p:v("fr-p"),t:v("fr-t"),a:v("fr-a")}:null,ore:v("fr-ore"),mat:v("fr-mat"),note:v("fr-note"),foto:rapFoto.slice(),firma:$("#fr-sig").toDataURL("image/png"),firmato:new Date().toLocaleString("it-IT",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"})};
+    i.importo=+v("fr-imp")||0;i.stato="completato";
+    if(i.tipo==="man"){const us=i.unita?db.unita.filter(u=>u.id===i.unita):unitsOf(i.cliente);us.forEach(u=>{u.prossimaMan=iso(addDays(parse(i.data),365));u.promemoria=null})}
+    save();render();interventoDrawer(i.id);return toast("Intervento chiuso, rapportino firmato salvato")}
+  if(f.id==="f-rem"){const u=db.unita.find(x=>x.id===f.dataset.id);u.promemoria=iso(today);save();closeDrawer();render();return toast("Promemoria registrato (demo: nessun messaggio inviato)")}
   if(f.id==="f-cli"){const c={id:uid("c"),nome:v("fc-nome"),tipo:v("fc-tipo"),tel:v("fc-tel"),email:v("fc-email"),ind:v("fc-ind"),citta:v("fc-citta"),prov:v("fc-prov").toUpperCase(),note:v("fc-note"),cf:"",creato:iso(today)};
     db.clienti.unshift(c);save();go("clienti",()=>clienteDrawer(c.id));toast("Cliente salvato")}
   if(f.id==="f-int"){const i={id:uid("i"),cliente:v("fi-cli"),unita:v("fi-unit")||null,tipo:v("fi-tipo"),data:v("fi-data"),ora:v("fi-ora"),tecnico:v("fi-tec"),stato:"pianificato",descr:v("fi-descr"),importo:+v("fi-imp")||0,dur:+v("fi-dur")||2};
@@ -637,5 +805,6 @@ document.addEventListener("submit",e=>{
     db.preventivi.push(p);save();go("preventivi",()=>preventivoDrawer(p.id));toast("Preventivo "+p.id+" salvato")}
 });
 route();
+showLogin();
 })();
 </script>
