@@ -1,0 +1,641 @@
+<title>Rodriguez Impianti CRM</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: barra laterale scura fissa (desktop) / barra in basso (telefono) + area di lavoro chiara a schede e tabelle */
+:root{
+  --bg:#f3f6f8; --surface:#ffffff; --surface-2:#eaf0f4; --line:#d6e0e7;
+  --fg:#16232d; --muted:#5d6f7c;
+  --accent:#0f6fa8; --accent-fg:#ffffff; --accent-soft:#dcedf7;
+  --side:#0e2433; --side-fg:#cfe1ec; --side-active:#1b3b52;
+  --ok:#1f8a5b; --ok-soft:#dcf2e7; --warn:#b86a00; --warn-soft:#fdefd6; --bad:#c23b32; --bad-soft:#fbe1de;
+  --heat:#d0612a;
+  --f-display:"Barlow Semi Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --r:8px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0b161e; --surface:#12212c; --surface-2:#182b38; --line:#24394a;
+  --fg:#e3edf3; --muted:#8fa5b4;
+  --accent:#4cb0ea; --accent-fg:#06202f; --accent-soft:#153a52;
+  --side:#07121a; --side-fg:#b9cfdc; --side-active:#163246;
+  --ok:#4fc38d; --ok-soft:#123528; --warn:#f0a83c; --warn-soft:#3a2a10; --bad:#f07067; --bad-soft:#3d1b19;
+  --heat:#f08a55; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0b161e; --surface:#12212c; --surface-2:#182b38; --line:#24394a;
+  --fg:#e3edf3; --muted:#8fa5b4;
+  --accent:#4cb0ea; --accent-fg:#06202f; --accent-soft:#153a52;
+  --side:#07121a; --side-fg:#b9cfdc; --side-active:#163246;
+  --ok:#4fc38d; --ok-soft:#123528; --warn:#f0a83c; --warn-soft:#3a2a10; --bad:#f07067; --bad-soft:#3d1b19;
+  --heat:#f08a55; color-scheme:dark}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font:15px/1.5 var(--f-body);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;margin:0;text-wrap:balance;letter-spacing:.01em}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mono{font-family:var(--f-mono);font-size:.86em}
+.num{font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+
+.app{display:grid;grid-template-columns:232px 1fr;min-height:100%}
+.side{background:var(--side);color:var(--side-fg);padding:20px 14px;display:flex;flex-direction:column;gap:22px;position:sticky;top:0;height:100vh}
+.brand{display:flex;gap:10px;align-items:center;padding:0 6px}
+.brand-mark{width:38px;height:38px;border-radius:9px;background:linear-gradient(140deg,#2a9fd8,#0f6fa8 60%,#d0612a);display:grid;place-items:center;flex:none}
+.brand-name{font-family:var(--f-display);font-weight:700;font-size:18px;line-height:1.05;color:#fff;letter-spacing:.02em}
+.brand-sub{font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.7}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav a{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:7px;color:inherit;text-decoration:none;font-weight:500}
+.nav a:hover{background:var(--side-active)}
+.nav a[aria-current="page"]{background:var(--side-active);color:#fff;box-shadow:inset 3px 0 0 #2a9fd8}
+.nav svg{width:18px;height:18px;flex:none}
+.nav .count{margin-left:auto;font-size:12px;background:#c23b32;color:#fff;border-radius:10px;padding:0 7px;font-variant-numeric:tabular-nums}
+.side-foot{margin-top:auto;font-size:12px;opacity:.75;padding:0 6px;display:flex;flex-direction:column;gap:8px}
+.side-foot button{background:transparent;border:1px solid #2c4a5f;color:inherit;border-radius:6px;padding:6px 8px;cursor:pointer;text-align:left}
+
+.main{min-width:0;padding-block:22px 40px;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+.topbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.topbar h1{font-size:28px;margin-right:auto}
+.demo-tag{font-size:12px;letter-spacing:.08em;text-transform:uppercase;background:var(--warn-soft);color:var(--warn);padding:3px 9px;border-radius:20px;font-weight:600}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:0 10px;min-width:0;flex:0 1 300px}
+.search input{border:0;background:transparent;padding:8px 0;outline:none;width:100%;min-width:0}
+a.btn{text-decoration:none;color:inherit}
+.btn{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:8px 13px;cursor:pointer;font-weight:500;white-space:nowrap}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.small{padding:5px 10px;font-size:13px}
+.btn.ghost{background:transparent}
+.btn svg{width:16px;height:16px}
+
+.grid{display:grid;gap:16px}
+.kpis{grid-template-columns:repeat(4,minmax(0,1fr))}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:flex;flex-direction:column;gap:2px}
+.kpi .lbl{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.kpi .val{font-family:var(--f-display);font-size:32px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.15}
+.kpi .sub{font-size:13px;color:var(--muted)}
+.kpi.alert .val{color:var(--bad)}
+.two{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);min-width:0}
+.panel-h{display:flex;align-items:center;gap:10px;padding:13px 16px;border-bottom:1px solid var(--line)}
+.panel-h h2{font-size:18px;margin-right:auto}
+.panel-b{padding:14px 16px}
+.panel-b.flush{padding:0}
+
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:10px 14px;border-bottom:1px solid var(--line);white-space:nowrap;background:var(--surface-2)}
+td{padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+tbody tr.click{cursor:pointer}
+tbody tr.click:hover td{background:var(--surface-2)}
+.cell-main{font-weight:600}
+.cell-sub{font-size:13px;color:var(--muted)}
+
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:2px 9px;border-radius:20px;white-space:nowrap;background:var(--surface-2);color:var(--muted)}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.bad{background:var(--bad-soft);color:var(--bad)}
+.pill.info{background:var(--accent-soft);color:var(--accent)}
+.tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:4px;border:1px solid var(--line);color:var(--muted)}
+.tag.inst{color:var(--accent);border-color:currentColor}
+.tag.man{color:var(--ok);border-color:currentColor}
+.tag.gua{color:var(--bad);border-color:currentColor}
+.tag.sop{color:var(--muted)}
+.tag.heat{color:var(--heat);border-color:currentColor}
+
+.agenda{display:flex;flex-direction:column}
+.ag-item{display:grid;grid-template-columns:62px 1fr auto;gap:12px;padding:11px 16px;border-bottom:1px solid var(--line);align-items:start;cursor:pointer}
+.ag-item:last-child{border-bottom:0}
+.ag-item:hover{background:var(--surface-2)}
+.ag-time{font-family:var(--f-mono);font-size:13px;color:var(--muted);padding-top:2px}
+.ag-title{font-weight:600}
+.day-head{font-family:var(--f-display);font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:12px 16px 6px;background:var(--surface-2);border-bottom:1px solid var(--line)}
+
+.bars{display:flex;align-items:flex-end;gap:10px;height:150px;padding:10px 4px 0;border-bottom:1px solid var(--line);position:relative}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end;min-width:0}
+.bar-stack{width:100%;max-width:34px;display:flex;flex-direction:column-reverse;border-radius:4px 4px 0 0;overflow:hidden}
+.bar-stack span{display:block}
+.bar-v{font-size:12px;font-variant-numeric:tabular-nums;color:var(--muted)}
+.bar-x{display:flex;gap:10px;padding:6px 4px 0}
+.bar-x span{flex:1;text-align:center;font-size:12px;color:var(--muted);text-transform:capitalize}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:10px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.chip{border:1px solid var(--line);background:var(--surface);padding:5px 12px;border-radius:20px;cursor:pointer;font-size:13px;font-weight:500}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(5,15,22,.45);z-index:40}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(560px,100%);background:var(--bg);z-index:50;display:flex;flex-direction:column;box-shadow:-10px 0 40px rgba(0,0,0,.2);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-right:env(safe-area-inset-right,0px)}
+.drawer-h{display:flex;align-items:flex-start;gap:12px;padding:18px 20px;border-bottom:1px solid var(--line);background:var(--surface)}
+.drawer-h h2{font-size:22px}
+.drawer-h .x{margin-left:auto}
+.drawer-b{overflow-y:auto;padding:18px 20px;display:flex;flex-direction:column;gap:18px}
+.dl{display:grid;grid-template-columns:130px 1fr;gap:6px 12px;font-size:14px}
+.dl dt{color:var(--muted)}
+.dl dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.sec-t{font-family:var(--f-display);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;font-weight:600}
+.unit{border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.unit-top{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.unit-name{font-weight:600}
+.unit-specs{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:13px;color:var(--muted)}
+.timeline{display:flex;flex-direction:column;border-left:2px solid var(--line);margin-left:6px}
+.tl{position:relative;padding:0 0 14px 16px}
+.tl::before{content:"";position:absolute;left:-7px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--surface);border:2px solid var(--accent)}
+.tl.gua::before{border-color:var(--bad)}
+.tl.man::before{border-color:var(--ok)}
+.tl-d{font-size:12px;color:var(--muted);font-family:var(--f-mono)}
+.copy{border:0;background:transparent;color:var(--accent);cursor:pointer;font-size:12px;padding:0 4px}
+
+form .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+form label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:var(--muted);min-width:0}
+form input,form select,form textarea{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:8px 10px;font-weight:400;font-size:15px;color:var(--fg);width:100%;min-width:0}
+form textarea{min-height:76px;resize:vertical}
+.form-actions{display:flex;gap:8px;justify-content:flex-end;padding-top:6px}
+.lines td input{padding:6px 8px}
+.total-row{display:flex;justify-content:space-between;font-size:15px;padding:4px 0}
+.total-row.big{font-family:var(--f-display);font-size:22px;font-weight:600;border-top:1px solid var(--line);padding-top:8px}
+
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(24px + env(safe-area-inset-bottom,0px));background:var(--fg);color:var(--bg);padding:10px 16px;border-radius:8px;z-index:60;font-weight:500;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.empty{padding:28px 16px;text-align:center;color:var(--muted)}
+.gas-bar{height:6px;border-radius:3px;background:var(--surface-2);overflow:hidden;margin-top:4px}
+.gas-bar span{display:block;height:100%;background:var(--accent)}
+
+@media (max-width:1100px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:760px){
+  .app{grid-template-columns:1fr}
+  .side{position:fixed;top:auto;bottom:0;left:0;right:0;height:auto;flex-direction:row;padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px));z-index:30;gap:0}
+  .brand,.side-foot{display:none}
+  .nav{flex-direction:row;width:100%;justify-content:space-between}
+  .nav a{flex-direction:column;gap:2px;font-size:11px;padding:6px 4px;flex:1;align-items:center}
+  .nav a[aria-current="page"]{box-shadow:inset 0 2px 0 #2a9fd8}
+  .nav .count{position:absolute;margin:0 0 0 22px;font-size:10px;padding:0 5px}
+  .nav a{position:relative}
+  .main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-bottom:96px}
+  .topbar h1{font-size:24px;width:100%}
+  .search{flex:1 1 100%}
+  .kpi .val{font-size:26px}
+  form .row{grid-template-columns:1fr}
+  .dl{grid-template-columns:1fr}
+  .dl dt{margin-top:6px}
+  .hide-sm{display:none}
+}
+@media (prefers-reduced-motion:no-preference){.drawer{animation:slide .22s ease-out}@keyframes slide{from{transform:translateX(30px);opacity:.6}}}
+</style>
+
+<div class="app">
+  <aside class="side">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M4.9 6.5l14.2 11M4.9 17.5l14.2-11"/><path d="M9.5 3.5 12 6l2.5-2.5M9.5 20.5 12 18l2.5 2.5"/></svg>
+      </div>
+      <div><div class="brand-name">Rodriguez<br>Impianti</div><div class="brand-sub">Gestione clienti</div></div>
+    </div>
+    <nav class="nav" id="nav"></nav>
+    <div class="side-foot">
+      <span>Versione demo · dati di esempio</span>
+      <button type="button" id="reset">Ripristina dati demo</button>
+    </div>
+  </aside>
+  <main class="main" id="main"></main>
+</div>
+<div id="overlay"></div>
+
+<script>
+(function(){
+"use strict";
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const DAY=864e5;
+const today=new Date();today.setHours(0,0,0,0);
+const addDays=(d,n)=>new Date(d.getTime()+n*DAY);
+const iso=d=>{const x=new Date(d);return x.getFullYear()+"-"+String(x.getMonth()+1).padStart(2,"0")+"-"+String(x.getDate()).padStart(2,"0")};
+const parse=s=>{const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
+const fmtD=s=>parse(s).toLocaleDateString("it-IT",{day:"2-digit",month:"short",year:"numeric"});
+const fmtDay=s=>parse(s).toLocaleDateString("it-IT",{weekday:"long",day:"numeric",month:"long"});
+const eur=n=>n.toLocaleString("it-IT",{style:"currency",currency:"EUR"});
+const daysTo=s=>Math.round((parse(s)-today)/DAY);
+const uid=p=>p+Math.random().toString(36).slice(2,8);
+
+/* GWP da Reg. UE 517/2014 per calcolo t CO2 eq */
+const GWP={R32:675,R410A:2088,R290:3,R134a:1430};
+const TIPI={inst:"Installazione",man:"Manutenzione",gua:"Guasto",sop:"Sopralluogo"};
+const TECNICI=["Luis Rodriguez","Marco Ferri","Davide Sala"];
+
+/* ---------- dati demo (relativi a oggi) ---------- */
+function seed(){
+  const C=[
+    ["c1","Giulia Bianchi","privato","via dei Mille 14","Monza","MB","347 218 9932","giulia.bianchi@email.it"],
+    ["c2","Condominio Le Querce","condominio","via Manzoni 52","Sesto San Giovanni","MI","02 2489 1170","amm.lequerce@studiorossi.it"],
+    ["c3","Trattoria Da Peppino","azienda","piazza Garibaldi 3","Cinisello Balsamo","MI","02 6601 4482","info@dapeppino.it"],
+    ["c4","Roberto Colombo","privato","via Volta 8","Monza","MB","333 401 7765","r.colombo@email.it"],
+    ["c5","Studio Dentistico Moretti","azienda","viale Lombardia 120","Cologno Monzese","MI","02 2530 9981","segreteria@moretti-dental.it"],
+    ["c6","Francesca Riva","privato","via Cavour 27","Brugherio","MB","348 552 1093","francesca.riva@email.it"],
+    ["c7","Ottica Visconti","azienda","corso Milano 41","Monza","MB","039 238 4410","ottica.visconti@email.it"],
+    ["c8","Andrea Gallo","privato","via Pascoli 5","Lissone","MB","340 117 6628","andrea.gallo@email.it"],
+    ["c9","Palestra FitLab","azienda","via dell'Industria 9","Vimercate","MB","039 668 2207","gestione@fitlab.it"],
+    ["c10","Elena Marchetti","privato","via Leopardi 33","Sesto San Giovanni","MI","339 908 4415","elena.marchetti@email.it"],
+    ["c11","Paolo e Sara Conti","privato","via Rossini 2","Desio","MB","335 772 0184","conti.famiglia@email.it"],
+    ["c12","Condominio Villa Serena","condominio","via Mazzini 88","Monza","MB","039 221 0567","villaserena@ammcondomini.it"]
+  ].map(([id,nome,tipo,ind,citta,prov,tel,email],i)=>({id,nome,tipo,ind,citta,prov,tel,email,
+    cf:tipo==="privato"?"":("0"+(2384710+i*7311)+"15").slice(0,11),
+    creato:iso(addDays(today,-(40+i*61))),
+    note:["Preferisce interventi al mattino","Accesso dal cortile interno, chiave in portineria","Chiuso il lunedì","","Interventi solo fuori orario studio (dopo le 19)","Ha un cane, avvisare prima","","","Locale tecnico al piano -1","Interessata a pompa di calore","Detrazione 50% richiesta","Riunione condominiale a novembre"][i]}));
+
+  const U=[
+    ["u1","c1","Daikin","Perfera FTXM35R","Split a parete",12000,"R32",0.76,-420,"2J0481123"],
+    ["u2","c1","Daikin","Perfera FTXM25R","Split a parete",9000,"R32",0.76,-420,"2J0481190"],
+    ["u3","c2","Mitsubishi Electric","PUZ-ZM100","Pompa di calore aria-acqua",34000,"R32",4.0,-1150,"MZ7731045"],
+    ["u4","c3","Mitsubishi Electric","PLA-M100EA","Cassetta 4 vie",34000,"R32",3.0,-900,"PL0099812"],
+    ["u5","c3","Samsung","AR24TXFCAWK","Split a parete",24000,"R32",1.3,-900,"SA5521877"],
+    ["u6","c4","LG","Artcool AC12BK","Split a parete",12000,"R32",0.85,-200,"LG8810234"],
+    ["u7","c5","Daikin","FCAG71B","Cassetta 4 vie",24000,"R32",2.75,-1500,"DK2210098"],
+    ["u8","c5","Daikin","RXM-R multisplit 4MXM80","Multisplit 4 attacchi",27000,"R32",2.4,-1500,"DK2210133"],
+    ["u9","c6","Toshiba","Shorai Edge RAS-13J2","Split a parete",12000,"R32",0.85,-30,"TS4410982"],
+    ["u10","c7","Mitsubishi Electric","PEAD-M71","Canalizzato",24000,"R410A",2.9,-2900,"ME0012876"],
+    ["u11","c8","Hisense","Energy Pro 35","Split a parete",12000,"R32",0.9,-700,"HS3320011"],
+    ["u12","c9","Daikin","VRV IV RXYSQ8","VRV centralizzato",76000,"R410A",7.8,-2300,"VR8811002"],
+    ["u13","c10","Panasonic","Etherea CS-Z35","Split a parete",12000,"R32",0.85,-1100,"PN7710340"],
+    ["u14","c11","Daikin","Altherma 3 H HT","Pompa di calore aria-acqua",40000,"R32",3.8,-160,"AL3301218"],
+    ["u15","c12","Mitsubishi Electric","PUHZ-ZRP140","Split canalizzato",48000,"R410A",4.6,-2600,"MZ0187733"]
+  ].map(([id,cliente,marca,modello,tipo,btu,gas,kg,inst,matr])=>{
+    const dInst=addDays(today,inst);
+    return {id,cliente,marca,modello,tipo,btu,gas,kg,matr,installato:iso(dInst),
+      garanzia:iso(addDays(dInst,365*(marca==="Daikin"?3:2))),
+      prossimaMan:null};
+  });
+  /* scadenze manutenzione: alcune scadute, alcune imminenti */
+  const off={u1:18,u2:18,u3:-12,u4:6,u5:6,u6:160,u7:-3,u8:-3,u9:340,u10:-25,u11:44,u12:9,u13:-40,u14:200,u15:27};
+  U.forEach(u=>u.prossimaMan=iso(addDays(today,off[u.id])));
+  C.forEach(c=>{const f=U.filter(u=>u.cliente===c.id).map(u=>u.installato).sort()[0];if(f)c.creato=iso(addDays(parse(f),-20))});
+
+  const I=[];
+  const add=(cliente,unita,tipo,offD,ora,tecnico,stato,descr,importo,dur)=>I.push({id:uid("i"),cliente,unita,tipo,data:iso(addDays(today,offD)),ora,tecnico,stato,descr,importo,dur:dur||2});
+  add("c6","u9","inst",-30,"08:30","Luis Rodriguez","completato","Installazione split 12000 BTU in camera, staffa a muro e scarico condensa a gravità",1290,6);
+  add("c11","u14","inst",-160,"08:00","Luis Rodriguez","completato","Sostituzione caldaia con pompa di calore Altherma 3, pratica Conto Termico",11800,16);
+  add("c1",null,"man",-380,"09:00","Marco Ferri","completato","Manutenzione ordinaria 2 split: pulizia filtri, sanificazione batteria, verifica pressioni",140);
+  add("c3","u4","gua",-14,"15:00","Davide Sala","completato","Errore P4 su cassetta sala: sostituito sensore temperatura scambiatore",185);
+  add("c10","u13","gua",-6,"10:30","Marco Ferri","completato","Perdita acqua da unità interna: pompa scarico condensa ostruita, pulita",90);
+  add("c7","u10","man",-370,"14:00","Davide Sala","completato","Controllo perdite F-gas annuale e registrazione Banca Dati FGAS",160);
+  add("c2","u3","man",-372,"08:30","Luis Rodriguez","completato","Manutenzione pompa di calore centralizzata, aggiornamento libretto impianto",380);
+  add("c4","u6","sop",-2,"17:30","Luis Rodriguez","completato","Sopralluogo per secondo split in soggiorno, preventivo inviato",0,1);
+  /* futuri */
+  add("c5","u7","man",0,"19:15","Marco Ferri","pianificato","Manutenzione cassetta + multisplit, sanificazione con prodotto antibatterico",320,3);
+  add("c8",null,"sop",0,"11:00","Luis Rodriguez","in corso","Sopralluogo per climatizzazione mansarda (2 locali)",0,1);
+  add("c3","u5","man",1,"09:00","Davide Sala","pianificato","Manutenzione semestrale split cucina (ambiente grassi)",95);
+  add("c9","u12","man",2,"07:30","Luis Rodriguez","pianificato","Controllo perdite F-gas VRV (≥5 t CO2 eq) e pulizia unità interne",650,5);
+  add("c10",null,"inst",3,"08:30","Luis Rodriguez","pianificato","Installazione pompa di calore aria-acqua 8 kW, preventivo P-2026-041",8900,12);
+  add("c12","u15","man",5,"09:30","Davide Sala","pianificato","Manutenzione canalizzato e controllo perdite F-gas",290);
+  add("c1",null,"man",8,"09:00","Marco Ferri","pianificato","Manutenzione ordinaria annuale 2 split",140);
+  add("c2","u3","gua",1,"16:00","Marco Ferri","pianificato","Segnalazione amministratore: acqua calda sanitaria non arriva a temperatura",0);
+
+  const Q=[
+    {id:"P-2026-041",cliente:"c10",data:iso(addDays(today,-21)),stato:"accettato",oggetto:"Pompa di calore aria-acqua 8 kW con accumulo ACS 200 l",detrazione:"65%",righe:[["Daikin Altherma 3 R 8 kW",1,5600],["Accumulo ACS 200 l",1,1450],["Installazione e collaudo",1,1850]]},
+    {id:"P-2026-044",cliente:"c4",data:iso(addDays(today,-1)),stato:"inviato",oggetto:"Split LG Artcool 9000 BTU soggiorno",detrazione:"50%",righe:[["LG Artcool AC09BK",1,690],["Kit staffe e linee (3 m)",1,95],["Installazione",1,320]]},
+    {id:"P-2026-043",cliente:"c8",data:iso(addDays(today,-9)),stato:"inviato",oggetto:"Dual split mansarda 9000+12000 BTU",detrazione:"50%",righe:[["Daikin dual 2MXM50 + 2 unità",1,2380],["Installazione con canalina",1,780]]},
+    {id:"P-2026-039",cliente:"c7",data:iso(addDays(today,-34)),stato:"rifiutato",oggetto:"Sostituzione canalizzato R410A con R32",detrazione:"—",righe:[["Mitsubishi PEAD-M71 R32",1,3900],["Smontaggio e smaltimento",1,450],["Installazione",1,1400]]},
+    {id:"P-2026-045",cliente:"c12",data:iso(today),stato:"bozza",oggetto:"Contratto manutenzione annuale condominio",detrazione:"—",righe:[["Manutenzione programmata (2 visite/anno)",1,520],["Controllo F-gas",1,120]]}
+  ];
+  return {clienti:C,unita:U,interventi:I,preventivi:Q};
+}
+
+const KEY="rodriguez-crm-demo-v1";
+let db;
+try{const raw=localStorage.getItem(KEY);db=raw?JSON.parse(raw):null}catch(e){db=null}
+if(!db||!db.clienti)db=seed();
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(db))}catch(e){}};
+
+const cli=id=>db.clienti.find(c=>c.id===id)||{nome:"—"};
+const unitsOf=id=>db.unita.filter(u=>u.cliente===id);
+const co2=u=>(u.kg*(GWP[u.gas]||0)/1000);
+const qTot=q=>q.righe.reduce((s,r)=>s+r[1]*r[2],0);
+const manState=u=>{const d=daysTo(u.prossimaMan);return d<0?{c:"bad",t:"Scaduta da "+(-d)+" gg"}:d<=30?{c:"warn",t:"Tra "+d+" gg"}:{c:"ok",t:fmtD(u.prossimaMan)}};
+const statoPill=s=>({completato:"ok","in corso":"info",pianificato:"",annullato:"bad"}[s]??"");
+const qPill=s=>({accettato:"ok",inviato:"info",rifiutato:"bad",bozza:""}[s]??"");
+
+/* ---------- icone ---------- */
+const ic={
+  dash:'<path d="M3 13h8V3H3zM13 21h8V11h-8zM3 21h8v-6H3zM13 3v6h8V3z"/>',
+  users:'<circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/><path d="M16 4a4 4 0 0 1 0 8M22 21c0-3-2-5-4-5.5"/>',
+  unit:'<rect x="2" y="5" width="20" height="9" rx="2"/><path d="M6 11h12M7 18c0 1 1 2 2 2M12 17v3M17 18c0 1-1 2-2 2"/>',
+  cal:'<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/>',
+  doc:'<path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/>',
+  bell:'<path d="M18 8a6 6 0 1 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>',
+  x:'<path d="M18 6 6 18M6 6l12 12"/>'
+};
+const svg=(n,extra="")=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ${extra}>${ic[n]}</svg>`;
+
+const VIEWS=[
+  ["dashboard","Panoramica","dash"],["clienti","Clienti","users"],["impianti","Impianti","unit"],
+  ["agenda","Interventi","cal"],["preventivi","Preventivi","doc"],["scadenze","Scadenze","bell"]
+];
+let view="dashboard", q="", filt="tutti";
+
+function renderNav(){
+  const late=db.unita.filter(u=>daysTo(u.prossimaMan)<0).length;
+  $("#nav").innerHTML=VIEWS.map(([k,l,i])=>`<a href="#${k}" ${k===view?'aria-current="page"':""}>${svg(i)}<span>${l}</span>${k==="scadenze"&&late?`<span class="count">${late}</span>`:""}</a>`).join("");
+}
+function topbar(title,actions=""){
+  return `<div class="topbar"><h1>${title}</h1><span class="demo-tag">Demo</span>
+  <label class="search">${svg("search",'width="16" height="16" class="muted"')}<input id="q" type="search" placeholder="Cerca cliente, città, modello, matricola…" value="${esc(q)}" aria-label="Cerca"></label>${actions}</div>`;
+}
+const match=(...f)=>!q||f.join(" ").toLowerCase().includes(q.toLowerCase());
+
+/* ---------- viste ---------- */
+function vDashboard(){
+  const oggi=db.interventi.filter(i=>i.data===iso(today)&&i.stato!=="annullato");
+  const sett=db.interventi.filter(i=>{const d=daysTo(i.data);return d>=0&&d<7&&i.stato!=="annullato"});
+  const scad=db.unita.filter(u=>daysTo(u.prossimaMan)<0);
+  const imm=db.unita.filter(u=>{const d=daysTo(u.prossimaMan);return d>=0&&d<=30});
+  const aperti=db.preventivi.filter(p=>p.stato==="inviato");
+  const valAp=aperti.reduce((s,p)=>s+qTot(p),0);
+  const fGas=db.unita.filter(u=>co2(u)>=5);
+  /* lavori ultimi 6 mesi per tipo */
+  const months=[];for(let k=5;k>=0;k--){const d=new Date(today.getFullYear(),today.getMonth()-k,1);months.push(d)}
+  const agg=months.map(m=>{const r={inst:0,man:0,gua:0};db.interventi.forEach(i=>{const d=parse(i.data);if(d.getMonth()===m.getMonth()&&d.getFullYear()===m.getFullYear()&&i.stato==="completato"&&r[i.tipo]!==undefined)r[i.tipo]++});
+    /* volume storico di esempio per dare forma al grafico */
+    const base=[[2,9,3],[3,11,4],[5,14,6],[6,12,5],[4,10,3],[3,8,2]][months.indexOf(m)];
+    return {m,inst:r.inst+base[0],man:r.man+base[1],gua:r.gua+base[2]}});
+  const max=Math.max(...agg.map(a=>a.inst+a.man+a.gua));
+  const col={inst:"var(--accent)",man:"var(--ok)",gua:"var(--bad)"};
+  const bars=agg.map(a=>{const t=a.inst+a.man+a.gua;return `<div class="bar-col"><span class="bar-v">${t}</span><div class="bar-stack" style="height:${t/max*82}%">${["inst","man","gua"].map(k=>`<span style="height:${a[k]/t*100}%;background:${col[k]}"></span>`).join("")}</div></div>`}).join("");
+  return topbar("Buongiorno, Luis",`<button class="btn primary" data-act="new-int">${svg("plus")}Nuovo intervento</button>`)+`
+  <div class="grid kpis">
+    <div class="kpi"><span class="lbl">Interventi oggi</span><span class="val">${oggi.length}</span><span class="sub">${sett.length} nei prossimi 7 giorni</span></div>
+    <div class="kpi alert"><span class="lbl">Manutenzioni scadute</span><span class="val">${scad.length}</span><span class="sub">${imm.length} in scadenza entro 30 gg</span></div>
+    <div class="kpi"><span class="lbl">Preventivi in attesa</span><span class="val">${aperti.length}</span><span class="sub num">${eur(valAp)} da confermare</span></div>
+    <div class="kpi"><span class="lbl">Impianti seguiti</span><span class="val">${db.unita.length}</span><span class="sub">${fGas.length} soggetti a controllo F-gas</span></div>
+  </div>
+  <div class="grid two" style="margin-top:16px">
+    <section class="panel"><div class="panel-h"><h2>Agenda dei prossimi giorni</h2><a class="btn small ghost" href="#agenda">Vedi tutto</a></div>
+      <div class="agenda">${agendaList(db.interventi.filter(i=>{const d=daysTo(i.data);return d>=0&&d<4}),true)}</div></section>
+    <div class="grid" style="align-content:start">
+      <section class="panel"><div class="panel-h"><h2>Da richiamare</h2><span class="muted" style="font-size:13px">manutenzioni scadute</span></div>
+        <div class="panel-b flush">${scad.length?scad.sort((a,b)=>a.prossimaMan.localeCompare(b.prossimaMan)).map(u=>{const c=cli(u.cliente);return `<div class="ag-item" data-cli="${c.id}" style="grid-template-columns:1fr auto"><div><div class="ag-title">${esc(c.nome)}</div><div class="cell-sub">${esc(u.marca)} ${esc(u.modello)} · <span class="mono">${esc(c.tel)}</span></div></div><span class="pill bad">${-daysTo(u.prossimaMan)} gg</span></div>`}).join(""):'<div class="empty">Nessuna manutenzione scaduta.</div>'}</div></section>
+      <section class="panel"><div class="panel-h"><h2>Lavori chiusi</h2><span class="muted" style="font-size:13px">ultimi 6 mesi</span></div>
+        <div class="panel-b"><div class="bars">${bars}</div><div class="bar-x">${agg.map(a=>`<span>${a.m.toLocaleDateString("it-IT",{month:"short"})}</span>`).join("")}</div>
+        <div class="legend"><span><i style="background:var(--accent)"></i>Installazioni</span><span><i style="background:var(--ok)"></i>Manutenzioni</span><span><i style="background:var(--bad)"></i>Guasti</span></div></div></section>
+    </div>
+  </div>`;
+}
+
+function agendaList(list,compact){
+  list=[...list].sort((a,b)=>(a.data+a.ora).localeCompare(b.data+b.ora));
+  if(!list.length)return '<div class="empty">Nessun intervento in programma.</div>';
+  let out="",last="";
+  list.forEach(i=>{
+    if(i.data!==last){last=i.data;const d=daysTo(i.data);out+=`<div class="day-head">${d===0?"Oggi · ":d===1?"Domani · ":d===-1?"Ieri · ":""}${fmtDay(i.data)}</div>`}
+    const c=cli(i.cliente);
+    out+=`<div class="ag-item" data-int="${i.id}"><span class="ag-time">${i.ora}</span>
+      <div style="min-width:0"><div class="ag-title">${esc(c.nome)} <span class="tag ${i.tipo}">${TIPI[i.tipo]}</span></div>
+      <div class="cell-sub">${esc(c.ind)}, ${esc(c.citta)} · ${esc(i.tecnico)}</div>${compact?"":`<div class="cell-sub">${esc(i.descr)}</div>`}</div>
+      <span class="pill ${statoPill(i.stato)}">${i.stato}</span></div>`;
+  });
+  return out;
+}
+
+function vClienti(){
+  const tipi=["tutti","privato","azienda","condominio"];
+  const list=db.clienti.filter(c=>(filt==="tutti"||c.tipo===filt)&&match(c.nome,c.citta,c.ind,c.tel,c.email));
+  return topbar("Clienti",`<button class="btn primary" data-act="new-cli">${svg("plus")}Nuovo cliente</button>`)+`
+  <div class="filters">${tipi.map(t=>`<button class="chip" data-filt="${t}" aria-pressed="${filt===t}">${t==="tutti"?"Tutti":t[0].toUpperCase()+t.slice(1)}</button>`).join("")}</div>
+  <section class="panel"><div class="table-wrap"><table><thead><tr><th>Cliente</th><th>Recapiti</th><th class="hide-sm">Impianti</th><th>Prossima manutenzione</th><th class="hide-sm">Ultimo intervento</th></tr></thead><tbody>
+  ${list.map(c=>{const us=unitsOf(c.id);const next=us.map(u=>u.prossimaMan).sort()[0];const st=next?manState({prossimaMan:next}):null;
+    const lastI=db.interventi.filter(i=>i.cliente===c.id&&i.stato==="completato").sort((a,b)=>b.data.localeCompare(a.data))[0];
+    return `<tr class="click" data-cli="${c.id}"><td><div class="cell-main">${esc(c.nome)}</div><div class="cell-sub">${esc(c.ind)}, ${esc(c.citta)} (${c.prov}) · <span class="tag">${c.tipo}</span></div></td>
+    <td><div class="mono">${esc(c.tel)}</div><div class="cell-sub">${esc(c.email)}</div></td>
+    <td class="hide-sm num">${us.length}</td>
+    <td>${st?`<span class="pill ${st.c}">${st.t}</span>`:'<span class="muted">—</span>'}</td>
+    <td class="hide-sm">${lastI?`<div>${fmtD(lastI.data)}</div><div class="cell-sub">${TIPI[lastI.tipo]}</div>`:'<span class="muted">—</span>'}</td></tr>`}).join("")||`<tr><td colspan="5" class="empty">Nessun cliente trovato per “${esc(q)}”.</td></tr>`}
+  </tbody></table></div></section>`;
+}
+
+function vImpianti(){
+  const list=db.unita.filter(u=>{const c=cli(u.cliente);return match(u.marca,u.modello,u.matr,u.tipo,c.nome,c.citta,u.gas)});
+  const totKg=db.unita.reduce((s,u)=>s+u.kg,0);
+  return topbar("Impianti installati")+`
+  <div class="grid kpis" style="margin-bottom:16px">
+    <div class="kpi"><span class="lbl">Unità esterne</span><span class="val">${db.unita.length}</span><span class="sub">${new Set(db.unita.map(u=>u.marca)).size} marchi</span></div>
+    <div class="kpi"><span class="lbl">Gas gestito</span><span class="val num">${totKg.toFixed(1).replace(".",",")} kg</span><span class="sub">${db.unita.filter(u=>u.gas==="R32").length} R32 · ${db.unita.filter(u=>u.gas==="R410A").length} R410A</span></div>
+    <div class="kpi"><span class="lbl">In garanzia</span><span class="val">${db.unita.filter(u=>daysTo(u.garanzia)>=0).length}</span><span class="sub">garanzia produttore attiva</span></div>
+    <div class="kpi"><span class="lbl">Controllo F-gas</span><span class="val">${db.unita.filter(u=>co2(u)>=5).length}</span><span class="sub">≥ 5 t CO₂ eq · annuale</span></div>
+  </div>
+  <section class="panel"><div class="table-wrap"><table><thead><tr><th>Impianto</th><th>Cliente</th><th>Potenza</th><th>Refrigerante</th><th class="hide-sm">Garanzia</th><th>Manutenzione</th></tr></thead><tbody>
+  ${list.map(u=>{const c=cli(u.cliente);const st=manState(u);const t=co2(u);const g=daysTo(u.garanzia);
+    return `<tr class="click" data-cli="${c.id}"><td><div class="cell-main">${esc(u.marca)} ${esc(u.modello)}</div><div class="cell-sub">${esc(u.tipo)} · <span class="mono">${esc(u.matr)}</span></div></td>
+    <td><div>${esc(c.nome)}</div><div class="cell-sub">${esc(c.citta)}</div></td>
+    <td class="num"><div>${u.btu.toLocaleString("it-IT")} BTU/h</div><div class="cell-sub">${(u.btu*0.000293).toFixed(1).replace(".",",")} kW</div></td>
+    <td class="num"><div>${u.gas} · ${String(u.kg).replace(".",",")} kg</div><div class="cell-sub">${t.toFixed(2).replace(".",",")} t CO₂ eq ${t>=5?'<span class="tag gua">F-gas</span>':""}</div></td>
+    <td class="hide-sm">${g>=0?`<span class="pill ok">fino a ${fmtD(u.garanzia)}</span>`:'<span class="pill">scaduta</span>'}</td>
+    <td><span class="pill ${st.c}">${st.t}</span></td></tr>`}).join("")||`<tr><td colspan="6" class="empty">Nessun impianto trovato.</td></tr>`}
+  </tbody></table></div></section>`;
+}
+
+function vAgenda(){
+  const opts=["tutti","inst","man","gua","sop"];
+  const list=db.interventi.filter(i=>(filt==="tutti"||i.tipo===filt)&&match(cli(i.cliente).nome,i.descr,i.tecnico,cli(i.cliente).citta));
+  const fut=list.filter(i=>daysTo(i.data)>=0), past=list.filter(i=>daysTo(i.data)<0);
+  return topbar("Interventi",`<button class="btn primary" data-act="new-int">${svg("plus")}Nuovo intervento</button>`)+`
+  <div class="filters">${opts.map(t=>`<button class="chip" data-filt="${t}" aria-pressed="${filt===t}">${t==="tutti"?"Tutti":TIPI[t]}</button>`).join("")}</div>
+  <div class="grid two">
+    <section class="panel"><div class="panel-h"><h2>In programma</h2><span class="muted num">${fut.length}</span></div><div class="agenda">${agendaList(fut)}</div></section>
+    <section class="panel"><div class="panel-h"><h2>Carico tecnici</h2><span class="muted" style="font-size:13px">prossimi 7 giorni</span></div><div class="panel-b" style="display:flex;flex-direction:column;gap:12px">
+      ${TECNICI.map(t=>{const h=db.interventi.filter(i=>i.tecnico===t&&daysTo(i.data)>=0&&daysTo(i.data)<7).reduce((s,i)=>s+i.dur,0);return `<div><div style="display:flex;justify-content:space-between"><span style="font-weight:600">${t}</span><span class="num muted">${h} h / 40 h</span></div><div class="gas-bar"><span style="width:${Math.min(100,h/40*100)}%;${h>32?"background:var(--warn)":""}"></span></div></div>`}).join("")}
+    </div>
+    <div class="panel-h" style="border-top:1px solid var(--line)"><h2>Storico</h2><span class="muted num">${past.length}</span></div>
+    <div class="agenda">${agendaList(past.sort((a,b)=>b.data.localeCompare(a.data)).slice(0,8))}</div></section>
+  </div>`;
+}
+
+function vPreventivi(){
+  const list=db.preventivi.filter(p=>match(p.id,p.oggetto,cli(p.cliente).nome));
+  const acc=db.preventivi.filter(p=>p.stato==="accettato"||p.stato==="rifiutato");
+  const rate=acc.length?Math.round(db.preventivi.filter(p=>p.stato==="accettato").length/acc.length*100):0;
+  return topbar("Preventivi",`<button class="btn primary" data-act="new-q">${svg("plus")}Nuovo preventivo</button>`)+`
+  <div class="grid kpis" style="margin-bottom:16px">
+    ${["bozza","inviato","accettato","rifiutato"].map(s=>{const l=db.preventivi.filter(p=>p.stato===s);return `<div class="kpi"><span class="lbl">${s}</span><span class="val">${l.length}</span><span class="sub num">${eur(l.reduce((a,p)=>a+qTot(p),0))}</span></div>`}).join("")}
+  </div>
+  <section class="panel"><div class="panel-h"><h2>Tutti i preventivi</h2><span class="muted" style="font-size:13px">Tasso di accettazione ${rate}%</span></div><div class="table-wrap"><table><thead><tr><th>N°</th><th>Cliente e oggetto</th><th class="hide-sm">Data</th><th class="hide-sm">Detrazione</th><th style="text-align:right">Totale IVA incl.</th><th>Stato</th></tr></thead><tbody>
+  ${list.sort((a,b)=>b.data.localeCompare(a.data)).map(p=>`<tr class="click" data-q="${p.id}"><td class="mono">${p.id}</td><td><div class="cell-main">${esc(cli(p.cliente).nome)}</div><div class="cell-sub">${esc(p.oggetto)}</div></td><td class="hide-sm">${fmtD(p.data)}</td><td class="hide-sm">${p.detrazione}</td><td class="num" style="text-align:right;font-weight:600">${eur(qTot(p)*1.1)}</td><td><span class="pill ${qPill(p.stato)}">${p.stato}</span></td></tr>`).join("")}
+  </tbody></table></div></section>`;
+}
+
+function vScadenze(){
+  const list=db.unita.filter(u=>daysTo(u.prossimaMan)<=60&&match(cli(u.cliente).nome,u.modello,cli(u.cliente).citta)).sort((a,b)=>a.prossimaMan.localeCompare(b.prossimaMan));
+  const gar=db.unita.filter(u=>{const d=daysTo(u.garanzia);return d>=0&&d<=120});
+  return topbar("Scadenze")+`
+  <div class="grid two">
+  <section class="panel"><div class="panel-h"><h2>Manutenzioni entro 60 giorni</h2><span class="muted num">${list.length}</span></div><div class="table-wrap"><table><thead><tr><th>Cliente</th><th>Impianto</th><th>Scadenza</th><th></th></tr></thead><tbody>
+  ${list.map(u=>{const c=cli(u.cliente);const st=manState(u);const planned=db.interventi.some(i=>i.cliente===c.id&&i.tipo==="man"&&daysTo(i.data)>=0&&i.stato!=="annullato");
+    return `<tr><td><div class="cell-main">${esc(c.nome)}</div><div class="cell-sub mono">${esc(c.tel)}</div></td><td><div>${esc(u.marca)} ${esc(u.modello)}</div><div class="cell-sub">${co2(u)>=5?"Controllo F-gas obbligatorio":"Manutenzione ordinaria"}</div></td><td><span class="pill ${st.c}">${st.t}</span></td>
+    <td style="text-align:right">${planned?'<span class="pill info">pianificata</span>':`<button class="btn small" data-plan="${u.id}">Pianifica</button>`}</td></tr>`}).join("")||'<tr><td colspan="4" class="empty">Nessuna scadenza nei prossimi 60 giorni.</td></tr>'}
+  </tbody></table></div></section>
+  <div class="grid" style="align-content:start">
+  <section class="panel"><div class="panel-h"><h2>Garanzie in scadenza</h2><span class="muted" style="font-size:13px">entro 4 mesi</span></div><div class="panel-b flush">
+    ${gar.length?gar.map(u=>`<div class="ag-item" data-cli="${u.cliente}" style="grid-template-columns:1fr auto"><div><div class="ag-title">${esc(cli(u.cliente).nome)}</div><div class="cell-sub">${esc(u.marca)} ${esc(u.modello)}</div></div><span class="pill warn">${fmtD(u.garanzia)}</span></div>`).join(""):'<div class="empty">Nessuna garanzia in scadenza: proponi l\'estensione al prossimo intervento.</div>'}
+  </div></section>
+  <section class="panel"><div class="panel-h"><h2>Promemoria normativi</h2></div><div class="panel-b" style="display:flex;flex-direction:column;gap:10px;font-size:14px">
+    <div><b>Controllo perdite F-gas</b><div class="muted">Annuale per impianti da 5 t CO₂ eq in su (Reg. UE 2024/573). Registrare l'intervento nella Banca Dati FGAS entro 30 giorni.</div></div>
+    <div><b>Libretto di impianto</b><div class="muted">Aggiornare a ogni manutenzione per climatizzatori e pompe di calore da 12 kW in su, con rapporto di efficienza energetica.</div></div>
+    <div><b>Detrazioni fiscali</b><div class="muted">Conservare scheda tecnica e asseverazioni per le pratiche ENEA collegate a installazioni con detrazione.</div></div>
+  </div></section>
+  </div></div>`;
+}
+
+/* ---------- drawer ---------- */
+function openDrawer(title,sub,body){
+  $("#overlay").innerHTML=`<div class="scrim" data-close></div><aside class="drawer" role="dialog" aria-modal="true" aria-label="${esc(title)}"><div class="drawer-h"><div style="min-width:0"><h2>${esc(title)}</h2>${sub?`<div class="muted" style="font-size:14px">${sub}</div>`:""}</div><button class="btn small ghost x" data-close aria-label="Chiudi">${svg("x")}</button></div><div class="drawer-b">${body}</div></aside>`;
+  const f=$("#overlay").querySelector("input,select,textarea,button.x");f&&f.focus();
+}
+const closeDrawer=()=>{$("#overlay").innerHTML=""};
+
+function clienteDrawer(id){
+  const c=cli(id);const us=unitsOf(id);
+  const ints=db.interventi.filter(i=>i.cliente===id).sort((a,b)=>b.data.localeCompare(a.data));
+  const qs=db.preventivi.filter(p=>p.cliente===id);
+  const fatt=ints.filter(i=>i.stato==="completato").reduce((s,i)=>s+i.importo,0);
+  openDrawer(c.nome,`<span class="tag">${c.tipo}</span> · cliente dal ${fmtD(c.creato)}`,`
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary small" data-act="new-int" data-for="${id}">${svg("plus")}Intervento</button><button class="btn small" data-act="new-q" data-for="${id}">${svg("plus")}Preventivo</button></div>
+    <dl class="dl">
+      <dt>Indirizzo</dt><dd>${esc(c.ind)}, ${esc(c.citta)} (${c.prov})</dd>
+      <dt>Telefono</dt><dd><span class="mono">${esc(c.tel)}</span><button class="copy" data-copy="${esc(c.tel)}">copia</button></dd>
+      <dt>Email</dt><dd>${esc(c.email)}<button class="copy" data-copy="${esc(c.email)}">copia</button></dd>
+      ${c.cf?`<dt>P. IVA / CF</dt><dd class="mono">${esc(c.cf)}</dd>`:""}
+      <dt>Fatturato lavori</dt><dd class="num">${eur(fatt)}</dd>
+      ${c.note?`<dt>Note</dt><dd>${esc(c.note)}</dd>`:""}
+    </dl>
+    <div><div class="sec-t">Impianti (${us.length})</div><div class="grid" style="gap:10px">
+      ${us.map(u=>{const st=manState(u);return `<div class="unit"><div class="unit-top"><span class="unit-name">${esc(u.marca)} ${esc(u.modello)}</span>${u.tipo.includes("Pompa")?'<span class="tag heat">Pompa di calore</span>':""}<span class="pill ${st.c}" style="margin-left:auto">${st.t}</span></div>
+        <div class="unit-specs num"><span>${esc(u.tipo)}</span><span>${u.btu.toLocaleString("it-IT")} BTU/h</span><span>${u.gas} ${String(u.kg).replace(".",",")} kg · ${co2(u).toFixed(2).replace(".",",")} t CO₂ eq</span><span>Matr. <span class="mono">${esc(u.matr)}</span></span><span>Installato ${fmtD(u.installato)}</span><span>Garanzia ${daysTo(u.garanzia)>=0?"fino a "+fmtD(u.garanzia):"scaduta"}</span></div></div>`}).join("")||'<div class="muted">Nessun impianto registrato.</div>'}
+    </div></div>
+    ${qs.length?`<div><div class="sec-t">Preventivi</div>${qs.map(p=>`<div class="unit" data-q="${p.id}" style="cursor:pointer;margin-bottom:8px"><div class="unit-top"><span class="mono">${p.id}</span><span>${esc(p.oggetto)}</span><span class="pill ${qPill(p.stato)}" style="margin-left:auto">${p.stato}</span></div></div>`).join("")}</div>`:""}
+    <div><div class="sec-t">Storico interventi</div><div class="timeline">
+      ${ints.map(i=>`<div class="tl ${i.tipo}"><div class="tl-d">${fmtD(i.data)} · ${i.ora} · ${esc(i.tecnico)}</div><div><span class="tag ${i.tipo}">${TIPI[i.tipo]}</span> <span class="pill ${statoPill(i.stato)}">${i.stato}</span></div><div style="font-size:14px">${esc(i.descr)}</div>${i.importo?`<div class="cell-sub num">${eur(i.importo)}</div>`:""}</div>`).join("")||'<div class="muted" style="padding-left:16px">Nessun intervento.</div>'}
+    </div></div>`);
+}
+
+function interventoDrawer(id){
+  const i=db.interventi.find(x=>x.id===id);if(!i)return;const c=cli(i.cliente);const u=db.unita.find(x=>x.id===i.unita);
+  openDrawer(TIPI[i.tipo]+" · "+c.nome,`${fmtDay(i.data)}, ore ${i.ora}`,`
+    <dl class="dl"><dt>Stato</dt><dd><span class="pill ${statoPill(i.stato)}">${i.stato}</span></dd>
+    <dt>Tecnico</dt><dd>${esc(i.tecnico)}</dd><dt>Durata stimata</dt><dd>${i.dur} h</dd>
+    <dt>Indirizzo</dt><dd>${esc(c.ind)}, ${esc(c.citta)}</dd><dt>Telefono</dt><dd class="mono">${esc(c.tel)}</dd>
+    ${u?`<dt>Impianto</dt><dd>${esc(u.marca)} ${esc(u.modello)} · <span class="mono">${esc(u.matr)}</span></dd>`:""}
+    <dt>Lavoro</dt><dd>${esc(i.descr)}</dd>${i.importo?`<dt>Importo</dt><dd class="num">${eur(i.importo)}</dd>`:""}</dl>
+    ${i.stato!=="completato"&&i.stato!=="annullato"?`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" data-done="${i.id}">Segna come completato</button><button class="btn" data-cancel="${i.id}">Annulla intervento</button></div>
+    <p class="muted" style="font-size:13px;margin:0">Completando una manutenzione, la prossima scadenza dell'impianto si sposta automaticamente di 12 mesi.</p>`:""}
+    <button class="btn ghost" data-cli="${c.id}">Apri scheda cliente</button>`);
+}
+
+function preventivoDrawer(id){
+  const p=db.preventivi.find(x=>x.id===id);if(!p)return;const t=qTot(p);
+  openDrawer("Preventivo "+p.id,esc(cli(p.cliente).nome)+" · "+fmtD(p.data),`
+    <div><div class="sec-t">Oggetto</div><div>${esc(p.oggetto)}</div></div>
+    <div class="table-wrap panel"><table><thead><tr><th>Voce</th><th style="text-align:right">Q.tà</th><th style="text-align:right">Importo</th></tr></thead><tbody>
+    ${p.righe.map(r=>`<tr><td>${esc(r[0])}</td><td class="num" style="text-align:right">${r[1]}</td><td class="num" style="text-align:right">${eur(r[1]*r[2])}</td></tr>`).join("")}</tbody></table></div>
+    <div><div class="total-row"><span>Imponibile</span><span class="num">${eur(t)}</span></div><div class="total-row"><span>IVA 10% (beni significativi, uso abitativo)</span><span class="num">${eur(t*.1)}</span></div><div class="total-row big"><span>Totale</span><span class="num">${eur(t*1.1)}</span></div>
+    ${p.detrazione!=="—"?`<div class="total-row muted"><span>Detrazione ${p.detrazione} stimata (10 anni)</span><span class="num">−${eur(t*1.1*parseInt(p.detrazione)/100)}</span></div>`:""}</div>
+    <div><div class="sec-t">Cambia stato</div><div class="filters">${["bozza","inviato","accettato","rifiutato"].map(s=>`<button class="chip" data-qstate="${s}" data-qid="${p.id}" aria-pressed="${p.stato===s}">${s}</button>`).join("")}</div></div>`);
+}
+
+/* ---------- form ---------- */
+function formCliente(){
+  openDrawer("Nuovo cliente","",`<form id="f-cli" class="grid" style="gap:12px">
+    <label>Nome e cognome / Ragione sociale<input id="fc-nome" required placeholder="es. Mario Verdi"></label>
+    <div class="row"><label>Tipo<select id="fc-tipo"><option value="privato">Privato</option><option value="azienda">Azienda</option><option value="condominio">Condominio</option></select></label><label>Telefono<input id="fc-tel" required placeholder="333 123 4567"></label></div>
+    <label>Email<input id="fc-email" type="email" placeholder="nome@email.it"></label>
+    <label>Indirizzo<input id="fc-ind" required placeholder="via Roma 1"></label>
+    <div class="row"><label>Comune<input id="fc-citta" required placeholder="Monza"></label><label>Provincia<input id="fc-prov" maxlength="2" placeholder="MB"></label></div>
+    <label>Note<textarea id="fc-note" placeholder="Orari preferiti, accesso, animali…"></textarea></label>
+    <div class="form-actions"><button type="button" class="btn" data-close>Annulla</button><button class="btn primary">Salva cliente</button></div></form>`);
+}
+function formIntervento(forCli,forUnit){
+  const d=iso(addDays(today,1));
+  openDrawer("Nuovo intervento","",`<form id="f-int" class="grid" style="gap:12px">
+    <label>Cliente<select id="fi-cli" required>${db.clienti.map(c=>`<option value="${c.id}" ${c.id===forCli?"selected":""}>${esc(c.nome)} — ${esc(c.citta)}</option>`).join("")}</select></label>
+    <div class="row"><label>Tipo<select id="fi-tipo">${Object.entries(TIPI).map(([k,v])=>`<option value="${k}" ${forUnit&&k==="man"?"selected":""}>${v}</option>`).join("")}</select></label>
+    <label>Impianto<select id="fi-unit"></select></label></div>
+    <div class="row"><label>Data<input id="fi-data" type="date" value="${d}" required></label><label>Ora<input id="fi-ora" type="time" value="09:00" required></label></div>
+    <div class="row"><label>Tecnico<select id="fi-tec">${TECNICI.map(t=>`<option>${t}</option>`).join("")}</select></label><label>Durata (ore)<input id="fi-dur" type="number" min="1" max="16" value="2"></label></div>
+    <label>Descrizione lavoro<textarea id="fi-descr" required placeholder="es. Pulizia filtri, sanificazione, verifica pressioni e assorbimenti"></textarea></label>
+    <label>Importo previsto (€)<input id="fi-imp" type="number" min="0" step="5" value="0"></label>
+    <div class="form-actions"><button type="button" class="btn" data-close>Annulla</button><button class="btn primary">Pianifica intervento</button></div></form>`);
+  const fill=()=>{const id=$("#fi-cli").value;$("#fi-unit").innerHTML='<option value="">Nuovo / non specificato</option>'+unitsOf(id).map(u=>`<option value="${u.id}" ${u.id===forUnit?"selected":""}>${esc(u.marca)} ${esc(u.modello)}</option>`).join("")};
+  fill();$("#fi-cli").addEventListener("change",fill);
+  if(forUnit){const u=db.unita.find(x=>x.id===forUnit);$("#fi-descr").value=co2(u)>=5?"Manutenzione programmata e controllo perdite F-gas":"Manutenzione ordinaria: pulizia filtri, sanificazione batterie, verifica pressioni";$("#fi-imp").value=co2(u)>=5?250:90}
+}
+function formPreventivo(forCli){
+  const n=Math.max(...db.preventivi.map(p=>+p.id.split("-")[2]))+1;
+  openDrawer("Nuovo preventivo","N° P-"+today.getFullYear()+"-"+String(n).padStart(3,"0"),`<form id="f-q" class="grid" style="gap:12px">
+    <label>Cliente<select id="fq-cli">${db.clienti.map(c=>`<option value="${c.id}" ${c.id===forCli?"selected":""}>${esc(c.nome)}</option>`).join("")}</select></label>
+    <label>Oggetto<input id="fq-ogg" required placeholder="es. Climatizzatore dual split 9000+12000 BTU"></label>
+    <label>Detrazione applicabile<select id="fq-det"><option>50%</option><option>65%</option><option>—</option></select></label>
+    <div class="panel table-wrap"><table class="lines"><thead><tr><th>Voce</th><th>Q.tà</th><th>Prezzo €</th></tr></thead><tbody id="fq-lines">
+      ${[["Climatizzatore (unità interna + esterna)",1,890],["Kit staffe, linee frigorifere e scarico",1,120],["Installazione, vuoto e collaudo",1,350]].map((r,k)=>`<tr><td><input id="fq-d${k}" value="${r[0]}"></td><td style="width:70px"><input id="fq-q${k}" type="number" min="0" value="${r[1]}"></td><td style="width:110px"><input id="fq-p${k}" type="number" min="0" step="5" value="${r[2]}"></td></tr>`).join("")}
+    </tbody></table></div>
+    <div class="total-row big"><span>Totale IVA 10%</span><span class="num" id="fq-tot"></span></div>
+    <div class="form-actions"><button type="button" class="btn" data-close>Annulla</button><button class="btn primary">Salva come bozza</button></div></form>`);
+  const calc=()=>{let t=0;for(let k=0;k<3;k++)t+=(+$("#fq-q"+k).value||0)*(+$("#fq-p"+k).value||0);$("#fq-tot").textContent=eur(t*1.1)};
+  calc();$("#fq-lines").addEventListener("input",calc);
+}
+
+/* ---------- toast ---------- */
+let tt;function toast(m){clearTimeout(tt);let el=$(".toast");if(!el){el=document.createElement("div");el.className="toast";el.setAttribute("role","status");document.body.appendChild(el)}el.textContent=m;tt=setTimeout(()=>el.remove(),2600)}
+
+/* ---------- render & eventi ---------- */
+function render(){
+  renderNav();
+  const fn={dashboard:vDashboard,clienti:vClienti,impianti:vImpianti,agenda:vAgenda,preventivi:vPreventivi,scadenze:vScadenze}[view];
+  const hadFocus=document.activeElement&&document.activeElement.id==="q";
+  $("#main").innerHTML=fn();
+  if(hadFocus){const i=$("#q");i.focus();i.setSelectionRange(i.value.length,i.value.length)}
+}
+let pending=null;
+const go=(v,fn)=>{if(location.hash.slice(1)===v){render();fn()}else{pending=fn;location.hash=v}};
+function route(){const h=location.hash.slice(1);const nv=VIEWS.some(v=>v[0]===h)?h:"dashboard";if(nv!==view){filt="tutti";q=""}view=nv;closeDrawer();render();window.scrollTo(0,0);if(pending){const f=pending;pending=null;f()}}
+window.addEventListener("hashchange",route);
+
+document.addEventListener("input",e=>{if(e.target.id==="q"){q=e.target.value;render()}});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeDrawer()});
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-close],[data-cli],[data-int],[data-q],[data-act],[data-filt],[data-done],[data-cancel],[data-qstate],[data-plan],[data-copy],#reset");
+  if(!t)return;const d=t.dataset;
+  if(d.close!==undefined)return closeDrawer();
+  if(t.id==="reset"){db=seed();save();render();return toast("Dati demo ripristinati")}
+  if(d.copy){navigator.clipboard?.writeText(d.copy).then(()=>toast("Copiato: "+d.copy)).catch(()=>toast(d.copy));return}
+  if(d.filt){filt=d.filt;return render()}
+  if(d.act==="new-cli")return formCliente();
+  if(d.act==="new-int")return formIntervento(d.for);
+  if(d.act==="new-q")return formPreventivo(d.for);
+  if(d.plan){const u=db.unita.find(x=>x.id===d.plan);return formIntervento(u.cliente,u.id)}
+  if(d.done){const i=db.interventi.find(x=>x.id===d.done);i.stato="completato";
+    if(i.tipo==="man"){const us=i.unita?db.unita.filter(u=>u.id===i.unita):unitsOf(i.cliente);us.forEach(u=>u.prossimaMan=iso(addDays(parse(i.data),365)))}
+    save();closeDrawer();render();return toast("Intervento completato")}
+  if(d.cancel){db.interventi.find(x=>x.id===d.cancel).stato="annullato";save();closeDrawer();render();return toast("Intervento annullato")}
+  if(d.qstate){const p=db.preventivi.find(x=>x.id===d.qid);p.stato=d.qstate;save();render();preventivoDrawer(p.id);return toast("Preventivo "+p.id+": "+d.qstate)}
+  if(d.int)return interventoDrawer(d.int);
+  if(d.q)return preventivoDrawer(d.q);
+  if(d.cli)return clienteDrawer(d.cli);
+});
+document.addEventListener("submit",e=>{
+  e.preventDefault();const f=e.target;const v=id=>$("#"+id).value.trim();
+  if(f.id==="f-cli"){const c={id:uid("c"),nome:v("fc-nome"),tipo:v("fc-tipo"),tel:v("fc-tel"),email:v("fc-email"),ind:v("fc-ind"),citta:v("fc-citta"),prov:v("fc-prov").toUpperCase(),note:v("fc-note"),cf:"",creato:iso(today)};
+    db.clienti.unshift(c);save();go("clienti",()=>clienteDrawer(c.id));toast("Cliente salvato")}
+  if(f.id==="f-int"){const i={id:uid("i"),cliente:v("fi-cli"),unita:v("fi-unit")||null,tipo:v("fi-tipo"),data:v("fi-data"),ora:v("fi-ora"),tecnico:v("fi-tec"),stato:"pianificato",descr:v("fi-descr"),importo:+v("fi-imp")||0,dur:+v("fi-dur")||2};
+    db.interventi.push(i);save();closeDrawer();render();toast("Intervento pianificato per il "+fmtD(i.data))}
+  if(f.id==="f-q"){const n=Math.max(...db.preventivi.map(p=>+p.id.split("-")[2]))+1;const righe=[0,1,2].map(k=>[v("fq-d"+k),+v("fq-q"+k)||0,+v("fq-p"+k)||0]).filter(r=>r[0]&&r[1]);
+    const p={id:"P-"+today.getFullYear()+"-"+String(n).padStart(3,"0"),cliente:v("fq-cli"),data:iso(today),stato:"bozza",oggetto:v("fq-ogg"),detrazione:v("fq-det"),righe};
+    db.preventivi.push(p);save();go("preventivi",()=>preventivoDrawer(p.id));toast("Preventivo "+p.id+" salvato")}
+});
+route();
+})();
+</script>
